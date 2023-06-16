@@ -14,5 +14,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('components/pages/home');
+    // Componentのクラスが読み込まれてないので、指定できるようにする
+    return view(Home::class);
 });
