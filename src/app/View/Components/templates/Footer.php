@@ -2,20 +2,18 @@
 
 namespace App\View\Components\templates;
 
-use App\Repo\UserRepo;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class Header extends Component
+class Footer extends Component
 {
-    public UserRepo $user;
     /**
      * Create a new component instance.
      */
-    public function __construct(UserRepo $user)
+    public function __construct()
     {
-        $this->user = $user;
+        //
     }
 
     /**
@@ -23,6 +21,6 @@ class Header extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.templates.header');
+        return view('components.templates.footer');
     }
 }

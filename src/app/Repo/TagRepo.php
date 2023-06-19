@@ -5,11 +5,11 @@ namespace App\Repo;
 use App\Models\Tag;
 
 class TagRepo {
-    private Tag $tag;
+    private ?Tag $tag = null;
 
     public function __construct(string $id)
     {
-        $this->tag = Tag::find($id);
+        $tag = Tag::find($id) ?? null;
     }
 
     public function getTagName(): string

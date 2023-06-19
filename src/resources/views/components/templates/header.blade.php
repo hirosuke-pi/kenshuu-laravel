@@ -2,11 +2,11 @@
     <div class="flex justify-between w-9/12 flex-wrap">
         <a href="/" class="text-gray-800 group">
             <h1 class="text-6xl font-bold">
-                <i class="fa-solid fa-bolt-lightning group-hover:text-yellow-400"></i> +Flash News
+                <i class="fa-solid fa-bolt-lightning group-hover:text-yellow-400"></i> Flash News +
             </h1>
         </a>
         <div class="flex items-center text-gray-700 flex-wrap">
-            @if (is_null($user))
+            @if ($user->isGuest())
                 <x-organisms.user-not-login />
             @else
                 <x-organisms.user-login :user="$user" />
@@ -14,3 +14,4 @@
         </div>
     </div>
 </header>
+<hr class="ml-3 mr-3 mb-5"/>

@@ -12,7 +12,6 @@ class NewsRepo
     {
         if (!is_null($id)) {
             $this->post = Post::find($id);
-            $this->post = $post;
             return;
         }
         elseif (!is_null($post)) {

@@ -2,20 +2,22 @@
 
 namespace App\View\Components\templates;
 
-use App\Repo\UserRepo;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class Header extends Component
+use App\Repo\NewsRepo;
+
+class NewsList extends Component
 {
-    public UserRepo $user;
+    public array $posts = [];
+
     /**
      * Create a new component instance.
      */
-    public function __construct(UserRepo $user)
+    public function __construct()
     {
-        $this->user = $user;
+        $this->posts = NewsRepo::getAllNews();
     }
 
     /**
@@ -23,6 +25,6 @@ class Header extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.templates.header');
+        return view('components.templates.news-list');
     }
 }

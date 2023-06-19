@@ -1,5 +1,6 @@
 <?php
 
+use App\Repo\UserRepo;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    // Componentのクラスが読み込まれてないので、指定できるようにする
-    return view(Home::class);
+    return view('components.pages.home', [
+        'user' => new UserRepo(0)
+    ]);
 });

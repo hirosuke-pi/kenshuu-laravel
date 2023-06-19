@@ -3,13 +3,19 @@
 namespace App\Repo;
 
 use App\Models\User;
+use Exception;
 
 class UserRepo {
-    private User $user;
+    private ?User $user = null;
 
     public function __construct(string $id)
     {
-        $this->user = User::find($id);
+        $this->user = User::find($id) ?? null;
+    }
+
+    public function isGuest(): string
+    {
+        return is_null($this->user);
     }
 
     public function getEditUrl(): string
