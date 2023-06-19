@@ -17,7 +17,7 @@ class NewsList extends Component
      */
     public function __construct()
     {
-        $this->posts = NewsRepo::getAllNews();
+        $this->posts = NewsRepo::getAllNews(request()->input('word') ?? '');
     }
 
     /**

@@ -4,7 +4,7 @@
     </div>
     <div class="w-11/12">
         <div class="m-3">
-            AlertSession::render()
+            <x-molecules.alert-status />
         </div>
         <div>
             <ul class="flex justify-center flex-wrap">

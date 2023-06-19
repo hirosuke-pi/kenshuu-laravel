@@ -15,7 +15,7 @@
     </section>
     <section class="rounded-lg p-5 mt-3">
         <h3 class="text-xl text-gray-800 font-bold border-b border-gray-400">
-            <i class="fa-solid fa-newspaper"></i> ニュース検索: {{ $postsCount }}件
+            <i class="fa-solid fa-newspaper"></i> <strong>{{ $word }}</strong> の検索結果: {{ $postsCount }}件
         </h3>
     </section>
 </aside>

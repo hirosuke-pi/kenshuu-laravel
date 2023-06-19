@@ -32,9 +32,9 @@ class NewsRepo
         return $this->post->id;
     }
 
-    public static function getAllNews(): array
+    public static function getAllNews(string $word = ''): array
     {
-        $posts = Post::all();
+        $posts = Post::whereNotNull('deleted_at')->where('title', 'like', "%{$word}%")->get();
         $news = [];
         foreach($posts as $post) {
             $news[] = new NewsRepo(null, $post);
