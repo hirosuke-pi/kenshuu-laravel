@@ -31,10 +31,10 @@ class Alert extends Component
             AlertType::WARNING => 'yellow',
         };
         $this->icon = match($type) {
-            AlertType::ERROR => '<i class="fa-solid fa-circle-exclamation"></i>',
-            AlertType::SUCCESS => '<i class="fa-solid fa-circle-check"></i>',
-            AlertType::INFO => '<i class="fa-solid fa-circle-info"></i>',
-            AlertType::WARNING => '<i class="fa-solid fa-triangle-exclamation"></i>',
+            AlertType::ERROR => 'fa-circle-exclamation',
+            AlertType::SUCCESS => 'fa-circle-check',
+            AlertType::INFO => 'fa-circle-info',
+            AlertType::WARNING => 'fa-triangle-exclamation',
         };
         $this->visibleCloseButton = $visibleCloseButton;
         $this->padding = $visibleCloseButton ? 'pl-4 pr-10' : 'px-4';
