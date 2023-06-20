@@ -7,9 +7,9 @@
         </a>
         <div class="flex items-center text-gray-700 flex-wrap">
             @if ($user->isGuest())
-                <x-organisms.user-not-login />
+                <x-molecules.guest-header />
             @else
-                <x-organisms.user-login :user="$user" />
+                <x-molecules.user-header :user="$user" />
             @endif
         </div>
     </div>

@@ -18,7 +18,12 @@ class Alert extends Component
     public string $padding;
 
     /**
-     * Create a new component instance.
+     * アラートコンポーネント
+     *
+     * @param string $title タイトル
+     * @param string $message メッセージ
+     * @param int $type アラートタイプ (AlertType)
+     * @param bool $visibleCloseButton 閉じるボタンを表示するかどうか
      */
     public function __construct(string $title, string $message, int $type, bool $visibleCloseButton = true)
     {

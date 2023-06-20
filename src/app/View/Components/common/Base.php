@@ -11,7 +11,9 @@ class Base extends Component
     public string $title;
 
     /**
-     * Create a new component instance.
+     * <body>までのHTMLを生成するコンポーネント
+     *
+     * @param string $title タイトル
      */
     public function __construct(string $title = null)
     {

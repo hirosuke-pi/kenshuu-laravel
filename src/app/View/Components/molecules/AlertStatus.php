@@ -14,8 +14,10 @@ class AlertStatus extends Component
     public string $title = '';
     public string $message = '';
     public bool $visible = false;
+
     /**
-     * Create a new component instance.
+     * セッション内に config('define.session.status') が存在する場合、
+     * アラートを表示するコンポーネント
      */
     public function __construct()
     {

@@ -12,7 +12,7 @@ class NewsSearch extends Component
     public int $postsCount = 0;
 
     /**
-     * Create a new component instance.
+     * ニュース検索コンポーネント
      */
     public function __construct(int $postsCount = 0)
     {

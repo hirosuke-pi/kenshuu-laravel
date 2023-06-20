@@ -14,6 +14,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+/**
+ * ホームページ
+ */
 Route::get('/', function () {
     return view('components.pages.home', [
         'user' => new UserRepo(0)
