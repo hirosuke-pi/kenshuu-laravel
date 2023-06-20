@@ -6,11 +6,11 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-use App\View\Components\atoms\AlertType;
+use App\Enums\AlertType;
 
 class AlertStatus extends Component
 {
-    public AlertType $type = AlertType::INFO;
+    public int $type = AlertType::INFO;
     public string $title = '';
     public string $message = '';
     public bool $visible = false;
@@ -24,17 +24,17 @@ class AlertStatus extends Component
             return;
         }
 
-        $this->type = match($status['type']) {
+        $this->title = match($status['type']) {
             'success' => '成功',
             'error' => 'エラー',
-            'info' => '',
             'warning' => '警告',
+            default => '',
         };
-        $this->title = match($status['type']) {
+        $this->type = match($status['type']) {
             'success' => AlertType::SUCCESS,
             'error' => AlertType::ERROR,
-            'info' => AlertType::INFO,
             'warning' => AlertType::WARNING,
+            default => AlertType::INFO,
         };
         $this->message = $status['message'];
         $this->visible = true;

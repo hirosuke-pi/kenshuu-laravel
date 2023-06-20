@@ -1,5 +1,5 @@
 <div class="alert bg-{{ $baseColor }}-100 border border-{{ $baseColor }}-400 text-{{ $baseColor }}-700 py-3 rounded relative {{ $padding }}" role="alert">
-    <strong class="font-bold">{{ $icon }} {{ $title }}</strong>
+    <strong class="font-bold">{!! $icon !!} {{ $title }}: </strong>
     <span class="block sm:inline">{{ $message }}</span>
     @if ($visibleCloseButton)
         <button type="button" class="alert-button absolute top-0 bottom-0 right-0 px-4 py-3">

@@ -6,14 +6,7 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-
-// Laravel Enumに変更する
-enum AlertType {
-    case ERROR;
-    case SUCCESS;
-    case INFO;
-    case WARNING;
-}
+use App\Enums\AlertType;
 
 class Alert extends Component
 {
@@ -27,7 +20,7 @@ class Alert extends Component
     /**
      * Create a new component instance.
      */
-    public function __construct(string $title, string $message, AlertType $type, bool $visibleCloseButton = true)
+    public function __construct(string $title, string $message, int $type, bool $visibleCloseButton = true)
     {
         $this->title = $title;
         $this->message = $message;
