@@ -7,6 +7,8 @@ services:
       dockerfile: ./docker/app/Dockerfile
     volumes:
       - ./src:/app
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
   web:
     build:
       context: .
