@@ -11,13 +11,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Class Image
- * 
+ *
  * @property string $id
  * @property string $post_id
  * @property bool $thumbnail_flag
  * @property string $file_path
  * @property string|null $deleted_at
- * 
+ *
  * @property Post $post
  *
  * @package App\Models

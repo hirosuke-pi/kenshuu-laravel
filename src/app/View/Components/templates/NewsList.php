@@ -6,7 +6,9 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-use App\Repo\NewsRepo;
+use App\Domains\UseCases\NewsGetUseCase;
+use App\Infrastructure\Repositories\EloquentNewsRepository;
+
 
 class NewsList extends Component
 {
@@ -17,7 +19,9 @@ class NewsList extends Component
      */
     public function __construct()
     {
-        $this->posts = NewsRepo::getAllNews(request()->input('word') ?? '');
+        $repository = new EloquentNewsRepository();
+        $news = new NewsGetUseCase($repository);
+        $this->posts = $news->getAll();
     }
 
     /**

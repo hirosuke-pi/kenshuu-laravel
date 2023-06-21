@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Class Post
- * 
+ *
  * @property string $id
  * @property string $user_id
  * @property string $title
@@ -21,7 +21,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property Carbon $created_at
  * @property Carbon|null $updated_at
  * @property string|null $deleted_at
- * 
+ *
  * @property User $user
  * @property Collection|Image[] $images
  * @property Collection|Tag[] $tags
@@ -33,6 +33,8 @@ class Post extends Model
 	use SoftDeletes;
 	protected $table = 'posts';
 	public $incrementing = false;
+
+    protected $dates = ['deleted_at'];
 
 	protected $fillable = [
 		'user_id',
