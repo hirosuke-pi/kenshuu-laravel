@@ -2,7 +2,7 @@
 
 namespace App\Domains\Entities;
 
-class User {
+final class User {
     public function __construct(
         private string $id,
         private string $name,
@@ -10,7 +10,9 @@ class User {
         private string $password,
         private ?string $profileImagePath,
         private string $createdAt,
-    ) {}
+    ) {
+        $this->password = password_hash($this->password, PASSWORD_DEFAULT);
+    }
 
     public function getId(): string
     {
@@ -25,6 +27,11 @@ class User {
     public function getEmail(): string
     {
         return $this->email;
+    }
+
+    public function verifyPassword(string $password): bool
+    {
+        return password_verify($password, $this->password);
     }
 
     public function getProfileImageName(): ?string

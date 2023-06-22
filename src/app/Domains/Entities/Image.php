@@ -2,7 +2,7 @@
 
 namespace App\Domains\Entities;
 
-class Image {
+final class Image {
     private const BASE_NEWS_IMAGE_URL = '/img/news/';
 
     public function __construct(

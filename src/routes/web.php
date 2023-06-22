@@ -3,6 +3,8 @@
 use App\Repo\UserRepo;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\HomeController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -17,8 +19,4 @@ use Illuminate\Support\Facades\Route;
 /**
  * ホームページ
  */
-Route::get('/', function () {
-    return view('components.pages.home', [
-        'user' => new UserRepo(0)
-    ]);
-});
+Route::get('/', [HomeController::class, 'index']);

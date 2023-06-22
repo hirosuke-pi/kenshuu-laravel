@@ -6,7 +6,9 @@ use App\Domains\Entities\User;
 
 interface UserRepository
 {
-    public static function find(string $id): User;
-    public static function save(User $user): string;
-    public static function delete(string $id): bool;
+    public function find(string $id): ?User;
+    public function findByEmail(string $email): ?User;
+    public function save(User $user): string;
+    public function delete(string $id): bool;
+    public function generateId(): string;
 }

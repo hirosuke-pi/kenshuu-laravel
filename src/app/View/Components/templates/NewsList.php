@@ -2,12 +2,16 @@
 
 namespace App\View\Components\templates;
 
+
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
 use App\Domains\UseCases\NewsGetUseCase;
 use App\Infrastructure\Repositories\EloquentNewsRepository;
+use App\Infrastructure\Repositories\EloquentImageRepository;
+use App\Infrastructure\Repositories\EloquentTagRepository;
+use App\Infrastructure\Repositories\InMemoryUserRepository;
 
 
 class NewsList extends Component
@@ -19,8 +23,9 @@ class NewsList extends Component
      */
     public function __construct()
     {
-        $repository = new EloquentNewsRepository();
-        $news = new NewsGetUseCase($repository);
+        $newsRepository = new EloquentNewsRepository();
+        $news = new NewsGetUseCase($newsRepository);
+
         $this->posts = $news->getAll();
     }
 

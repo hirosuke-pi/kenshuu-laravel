@@ -6,5 +6,7 @@ use App\Domains\Entities\Image;
 
 interface ImageRepository
 {
-    public static function find(string $id): Image;
+    public function find(string $id): Image;
+    public function findByPostId(string $postId): array;
+    public function generateId(): string;
 }

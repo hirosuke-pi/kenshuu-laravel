@@ -2,7 +2,7 @@
 
 namespace App\Domains\Entities;
 
-class Tag {
+final class Tag {
     public function __construct(
         private string $id,
         private string $name,

@@ -5,9 +5,11 @@ namespace App\Infrastructure\Repositories;
 use App\Domains\Contracts\Repositories\ImageRepository;
 use App\Domains\Entities\Image;
 
-class EloquentImageRepository implements ImageRepository
+final class EloquentImageRepository implements ImageRepository
 {
-    public static function find(string $id): Image
+    private const PREFIX = 'image';
+
+    public function find(string $id): Image
     {
         $tag = \App\Models\Image::find($id);
         return new Image(
@@ -17,7 +19,7 @@ class EloquentImageRepository implements ImageRepository
         );
     }
 
-    public static function findByPostId(string $postId): array
+    public function findByPostId(string $postId): array
     {
         $tags = \App\Models\Image::where('post_id', $postId)->get();
 
@@ -30,5 +32,10 @@ class EloquentImageRepository implements ImageRepository
             );
         }
         return $tagEntities;
+    }
+
+    public function generateId(): string
+    {
+        return self::PREFIX .'-'. uniqid(mt_rand());
     }
 }

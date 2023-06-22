@@ -2,12 +2,15 @@
 
 namespace App\Domains\Contracts\Repositories;
 
+use App\Domains\Contracts\Factories\NewsFactory;
 use App\Domains\Entities\News;
 
 interface NewsRepository
 {
-    public static function findAll(): array;
-    public static function find(string $id): News;
-    public static function save(News $news): string;
-    public static function delete(string $id): bool;
+    public function __construct(NewsFactory $newsFactory);
+    public function findAll(): array;
+    public function find(string $id): ?News;
+    public function save(News $news): string;
+    public function delete(string $id): bool;
+    public function generateId(): string;
 }

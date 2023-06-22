@@ -7,7 +7,7 @@ use App\Domains\Entities\Tag;
 use App\Domains\Entities\Image;
 use App\Domains\Entities\User;
 
-class News
+final class News
 {
     public function __construct(
         private string $id,
@@ -72,6 +72,9 @@ class News
     {
         $this->tags = [];
         foreach($tags as $tag) {
+            if (!($tag instanceof Tag)) {
+                throw new \Exception('Tagクラス以外のオブジェクトが含まれています');
+            }
             $this->tags[$tag->getId()] = $tag;
         }
     }
@@ -80,6 +83,9 @@ class News
     {
         $this->images = [];
         foreach($images as $image) {
+            if (!($image instanceof Image)) {
+                throw new \Exception('Imageクラス以外のオブジェクトが含まれています');
+            }
             $this->images[$image->getId()] = $image;
         }
     }

@@ -5,9 +5,11 @@ namespace App\Infrastructure\Repositories;
 use App\Domains\Contracts\Repositories\TagRepository;
 use App\Domains\Entities\Tag;
 
-class EloquentTagRepository implements TagRepository
+final class EloquentTagRepository implements TagRepository
 {
-    public static function find(string $id): Tag
+    private const PREFIX = 'tag';
+
+    public function find(string $id): Tag
     {
         $tag = \App\Models\Tag::find($id);
         return new Tag(
@@ -16,7 +18,7 @@ class EloquentTagRepository implements TagRepository
         );
     }
 
-    public static function findAll(): array
+    public function findAll(): array
     {
         $tags = \App\Models\Tag::all();
 
@@ -30,7 +32,7 @@ class EloquentTagRepository implements TagRepository
         return $tagEntities;
     }
 
-    public static function findByPostId(string $postId): array
+    public function findByPostId(string $postId): array
     {
         $tags = \App\Models\Tag::where('post_id', $postId)->get();
 
@@ -42,5 +44,10 @@ class EloquentTagRepository implements TagRepository
             );
         }
         return $tagEntities;
+    }
+
+    public function generateId(): string
+    {
+        return self::PREFIX .'-'. uniqid(mt_rand());
     }
 }

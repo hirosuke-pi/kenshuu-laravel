@@ -6,7 +6,8 @@ use App\Domains\Entities\Tag;
 
 interface TagRepository
 {
-    public static function find(string $id): Tag;
-    public static function findByPostId(string $postId): array;
-    public static function findAll(): array;
+    public function find(string $id): Tag;
+    public function findByPostId(string $postId): array;
+    public function findAll(): array;
+    public function generateId(): string;
 }

@@ -4,22 +4,25 @@ namespace App\Infrastructure\Repositories;
 
 use App\Domains\Contracts\Repositories\NewsRepository;
 use App\Domains\Entities\News;
+use App\Domains\Contracts\Factories\NewsFactory;
 use App\Models\Post;
 
-class EloquentNewsRepository implements NewsRepository
+final class EloquentNewsRepository implements NewsRepository
 {
-    public static function findAll(): array
+    private const PREFIX = 'news';
+
+    public function __construct(private NewsFactory $newsFactory) {}
+
+    public function findAll(): array
     {
         $posts = Post::whereNotNull('deleted_at')->get();
         $newsEntities = [];
         foreach($posts as $post) {
-            $newsEntities[] = new News(
+            $newsEntities[] = $this->newsFactory->create(
                 id: $post->id,
-                user: InMemoryUserRepository::find($post->user_id),
-                title: $post->title,
-                body: $post->body,
-                tags: EloquentTagRepository::findByPostId($post->id),
-                images: EloquentImageRepository::findByPostId($post->id),
+                userId:    $post->user_id,
+                title:     $post->title,
+                body:      $post->body,
                 createdAt: $post->created_at,
                 updatedAt: $post->updated_at,
             );
@@ -28,22 +31,24 @@ class EloquentNewsRepository implements NewsRepository
         return $newsEntities;
     }
 
-    public static function find(string $id): News
+    public function find(string $id): ?News
     {
         $post = Post::whereNotNull('deleted_at')->find($id);
-        return new News(
+        if (is_null($post)) {
+            return null;
+        }
+
+        return $this->newsFactory->create(
             id: $post->id,
-            user: InMemoryUserRepository::find($post->user_id),
-            title: $post->title,
-            body: $post->body,
-            tags: EloquentTagRepository::findByPostId($post->id),
-            images: EloquentImageRepository::findByPostId($post->id),
+            userId:    $post->user_id,
+            title:     $post->title,
+            body:      $post->body,
             createdAt: $post->created_at,
             updatedAt: $post->updated_at,
         );
     }
 
-    public static function save(News $news): string
+    public function save(News $news): string
     {
         $post = new Post();
         $post->id = $news->getId();
@@ -57,8 +62,13 @@ class EloquentNewsRepository implements NewsRepository
         return $news->getId();
     }
 
-    public static function delete(string $id): bool
+    public function delete(string $id): bool
     {
         return Post::find($id)->delete();
+    }
+
+    public function generateId(): string
+    {
+        return self::PREFIX .'-'. uniqid(mt_rand());
     }
 }
