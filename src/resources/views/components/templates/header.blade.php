@@ -6,7 +6,7 @@
             </h1>
         </a>
         <div class="flex items-center text-gray-700 flex-wrap">
-            @if ($user->isGuest())
+            @if ($isGuestUser)
                 <x-molecules.guest-header />
             @else
                 <x-molecules.user-header :user="$user" />

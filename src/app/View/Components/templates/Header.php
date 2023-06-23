@@ -2,20 +2,24 @@
 
 namespace App\View\Components\templates;
 
-use App\Repo\UserRepo;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
+use Packages\Domains\Entities\User;
+
 class Header extends Component
 {
-    public UserRepo $user;
+    public readonly ?User $user;
+    public readonly bool $isGuestUser;
+
     /**
      * Create a new component instance.
      */
-    public function __construct(UserRepo $user)
+    public function __construct()
     {
-        $this->user = $user;
+        $this->user = null;
+        $this->isGuestUser = is_null($this->user);
     }
 
     /**

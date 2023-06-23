@@ -16,17 +16,14 @@ use App\Infrastructure\Repositories\InMemoryUserRepository;
 
 class NewsList extends Component
 {
-    public array $posts = [];
+    public array $newsList = [];
 
     /**
      * Create a new component instance.
      */
-    public function __construct()
+    public function __construct(array $newsList)
     {
-        $newsRepository = new EloquentNewsRepository();
-        $news = new NewsGetUseCase($newsRepository);
-
-        $this->posts = $news->getAll();
+        $this->newsList = $newsList;
     }
 
     /**

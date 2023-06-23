@@ -2,35 +2,23 @@
 
 namespace App\View\Components\Pages;
 
-use App\UseCases\NewsGetUseCase;
-use App\Infrastructure\Factories\EloquentNewsFactory;
-use App\Infrastructure\Repositories\EloquentImageRepository;
-use App\Infrastructure\Repositories\EloquentNewsRepository;
-use App\Infrastructure\Repositories\EloquentTagRepository;
-use App\Infrastructure\Repositories\EloquentUserRepository;
-
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
+use Packages\Domains\Entities\User;
 
 class Home extends Component
 {
-    public readonly array $newsEntities;
+    public readonly array $newsList;
+    public readonly ?User $user;
 
     /**
      * Create a new component instance.
      */
-    public function __construct()
+    public function __construct(array $newsList, ?User $user)
     {
-        $newsFactory = new EloquentNewsFactory(
-            new EloquentUserRepository(),
-            new EloquentTagRepository(),
-            new EloquentImageRepository(),
-        );
-        $newsRepository = new EloquentNewsRepository($newsFactory);
-
-        $news = new NewsGetUseCase($newsRepository);
-        $this->newsEntities = $news->getAll();
+        $this->newsList = $newsList;
+        $this->user = $user;
     }
 
     /**
