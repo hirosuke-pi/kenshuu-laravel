@@ -10,14 +10,14 @@ use App\Repo\NewsRepo;
 
 class NewsList extends Component
 {
-    public array $posts = [];
+    public readonly array $newsList;
 
     /**
      * Create a new component instance.
      */
-    public function __construct()
+    public function __construct(array $newsList)
     {
-        $this->posts = NewsRepo::getAllNews(request()->input('word') ?? '');
+        $this->newsList = $newsList;
     }
 
     /**
