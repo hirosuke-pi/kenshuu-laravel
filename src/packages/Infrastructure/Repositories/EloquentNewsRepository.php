@@ -31,9 +31,9 @@ final class EloquentNewsRepository implements NewsRepository
         foreach($posts as $post) {
             $newsEntities[] = $this->newsFactory->create(
                 id: $post->id,
-                userId:    $post->user_id,
-                title:     $post->title,
-                body:      $post->body,
+                userId: $post->user_id,
+                title: $post->title,
+                body: $post->body,
                 createdAt: $post->created_at,
                 updatedAt: $post->updated_at,
             );
@@ -57,9 +57,9 @@ final class EloquentNewsRepository implements NewsRepository
 
         return $this->newsFactory->create(
             id: $post->id,
-            userId:    $post->user_id,
-            title:     $post->title,
-            body:      $post->body,
+            userId: $post->user_id,
+            title: $post->title,
+            body: $post->body,
             createdAt: $post->created_at,
             updatedAt: $post->updated_at,
         );
