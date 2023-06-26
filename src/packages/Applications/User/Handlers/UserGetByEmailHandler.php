@@ -16,7 +16,7 @@ final class UserGetByEmailHandler implements UserGetByEmailUseCase
     public function handle(UserGetByEmailRequest $request): UserGetResponse
     {
         return new UserGetResponse(
-            user: $this->repository->find($request->getUserId())
+            user: $this->repository->findByEmail($request->getEmail())
         );
     }
 }

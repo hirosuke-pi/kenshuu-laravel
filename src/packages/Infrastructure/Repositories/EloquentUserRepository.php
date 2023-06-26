@@ -34,22 +34,25 @@ final class EloquentUserRepository implements UserRepository
 
         return new User(
             id: $user->id,
-            name: $user->name,
+            name: $user->username,
             email: $user->email,
             password: $user->password,
             profileImagePath: $user->profile_image_path,
-            createdAt: $user->createdAt,
+            createdAt: $user->created_at,
         );
     }
 
-    public function save(User $user): string
+    public function save(User $userEntity): string
     {
         $user = new \App\Models\User();
-        $user->id = $user->getId();
-        $user->username = $user->getName();
-        $user->email = $user->getEmail();
-        $user->password = $user->getPassword();
-        $user->profile_image_path = $user->getProfileImagePath();
+        $user->id = $userEntity->getId();
+        $user->username = $userEntity->getName();
+        $user->email = $userEntity->getEmail();
+        $user->password = $userEntity->getPasswordHash();
+        $user->created_at = $userEntity->getCreatedAt();
+        if ($userEntity->hasUserProfileImage()) {
+            $user->profile_image_path = $userEntity->getProfileImagePath();
+        }
         $user->save();
 
         return $user->id;

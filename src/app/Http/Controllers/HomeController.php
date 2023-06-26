@@ -17,7 +17,7 @@ class HomeController extends Controller
         $newsGetAllRequest = new NewsGetAllRequest();
         $newsGetAllResponse = $newsGetAllUseCase->handle($newsGetAllRequest);
 
-        $userGetByEmailRequest = new UserGetByEmailRequest(config('app.default.email'));
+        $userGetByEmailRequest = new UserGetByEmailRequest(config('app.test.user1.email'));
         $userGetByEmailResponse = $userGetByEmailUseCase->handle($userGetByEmailRequest);
 
         return (new Home(

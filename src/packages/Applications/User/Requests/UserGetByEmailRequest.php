@@ -8,7 +8,7 @@ final class UserGetByEmailRequest
         private readonly string $email
     ) {}
 
-    public function getUserId(): string
+    public function getEmail(): string
     {
         return $this->email;
     }

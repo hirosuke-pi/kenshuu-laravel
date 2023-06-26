@@ -189,5 +189,13 @@ return [
 
     'default' => [
         'email' => 'test@test.com'
+    ],
+
+    'test' => [
+        'user1' => [
+            'name' => 'test_user',
+            'email' => 'test@test.com',
+            'password' => 'qwertyuiop',
+        ],
     ]
 ];
