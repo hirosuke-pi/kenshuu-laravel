@@ -8,6 +8,12 @@ use Packages\Applications\User\UseCases\UserGetByEmailUseCase;
 
 class HomeController extends Controller
 {
+    /**
+     * ホーム画面を表示する
+     *
+     * @param UserGetByEmailUseCase $userGetByEmailUseCase メールアドレスからユーザーを取得するユースケース
+     * @return void
+     */
     public static function index(UserGetByEmailUseCase $userGetByEmailUseCase)
     {
         $userGetByEmailRequest = new UserGetByEmailRequest('test@gmail.com');

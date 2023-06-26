@@ -9,9 +9,15 @@ final class EloquentUserRepository implements UserRepository
 {
     private const PREFIX = 'user';
 
+    /**
+     * ユーザーIDからユーザーを取得する
+     *
+     * @param string $id ユーザーID
+     * @return User|null ユーザーEntity
+     */
     public function find(string $id): ?User
     {
-        $user = \App\Models\User::find($id);
+        $user = \App\Models\User::find($id)->whereNotNull('deleted_at')->first();
         if (is_null($user)) {
             return null;
         }
@@ -26,8 +32,14 @@ final class EloquentUserRepository implements UserRepository
         );
     }
 
+    /**
+     * メールアドレスからユーザーを取得する
+     *
+     * @param string $email メールアドレス
+     * @return User|null ユーザーEntity
+     */
     public function findByEmail(string $email): ?User {
-        $user = \App\Models\User::where('email', $email)->first();
+        $user = \App\Models\User::where('email', $email)->whereNotNull('deleted_at')->first();
         if (is_null($user)) {
             return null;
         }
@@ -42,25 +54,24 @@ final class EloquentUserRepository implements UserRepository
         );
     }
 
-    public function save(User $userEntity): string
+    /**
+     * ユーザーを保存する
+     *
+     * @param User $userEntity ユーザーEntity
+     * @return void
+     */
+    public function save(User $userEntity): void
     {
         $user = new \App\Models\User();
         $user->id = $userEntity->getId();
         $user->username = $userEntity->getName();
         $user->email = $userEntity->getEmail();
-        $user->password = $userEntity->getPasswordHash();
+        $user->password = $userEntity->getHashedPassword();
         $user->created_at = $userEntity->getCreatedAt();
         if ($userEntity->hasUserProfileImage()) {
             $user->profile_image_path = $userEntity->getProfileImagePath();
         }
         $user->save();
-
-        return $user->id;
-    }
-
-    public function delete(string $id): bool
-    {
-        return true;
     }
 
     public function generateId(): string
