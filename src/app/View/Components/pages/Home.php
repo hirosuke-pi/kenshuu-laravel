@@ -5,6 +5,7 @@ namespace App\View\Components\Pages;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
+
 use Packages\Domains\Entities\User;
 
 class Home extends Component
@@ -26,6 +27,9 @@ class Home extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.pages.home');
+        return view('components.pages.home', [
+            'newsList' => $this->newsList,
+            'user' => $this->user
+        ]);
     }
 }

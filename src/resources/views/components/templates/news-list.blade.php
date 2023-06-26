@@ -8,9 +8,9 @@
         </div>
         <div>
             <ul class="flex justify-center flex-wrap">
-                @if (count($posts) > 0)
-                    @foreach ($posts as $post)
-                        NewsCard::render($post, CardSize::SMALL)
+                @if (count($newsList) > 0)
+                    @foreach ($newsList as $news)
+                        NewsCard::render($news, CardSize::SMALL)
                     @endforeach
                 @else
                     <li class="flex justify-center items-center my-3">

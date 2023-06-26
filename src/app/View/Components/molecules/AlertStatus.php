@@ -10,10 +10,10 @@ use App\Enums\AlertType;
 
 class AlertStatus extends Component
 {
-    public int $type = AlertType::INFO;
-    public string $title = '';
-    public string $message = '';
-    public bool $visible = false;
+    public readonly int $type;
+    public readonly string $title;
+    public readonly string $message;
+    public readonly bool $visible;
 
     /**
      * セッション内に config('define.session.status') が存在する場合、

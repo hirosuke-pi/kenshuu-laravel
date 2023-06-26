@@ -8,8 +8,8 @@ use Illuminate\View\Component;
 
 class NewsSearch extends Component
 {
-    public string $word = '';
-    public int $postsCount = 0;
+    public readonly string $word;
+    public readonly int $postsCount;
 
     /**
      * ニュース検索コンポーネント

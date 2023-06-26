@@ -16,9 +16,9 @@ class Header extends Component
     /**
      * Create a new component instance.
      */
-    public function __construct()
+    public function __construct(?User $user)
     {
-        $this->user = null;
+        $this->user = $user;
         $this->isGuestUser = is_null($this->user);
     }
 
