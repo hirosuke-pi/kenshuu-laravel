@@ -36,4 +36,12 @@ interface UserRepository
      * @return string ユーザーID
      */
     public function generateId(): string;
+
+    /**
+     * パスワードをハッシュ化する
+     *
+     * @param string $password パスワード
+     * @return string ハッシュ化されたパスワード
+     */
+    public function hashPassword(string $password): string;
 }
