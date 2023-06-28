@@ -14,6 +14,9 @@ migrate:
 bash:
 	docker compose exec app bash
 
+reload:
+	docker compose exec app composer dump-autoload
+
 db:
 	docker compose exec db mysql -u root -p laravel
 
