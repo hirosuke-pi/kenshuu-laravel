@@ -157,4 +157,14 @@ final class News
             $this->images[$image->getId()] = $image;
         }
     }
+
+    /**
+     * ニュースがアップデート済みかどうか
+     *
+     * @return boolean
+     */
+    public function isUpdated(): bool
+    {
+        return !is_null($this->updatedAt);
+    }
 }

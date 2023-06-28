@@ -10,7 +10,7 @@
             <ul class="flex justify-center flex-wrap">
                 @if (count($newsList) > 0)
                     @foreach ($newsList as $news)
-                        NewsCard::render($post, CardSize::SMALL)
+                        <x-organisms.news-card :news="$news" />
                     @endforeach
                 @else
                     <li class="flex justify-center items-center my-3">

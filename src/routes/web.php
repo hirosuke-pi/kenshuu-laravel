@@ -17,4 +17,5 @@ use App\Http\Controllers\HomeController;
 /**
  * ホームページ
  */
-Route::get('/', [HomeController::class, 'index']);
+Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/news/{newsId}', [NewsController::class, 'view'])->name('news.view');
