@@ -1,22 +1,22 @@
 <li class="m-3 {{ $cardSizeStyle }}">
     <div class="rounded overflow-hidden border border-gray-300">
         <a href="{{ $newsLink }}" class="">
-            <img class="w-full" src="{{ $news->getThumbnailImageUrl() }}" alt="news image">
+            <img class="w-full" src="{{ $thumbnailImageUrl }}" alt="news image">
         </a>
         <div class="px-6 py-4">
             <a href="{{ $newsLink }}" class="hover:underline hover:text-gray-500">
-                <h3 class="font-bold text-xl mb-2"><i class="fa-solid fa-newspaper"></i> {{ $news->title }}</h3>
+                <h3 class="font-bold text-xl mb-2"><i class="fa-solid fa-newspaper"></i> {{ $news->getTitle() }}</h3>
             </a>
             <p class="text-gray-700 text-base ellipsis-line-3">
-                {{ $news->body }}
+                {{ $news->getBody() }}
             </p>
             @if ($news->isUpdated())
                 <p class="text-gray-700 text-base mt-4">
-                    <i class="fa-solid fa-pen-to-square"></i> {{ $news->updatedAt }} ?>
+                    <i class="fa-solid fa-pen-to-square"></i> {{ $news->getUpdatedAt() }}
                 </p>
             @else
                 <p class="text-gray-700 text-base mt-4">
-                    <i class="fa-regular fa-calendar"></i> {{ $news->createdAt }} ?>
+                    <i class="fa-regular fa-calendar"></i> {{ $news->getCreatedAt() }}
                 </p>
             @endif
         </div>

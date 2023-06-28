@@ -26,7 +26,7 @@ final class EloquentNewsRepository implements NewsRepository
      */
     public function findAll(): array
     {
-        $posts = \App\Models\Post::whereNotNull('deleted_at')->get();
+        $posts = \App\Models\Post::whereNull('deleted_at')->get();
         $newsEntities = [];
         foreach($posts as $post) {
             $newsEntities[] = $this->newsFactory->create(
@@ -50,7 +50,7 @@ final class EloquentNewsRepository implements NewsRepository
      */
     public function find(string $id): ?News
     {
-        $post = \App\Models\Post::whereNotNull('deleted_at')->find($id);
+        $post = \App\Models\Post::whereNull('deleted_at')->find($id);
         if (is_null($post)) {
             return null;
         }

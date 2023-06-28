@@ -34,7 +34,7 @@ final class RepositoryNewsFactory implements NewsFactory
      * @param string $updatedAt 更新日時
      * @return News ニュースEntity
      */
-    public function create(string $id, string $userId, string $title, string $body, string $createdAt, string $updatedAt): News
+    public function create(string $id, string $userId, string $title, string $body, string $createdAt, ?string $updatedAt): News
     {
         return new News(
             id: $id,

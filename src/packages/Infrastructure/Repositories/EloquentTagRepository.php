@@ -51,14 +51,11 @@ final class EloquentTagRepository implements TagRepository
      */
     public function findByPostId(string $postId): array
     {
-        $tags = \App\Models\Tag::where('post_id', $postId)->get();
+        $tags = \App\Models\PostsTag::where('post_id', $postId)->get();
 
         $tagEntities = [];
         foreach($tags as $tag) {
-            $tagEntities[] = new Tag(
-                id: $tag->id,
-                name: $tag->name,
-            );
+            $tagEntities[] = $this->find($tag->tag_id);
         }
         return $tagEntities;
     }
