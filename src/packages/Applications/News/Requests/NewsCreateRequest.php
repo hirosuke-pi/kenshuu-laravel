@@ -27,10 +27,10 @@ final class NewsCreateRequest
     ) {}
 
     /**
-     * ニュースを取得する
+     * ニュースEntityを生成する
      *
      * @param NewsRepository $repository ニュースリポジトリ
-     * @return News ニュースエンティティ
+     * @return News ニュースEntity
      */
     public function generateNews(NewsRepository $repository): News
     {

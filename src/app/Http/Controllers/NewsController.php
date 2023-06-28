@@ -10,6 +10,14 @@ use Packages\Applications\User\UseCases\UserGetByEmailUseCase;
 
 class NewsController extends Controller
 {
+    /**
+     * ニュース詳細画面を表示する
+     *
+     * @param string $newsId ニュースID
+     * @param UserGetByEmailUseCase $userGetByEmailUseCase メールアドレスからユーザーを取得するユースケース
+     * @param NewsGetUseCase $newsGetUseCase ニュースを取得するユースケース
+     * @return void
+     */
     public function view(
         string $newsId,
         UserGetByEmailUseCase $userGetByEmailUseCase,

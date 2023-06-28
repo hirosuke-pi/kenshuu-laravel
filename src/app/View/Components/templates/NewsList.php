@@ -13,7 +13,9 @@ class NewsList extends Component
     public readonly array $newsList;
 
     /**
-     * Create a new component instance.
+     * ニュースリストコンポーネント
+     *
+     * @param array $newsList ニュースリスト
      */
     public function __construct(array $newsList)
     {

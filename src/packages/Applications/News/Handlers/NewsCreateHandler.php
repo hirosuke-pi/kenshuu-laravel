@@ -10,7 +10,7 @@ use Packages\Domains\Interfaces\Repositories\NewsRepository;
 final class NewsCreateHandler implements NewsCreateUseCase
 {
     /**
-     * ニュース作成ユースケースのコンストラクタ
+     * ニュース作成ハンドラのコンストラクタ
      *
      * @param NewsRepository $repository ニュースリポジトリ
      */
@@ -21,8 +21,8 @@ final class NewsCreateHandler implements NewsCreateUseCase
     /**
      * ニュースを作成するハンドラ
      *
-     * @param NewsGetRequest $request ニュース作成リクエスト
-     * @return NewsGetResponse ニュース作成レスポンス
+     * @param NewsCreateRequest $request ニュース作成リクエスト
+     * @return NewsCreateResponse ニュース作成レスポンス
      */
     public function handle(NewsCreateRequest $request): NewsCreateResponse
     {

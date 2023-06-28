@@ -14,7 +14,9 @@ class Header extends Component
     public readonly bool $isGuestUser;
 
     /**
-     * Create a new component instance.
+     * ヘッダーコンポーネント
+     *
+     * @param User|null $user ユーザーEntity
      */
     public function __construct(?User $user)
     {

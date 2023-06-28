@@ -18,7 +18,7 @@ final class NewsCreateResponse
     /**
      * ニュースを取得する
      *
-     * @return News ニュースエンティティ
+     * @return News ニュースEntity
      */
     public function getNews(): News
     {
