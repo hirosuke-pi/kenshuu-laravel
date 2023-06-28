@@ -3,7 +3,7 @@
         <x-organisms.news-search />
     </div>
     <div class="w-11/12">
-        <div class="m-3">
+        <div class="mx-3 mb-3">
             <x-molecules.alert-status :status="session(config('define.session.status'), [])" />
         </div>
         <div>
