@@ -22,7 +22,9 @@
         </div>
         <hr class="ml-3 mr-3 mt-1 mb-1">
         <div class="px-6 pt-4 pb-2">
-            TagCheckbox::render($tags, false)
+            @foreach($news->getTags() as $tag)
+                <x-atoms.category-tag :name="$tag->getName()" />
+            @endforeach
         </div>
     </div>
 </li>
