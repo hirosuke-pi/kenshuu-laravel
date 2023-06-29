@@ -170,7 +170,6 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\UserUseCaseProvider::class,
         App\Providers\NewsUseCaseProvider::class,
-        App\Providers\TagUseCaseProvider::class
     ])->toArray(),
 
     /*
