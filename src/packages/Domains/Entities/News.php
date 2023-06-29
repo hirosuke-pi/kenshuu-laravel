@@ -108,6 +108,24 @@ final class News
     }
 
     /**
+     * タグEntityの配列を取得する
+     *
+     * @return array タグEntityの配列
+     */
+    public function getTags(): array {
+        return $this->tags;
+    }
+
+    /**
+     *画像Entityの配列を取得する
+     *
+     * @return array 画像Entityの配列
+     */
+    public function getImages(): array {
+        return $this->images;
+    }
+
+    /**
      * サムネイル画像のURLを取得する
      *
      * @return string|null

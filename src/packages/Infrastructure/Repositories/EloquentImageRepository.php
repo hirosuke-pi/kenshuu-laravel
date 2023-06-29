@@ -47,6 +47,23 @@ final class EloquentImageRepository implements ImageRepository
     }
 
     /**
+     * 画像を保存する
+     *
+     * @param Image $image 画像Entity
+     * @param string $postId 投稿ID
+     * @return void
+     */
+    public function save(Image $image, string $postId): void
+    {
+        $imageModel = new \App\Models\Image();
+        $imageModel->id = $image->getId();
+        $imageModel->post_id = $postId;
+        $imageModel->thumbnail_flag = $image->isThumbnail();
+        $imageModel->file_path = $image->getFilePath();
+        $imageModel->save();
+    }
+
+    /**
      * 画像IDを生成する
      *
      * @return string 画像ID

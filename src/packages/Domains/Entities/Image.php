@@ -43,6 +43,16 @@ final class Image {
      *
      * @return string 画像ファイルパス
      */
+    public function getFilePath(): string
+    {
+        return $this->filePath;
+    }
+
+    /**
+     * 画像URLを取得する
+     *
+     * @return string 画像URL
+     */
     public function getUrl(): string
     {
         return self::BASE_NEWS_IMAGE_URL . $this->id . '.' . $this->filePath;

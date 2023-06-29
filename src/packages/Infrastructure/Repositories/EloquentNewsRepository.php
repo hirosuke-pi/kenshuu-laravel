@@ -2,22 +2,37 @@
 
 namespace Packages\Infrastructure\Repositories;
 
+use Packages\Domains\Interfaces\Repositories\ImageRepository;
 use Packages\Domains\Interfaces\Repositories\NewsRepository;
 use Packages\Domains\Entities\News;
 use Packages\Domains\Interfaces\Factories\NewsFactory;
+use Packages\Domains\Interfaces\Repositories\TagRepository;
+use Packages\Domains\Interfaces\Repositories\UserRepository;
+use Packages\Infrastructure\Factories\RepositoryNewsFactory;
 
 final class EloquentNewsRepository implements NewsRepository
 {
     private const PREFIX = 'news';
+    private NewsFactory $newsFactory;
 
     /**
      * NewsRepositoryのコンストラクタ
      *
-     * @param NewsFactory $newsFactory ニュースファクトリ
+     * @param UserRepository $userRepository ユーザーリポジトリ
+     * @param TagRepository $tagRepository タグリポジトリ
+     * @param ImageRepository $imageRepository 画像リポジトリ
      */
     public function __construct(
-        private NewsFactory $newsFactory
-    ) {}
+        private readonly UserRepository $userRepository,
+        private readonly TagRepository $tagRepository,
+        private readonly ImageRepository $imageRepository
+    ) {
+        $this->newsFactory = new RepositoryNewsFactory(
+            userRepository: $this->userRepository,
+            tagRepository: $this->tagRepository,
+            imageRepository: $this->imageRepository,
+        );
+    }
 
     /**
      * ニュースを全件取得する
@@ -81,6 +96,14 @@ final class EloquentNewsRepository implements NewsRepository
         $post->created_at = $news->getCreatedAt();
         $post->updated_at = $news->getUpdatedAt();
         $post->save();
+
+        foreach($news->getTags() as $tag) {
+            $this->tagRepository->saveWithPostId($tag, $news->getId());
+        }
+
+        foreach($news->getImages() as $image) {
+            $this->imageRepository->save($image, $news->getId());
+        }
     }
 
     /**

@@ -25,11 +25,9 @@ class NewsUseCaseProvider extends ServiceProvider
     public function register(): void
     {
         $eloquentNewsRepository = new EloquentNewsRepository(
-            newsFactory: new RepositoryNewsFactory(
-                userRepository: new EloquentUserRepository(),
-                tagRepository: new EloquentTagRepository(),
-                imageRepository: new EloquentImageRepository()
-            )
+            userRepository: new EloquentUserRepository(),
+            tagRepository: new EloquentTagRepository(),
+            imageRepository: new EloquentImageRepository()
         );
 
         $this->app->bind(

@@ -23,6 +23,15 @@ interface ImageRepository
     public function findByPostId(string $postId): array;
 
     /**
+     * 画像を保存する
+     *
+     * @param Image $image 画像Entity
+     * @param string $postId 投稿ID
+     * @return void
+     */
+    public function save(Image $image, string $postId): void;
+
+    /**
      * 画像IDを生成する
      *
      * @return string 画像ID

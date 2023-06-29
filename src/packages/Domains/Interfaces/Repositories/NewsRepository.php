@@ -10,9 +10,15 @@ interface NewsRepository
     /**
      * NewsRepositoryのコンストラクタ
      *
-     * @param NewsFactory $newsFactory ニュースファクトリ
+     * @param UserRepository $userRepository ユーザーリポジトリ
+     * @param TagRepository $newsRepository タグリポジトリ
+     * @param ImageRepository $imageRepository 画像リポジトリ
      */
-    public function __construct(NewsFactory $newsFactory);
+    public function __construct(
+        UserRepository $userRepository,
+        TagRepository $newsRepository,
+        ImageRepository $imageRepository
+    );
 
     /**
      * ニュースを全件取得する
