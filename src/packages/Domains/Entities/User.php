@@ -44,6 +44,16 @@ final class User {
     }
 
     /**
+     * ユーザータグを取得する
+     *
+     * @return string ユーザータグ
+     */
+    public function getNameTag(): string
+    {
+        return '@' . $this->name;
+    }
+
+    /**
      * メールアドレスを取得する
      *
      * @return string メールアドレス
