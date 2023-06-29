@@ -21,7 +21,7 @@
             @else
                 <strong>{{ $word }}</strong> の検索結果:
             @endif
-            {{ $postsCount }}件
+            {{ $newsCount }}件
         </h3>
     </section>
 </aside>

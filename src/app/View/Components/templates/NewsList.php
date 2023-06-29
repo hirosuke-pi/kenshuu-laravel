@@ -11,6 +11,7 @@ use App\Repo\NewsRepo;
 class NewsList extends Component
 {
     public readonly array $newsList;
+    public readonly int $newsCount;
 
     /**
      * ニュースリストコンポーネント
@@ -20,6 +21,7 @@ class NewsList extends Component
     public function __construct(array $newsList)
     {
         $this->newsList = $newsList;
+        $this->newsCount = count($newsList);
     }
 
     /**
