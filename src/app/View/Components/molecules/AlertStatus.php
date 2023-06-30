@@ -12,34 +12,29 @@ class AlertStatus extends Component
 {
     public int $type = AlertType::INFO;
     public string $title = '';
-    public string $message = '';
-    public bool $visible = false;
+    public ?string $message;
 
     /**
-     * セッション内に config('define.session.status') が存在する場合、
-     * アラートを表示するコンポーネント
+     * statusの内容を元に、アラートを表示するコンポーネント
+     *
+     * @param array $status ['type' => 'success|error|warning', 'message' => 'メッセージ']
      */
-    public function __construct()
+    public function __construct(array $status = [])
     {
-        $status = session(config('define.session.status'), null);
-        if (is_null($status)) {
-            return;
-        }
-
-        $this->title = match($status['type']) {
+        $type = $status['type'] ?? null;
+        $this->title = match($type) {
             'success' => '成功',
             'error' => 'エラー',
             'warning' => '警告',
             default => '',
         };
-        $this->type = match($status['type']) {
+        $this->type = match($type) {
             'success' => AlertType::SUCCESS,
             'error' => AlertType::ERROR,
             'warning' => AlertType::WARNING,
             default => AlertType::INFO,
         };
-        $this->message = $status['message'];
-        $this->visible = true;
+        $this->message = $status['message'] ?? null;
     }
 
     /**
@@ -47,7 +42,7 @@ class AlertStatus extends Component
      */
     public function render(): View|Closure|string
     {
-        if (!$this->visible) {
+        if (is_null($this->message)) {
             return '';
         }
         return view('components.molecules.alert-status');
