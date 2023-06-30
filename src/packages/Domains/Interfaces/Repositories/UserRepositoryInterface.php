@@ -4,7 +4,7 @@ namespace Packages\Domains\Interfaces\Repositories;
 
 use Packages\Domains\Entities\User;
 
-interface UserRepository
+interface UserRepositoryInterface
 {
     /**
      * ユーザーIDからユーザーを取得する

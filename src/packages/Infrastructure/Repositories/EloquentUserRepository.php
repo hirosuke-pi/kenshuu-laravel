@@ -2,10 +2,10 @@
 
 namespace Packages\Infrastructure\Repositories;
 
-use Packages\Domains\Interfaces\Repositories\UserRepository;
+use Packages\Domains\Interfaces\Repositories\UserRepositoryInterface;
 use Packages\Domains\Entities\User;
 
-final class EloquentUserRepository implements UserRepository
+final class EloquentUserRepository implements UserRepositoryInterface
 {
     private const PREFIX = 'user';
 

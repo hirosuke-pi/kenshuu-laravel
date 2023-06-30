@@ -1,20 +1,20 @@
 <?php
 
-namespace Packages\Applications\User\UseCases;
+namespace Packages\Applications\User\Interface;
 
 use Packages\Applications\User\Requests\UserGetByEmailRequest;
 use Packages\Applications\User\Responses\UserGetResponse;
 
-use Packages\Domains\Interfaces\Repositories\UserRepository;
+use Packages\Domains\Interfaces\Repositories\UserRepositoryInterface;
 
-interface UserGetByEmailUseCase
+interface UserGetByEmailInterface
 {
     /**
      * コンストラクタ
      *
-     * @param UserRepository $repository ユーザーリポジトリ
+     * @param UserRepositoryInterface $repository ユーザーリポジトリ
      */
-    public function __construct(UserRepository $repository);
+    public function __construct(UserRepositoryInterface $repository);
 
     /**
      * メールアドレスからユーザーを取得する

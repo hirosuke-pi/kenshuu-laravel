@@ -2,10 +2,10 @@
 
 namespace Packages\Infrastructure\Repositories;
 
-use Packages\Domains\Interfaces\Repositories\ImageRepository;
+use Packages\Domains\Interfaces\Repositories\ImageRepositoryInterface;
 use Packages\Domains\Entities\Image;
 
-final class EloquentImageRepository implements ImageRepository
+final class EloquentImageRepository implements ImageRepositoryInterface
 {
     private const PREFIX = 'image';
 

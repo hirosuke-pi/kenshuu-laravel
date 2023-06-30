@@ -2,10 +2,10 @@
 
 namespace Packages\Infrastructure\Repositories;
 
-use Packages\Domains\Interfaces\Repositories\TagRepository;
+use Packages\Domains\Interfaces\Repositories\TagRepositoryInterface;
 use Packages\Domains\Entities\Tag;
 
-final class EloquentTagRepository implements TagRepository
+final class EloquentTagRepository implements TagRepositoryInterface
 {
     private const PREFIX = 'tag';
 

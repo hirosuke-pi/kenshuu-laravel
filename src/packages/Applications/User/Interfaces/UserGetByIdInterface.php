@@ -1,20 +1,20 @@
 <?php
 
-namespace Packages\Applications\User\UseCases;
+namespace Packages\Applications\User\Interface;
 
 use Packages\Applications\User\Requests\UserGetByIdRequest;
 use Packages\Applications\User\Responses\UserGetResponse;
 
-use Packages\Domains\Interfaces\Repositories\UserRepository;
+use Packages\Domains\Interfaces\Repositories\UserRepositoryInterface;
 
-interface UserGetByIdUseCase
+interface UserGetByIdInterface
 {
     /**
      * ユーザーIDからユーザーを取得するコンストラクタ
      *
-     * @param UserRepository $repository ユーザーリポジトリ
+     * @param UserRepositoryInterface $repository ユーザーリポジトリ
      */
-    public function __construct(UserRepository $repository);
+    public function __construct(UserRepositoryInterface $repository);
 
     /**
      * ユーザーIDからユーザーを取得する

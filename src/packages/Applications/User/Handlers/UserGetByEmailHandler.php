@@ -4,18 +4,18 @@ namespace Packages\Applications\User\Handlers;
 
 use Packages\Applications\User\Requests\UserGetByEmailRequest;
 use Packages\Applications\User\Responses\UserGetResponse;
-use Packages\Applications\User\UseCases\UserGetByEmailUseCase;
-use Packages\Domains\Interfaces\Repositories\UserRepository;
+use Packages\Applications\User\Interface\UserGetByEmailInterface;
+use Packages\Domains\Interfaces\Repositories\UserRepositoryInterface;
 
-final class UserGetByEmailHandler implements UserGetByEmailUseCase
+final class UserGetByEmailHandler implements UserGetByEmailInterface
 {
     /**
      * メールアドレスからユーザーを取得するコンストラクタ
      *
-     * @param UserRepository $repository ユーザーリポジトリ
+     * @param UserRepositoryInterface $repository ユーザーリポジトリ
      */
     public function __construct(
-        private readonly UserRepository $repository
+        private readonly UserRepositoryInterface $repository
     ) {}
 
     /**
