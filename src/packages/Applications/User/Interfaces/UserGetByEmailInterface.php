@@ -1,6 +1,6 @@
 <?php
 
-namespace Packages\Applications\User\Interface;
+namespace Packages\Applications\User\Interfaces;
 
 use Packages\Applications\User\Requests\UserGetByEmailRequest;
 use Packages\Applications\User\Responses\UserGetResponse;

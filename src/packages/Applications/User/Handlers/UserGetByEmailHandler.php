@@ -4,7 +4,7 @@ namespace Packages\Applications\User\Handlers;
 
 use Packages\Applications\User\Requests\UserGetByEmailRequest;
 use Packages\Applications\User\Responses\UserGetResponse;
-use Packages\Applications\User\Interface\UserGetByEmailInterface;
+use Packages\Applications\User\Interfaces\UserGetByEmailInterface;
 use Packages\Domains\Interfaces\Repositories\UserRepositoryInterface;
 
 final class UserGetByEmailHandler implements UserGetByEmailInterface

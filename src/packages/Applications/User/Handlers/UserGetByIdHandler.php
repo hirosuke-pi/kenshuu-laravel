@@ -4,7 +4,7 @@ namespace Packages\Applications\User\Handlers;
 
 use Packages\Applications\User\Requests\UserGetByIdRequest;
 use Packages\Applications\User\Responses\UserGetResponse;
-use Packages\Applications\User\Interface\UserGetByIdInterface;
+use Packages\Applications\User\Interfaces\UserGetByIdInterface;
 use Packages\Domains\Interfaces\Repositories\UserRepositoryInterface;
 
 final class UserGetByIdHandler implements UserGetByIdInterface
