@@ -17,11 +17,7 @@ class Base extends Component
      */
     public function __construct(string $title = null)
     {
-        if (is_null($title)) {
-            $this->title = '';
-            return;
-        }
-        $this->title = ' - '. $title;
+        $this->title = is_null($title) ? '' : ' - '. $title;
     }
 
     /**

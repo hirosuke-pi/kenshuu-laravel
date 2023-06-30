@@ -4,7 +4,7 @@
     </div>
     <div class="w-11/12">
         <div class="m-3">
-            <x-molecules.alert-status />
+            <x-molecules.alert-status :status="session(config('define.session.status'), [])" />
         </div>
         <div>
             <ul class="flex justify-center flex-wrap">
