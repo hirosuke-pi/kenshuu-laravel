@@ -13,9 +13,9 @@ use Packages\Infrastructure\Repositories\EloquentUserRepository;
 use Packages\Applications\News\Handlers\NewsGetAllHandler;
 use Packages\Applications\News\Handlers\NewsGetHandler;
 use Packages\Applications\News\Handlers\NewsCreateHandler;
-use Packages\Applications\News\UseCases\NewsGetUseCase;
-use Packages\Applications\News\UseCases\NewsGetAllUseCase;
-use Packages\Applications\News\UseCases\NewsCreateUseCase;
+use Packages\Applications\News\Interfaces\NewsGetInterface;
+use Packages\Applications\News\Interfaces\NewsGetAllInterface;
+use Packages\Applications\News\Interfaces\NewsCreateInterface;
 
 class NewsUseCaseProvider extends ServiceProvider
 {
@@ -33,15 +33,15 @@ class NewsUseCaseProvider extends ServiceProvider
         );
 
         $this->app->bind(
-            NewsGetUseCase::class,
+            NewsGetInterface::class,
             fn () => new NewsGetHandler($eloquentNewsRepository)
         );
         $this->app->bind(
-            NewsGetAllUseCase::class,
+            NewsGetAllInterface::class,
             fn () => new NewsGetAllHandler($eloquentNewsRepository)
         );
         $this->app->bind(
-            NewsCreateUseCase::class,
+            NewsCreateInterface::class,
             fn () => new NewsCreateHandler($eloquentNewsRepository)
         );
     }

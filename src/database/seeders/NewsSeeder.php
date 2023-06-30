@@ -7,16 +7,16 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 use Packages\Applications\News\Requests\NewsCreateRequest;
-use Packages\Applications\News\UseCases\NewsCreateUseCase;
+use Packages\Applications\News\Interfaces\NewsCreateInterface;
 use Packages\Applications\User\Requests\UserGetByEmailRequest;
-use Packages\Applications\User\UseCases\UserGetByEmailUseCase;
+use Packages\Applications\User\Interfaces\UserGetByEmailInterface;
 
 class NewsSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
-    public function run(NewsCreateUseCase $newsHandler, UserGetByEmailUseCase $userGetHandler): void
+    public function run(NewsCreateInterface $newsHandler, UserGetByEmailInterface $userGetHandler): void
     {
         $userResponse = $userGetHandler->handle(
             new UserGetByEmailRequest(

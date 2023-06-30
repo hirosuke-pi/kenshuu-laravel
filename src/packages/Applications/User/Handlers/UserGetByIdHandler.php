@@ -4,18 +4,18 @@ namespace Packages\Applications\User\Handlers;
 
 use Packages\Applications\User\Requests\UserGetByIdRequest;
 use Packages\Applications\User\Responses\UserGetResponse;
-use Packages\Applications\User\UseCases\UserGetByIdUseCase;
-use Packages\Domains\Interfaces\Repositories\UserRepository;
+use Packages\Applications\User\Interfaces\UserGetByIdInterface;
+use Packages\Domains\Interfaces\Repositories\UserRepositoryInterface;
 
-final class UserGetByIdHandler implements UserGetByIdUseCase
+final class UserGetByIdHandler implements UserGetByIdInterface
 {
     /**
      * ユーザーIDからユーザーを取得するコンストラクタ
      *
-     * @param UserRepository $repository ユーザーリポジトリ
+     * @param UserRepositoryInterface $repository ユーザーリポジトリ
      */
     public function __construct(
-        private readonly UserRepository $repository
+        private readonly UserRepositoryInterface $repository
     ) {}
 
     /**

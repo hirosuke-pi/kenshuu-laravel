@@ -2,10 +2,11 @@
 
 namespace Packages\Infrastructure\Repositories;
 
-use Packages\Domains\Interfaces\Repositories\UserRepository;
+use Packages\Domains\Interfaces\Repositories\UserRepositoryInterface;
 use Packages\Domains\Entities\User;
+use App\Models\User as UserModel;
 
-final class EloquentUserRepository implements UserRepository
+final class EloquentUserRepository implements UserRepositoryInterface
 {
     private const PREFIX = 'user';
 
@@ -17,7 +18,7 @@ final class EloquentUserRepository implements UserRepository
      */
     public function find(string $id): ?User
     {
-        $user = \App\Models\User::find($id)->whereNull('deleted_at')->first();
+        $user = UserModel::find($id)->whereNull('deleted_at')->first();
         if (is_null($user)) {
             return null;
         }
@@ -39,7 +40,7 @@ final class EloquentUserRepository implements UserRepository
      * @return User|null ユーザーEntity
      */
     public function findByEmail(string $email): ?User {
-        $user = \App\Models\User::where('email', $email)->whereNull('deleted_at')->first();
+        $user = UserModel::where('email', $email)->whereNull('deleted_at')->first();
         if (is_null($user)) {
             return null;
         }
@@ -62,7 +63,7 @@ final class EloquentUserRepository implements UserRepository
      */
     public function save(User $userEntity): void
     {
-        $user = new \App\Models\User();
+        $user = new UserModel();
         $user->id = $userEntity->getId();
         $user->username = $userEntity->getName();
         $user->email = $userEntity->getEmail();

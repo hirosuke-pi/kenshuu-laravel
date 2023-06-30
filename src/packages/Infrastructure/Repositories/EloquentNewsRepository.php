@@ -2,21 +2,23 @@
 
 namespace Packages\Infrastructure\Repositories;
 
-use Packages\Domains\Interfaces\Repositories\NewsRepository;
+use Packages\Domains\Interfaces\Repositories\NewsRepositoryInterface;
 use Packages\Domains\Entities\News;
-use Packages\Domains\Interfaces\Factories\NewsFactory;
+use Packages\Domains\Interfaces\Factories\NewsFactoryInterface;
 
-final class EloquentNewsRepository implements NewsRepository
+use App\Models\Post as PostModel;
+
+final class EloquentNewsRepository implements NewsRepositoryInterface
 {
     private const PREFIX = 'news';
 
     /**
      * NewsRepositoryのコンストラクタ
      *
-     * @param NewsFactory $newsFactory ニュースファクトリ
+     * @param NewsFactoryInterface $newsFactory ニュースファクトリ
      */
     public function __construct(
-        private NewsFactory $newsFactory
+        private NewsFactoryInterface $newsFactory
     ) {}
 
     /**
@@ -26,7 +28,8 @@ final class EloquentNewsRepository implements NewsRepository
      */
     public function findAll(): array
     {
-        $posts = \App\Models\Post::whereNull('deleted_at')->get();
+
+        $posts = PostModel::whereNull('deleted_at')->get();
         $newsEntities = [];
         foreach($posts as $post) {
             $newsEntities[] = $this->newsFactory->create(
@@ -50,7 +53,7 @@ final class EloquentNewsRepository implements NewsRepository
      */
     public function find(string $id): ?News
     {
-        $post = \App\Models\Post::whereNull('deleted_at')->find($id);
+        $post = PostModel::whereNull('deleted_at')->find($id);
         if (is_null($post)) {
             return null;
         }
@@ -73,7 +76,7 @@ final class EloquentNewsRepository implements NewsRepository
      */
     public function save(News $news): void
     {
-        $post = new \App\Models\Post();
+        $post = new PostModel();
         $post->id = $news->getId();
         $post->user_id = $news->getUser()->getId();
         $post->title = $news->getTitle();

@@ -2,10 +2,12 @@
 
 namespace Packages\Infrastructure\Repositories;
 
-use Packages\Domains\Interfaces\Repositories\TagRepository;
+use Packages\Domains\Interfaces\Repositories\TagRepositoryInterface;
 use Packages\Domains\Entities\Tag;
+use \App\Models\Tag as TagModel;
+use \App\Models\PostsTag as PostsTagModel;
 
-final class EloquentTagRepository implements TagRepository
+final class EloquentTagRepository implements TagRepositoryInterface
 {
     private const PREFIX = 'tag';
 
@@ -17,10 +19,10 @@ final class EloquentTagRepository implements TagRepository
      */
     public function find(string $id): Tag
     {
-        $tag = \App\Models\Tag::find($id);
+        $tag = TagModel::find($id);
         return new Tag(
             id: $tag->id,
-            name: $tag->name,
+            name: $tag->tag_name,
         );
     }
 
@@ -31,13 +33,13 @@ final class EloquentTagRepository implements TagRepository
      */
     public function findAll(): array
     {
-        $tags = \App\Models\Tag::all();
+        $tags = TagModel::all();
 
         $tagEntities = [];
         foreach($tags as $tag) {
             $tagEntities[] = new Tag(
                 id: $tag->id,
-                name: $tag->name,
+                name: $tag->tag_name,
             );
         }
         return $tagEntities;
@@ -51,7 +53,7 @@ final class EloquentTagRepository implements TagRepository
      */
     public function findByPostId(string $postId): array
     {
-        $tags = \App\Models\PostsTag::where('post_id', $postId)->get();
+        $tags = PostsTagModel::where('post_id', $postId)->get();
 
         $tagEntities = [];
         foreach($tags as $tag) {
