@@ -4,16 +4,16 @@ namespace Packages\Applications\User\UseCases;
 
 use Packages\Applications\User\Requests\UserCreateRequest;
 use Packages\Applications\User\Responses\UserCreateResponse;
-use Packages\Domains\Interfaces\Repositories\UserRepository;
+use Packages\Domains\Interfaces\Repositories\UserRepositoryInterface;
 
 interface UserCreateUseCase
 {
     /**
      * ユーザーを作成するユースケースのコンストラクタ
      *
-     * @param UserRepository $repository ユーザーリポジトリ
+     * @param UserRepositoryInterface $repository ユーザーリポジトリ
      */
-    public function __construct(UserRepository $repository);
+    public function __construct(UserRepositoryInterface $repository);
 
     /**
      * ユーザーを作成するハンドラ

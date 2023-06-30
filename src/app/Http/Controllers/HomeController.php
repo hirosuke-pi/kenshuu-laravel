@@ -4,30 +4,30 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Packages\Applications\User\Requests\UserGetByEmailRequest;
-use Packages\Applications\User\UseCases\UserGetByEmailUseCase;
+use Packages\Applications\User\Interfaces\UserGetByEmailInterface;
 
 use Packages\Applications\News\Requests\NewsGetAllRequest;
-use Packages\Applications\News\UseCases\NewsGetAllUseCase;
+use Packages\Applications\News\Interfaces\NewsGetAllInterface;
 
 class HomeController extends Controller
 {
     /**
      * ホーム画面を表示する
      *
-     * @param UserGetByEmailUseCase $userGetByEmailUseCase メールアドレスからユーザーを取得するユースケース
-     * @param NewsGetAllUseCase $newsGetAllUseCase ニュースを全件取得するユースケース
+     * @param UserGetByEmailInterface $userGetByEmailUseCase メールアドレスからユーザーを取得するユースケース
+     * @param NewsGetAllInterface $newsGetAllUseCase ニュースを全件取得するユースケース
      * @return void
      */
     public static function index(
-        UserGetByEmailUseCase $userGetByEmailUseCase,
-        NewsGetAllUseCase $newsGetAllUseCase
+        UserGetByEmailInterface $userGetByEmail,
+        NewsGetAllInterface $newsGetAll
     ): \Illuminate\Contracts\View\Factory | \Illuminate\Contracts\View\View
     {
         $userGetByEmailRequest = new UserGetByEmailRequest(config('test.user1.email'));
-        $userGetByEmailResponse = $userGetByEmailUseCase->handle($userGetByEmailRequest);
+        $userGetByEmailResponse = $userGetByEmail->handle($userGetByEmailRequest);
 
         $newsGetAllRequest = new NewsGetAllRequest();
-        $newsGetAllResponse = $newsGetAllUseCase->handle($newsGetAllRequest);
+        $newsGetAllResponse = $newsGetAll->handle($newsGetAllRequest);
 
         return view('components.pages.home', [
             'newsList' => $newsGetAllResponse->getNewsAll(),

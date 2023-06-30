@@ -5,17 +5,17 @@ namespace Packages\Applications\News\Handlers;
 use Packages\Applications\News\Requests\NewsGetAllRequest;
 use Packages\Applications\News\UseCases\NewsGetAllUseCase;
 use Packages\Applications\News\Responses\NewsGetAllResponse;
-use Packages\Domains\Interfaces\Repositories\NewsRepository;
+use Packages\Domains\Interfaces\Repositories\NewsRepositoryInterface;
 
 final class NewsGetAllHandler implements NewsGetAllUseCase
 {
     /**
      * ニュース全件取得ユースケースのコンストラクタ
      *
-     * @param NewsRepository $repository ニュースリポジトリ
+     * @param NewsRepositoryInterface $repository ニュースリポジトリ
      */
     public function __construct(
-        private readonly NewsRepository $repository
+        private readonly NewsRepositoryInterface $repository
     ) {}
 
     /**

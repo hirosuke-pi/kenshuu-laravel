@@ -2,10 +2,11 @@
 
 namespace Packages\Infrastructure\Repositories;
 
-use Packages\Domains\Interfaces\Repositories\ImageRepository;
+use Packages\Domains\Interfaces\Repositories\ImageRepositoryInterface;
 use Packages\Domains\Entities\Image;
+use \App\Models\Image as ImageModel;
 
-final class EloquentImageRepository implements ImageRepository
+final class EloquentImageRepository implements ImageRepositoryInterface
 {
     private const PREFIX = 'image';
 
@@ -17,7 +18,7 @@ final class EloquentImageRepository implements ImageRepository
      */
     public function find(string $id): Image
     {
-        $tag = \App\Models\Image::find($id);
+        $tag = ImageModel::find($id);
         return new Image(
             id: $tag->id,
             isThumbnail: $tag->thumbnail_flag,
@@ -33,7 +34,7 @@ final class EloquentImageRepository implements ImageRepository
      */
     public function findByPostId(string $postId): array
     {
-        $tags = \App\Models\Image::where('post_id', $postId)->get();
+        $tags = ImageModel::where('post_id', $postId)->get();
 
         $tagEntities = [];
         foreach($tags as $tag) {

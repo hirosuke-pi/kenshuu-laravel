@@ -1,19 +1,19 @@
 <?php
 
-namespace Packages\Applications\News\UseCases;
+namespace Packages\Applications\News\Interfaces;
 
 use Packages\Applications\News\Requests\NewsGetAllRequest;
 use Packages\Applications\News\Responses\NewsGetAllResponse;
-use Packages\Domains\Interfaces\Repositories\NewsRepository;
+use Packages\Domains\Interfaces\Repositories\NewsRepositoryInterface;
 
-interface NewsGetAllUseCase
+interface NewsGetAllInterface
 {
     /**
      * ニュース取得ユースケースのコンストラクタ
      *
-     * @param NewsRepository $repository ニュースリポジトリ
+     * @param NewsRepositoryInterface $repository ニュースリポジトリ
      */
-    public function __construct(NewsRepository $repository);
+    public function __construct(NewsRepositoryInterface $repository);
 
     /**
      * ニュースを全件取得するハンドラ
