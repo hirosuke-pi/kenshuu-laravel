@@ -12,9 +12,9 @@ class HomeController extends Controller
      * ホーム画面を表示する
      *
      * @param UserGetByEmailUseCase $userGetByEmailUseCase メールアドレスからユーザーを取得するユースケース
-     * @return void
+     * @return \Illuminate\View\View ホーム画面のView
      */
-    public static function index(UserGetByEmailUseCase $userGetByEmailUseCase)
+    public static function index(UserGetByEmailUseCase $userGetByEmailUseCase): \Illuminate\View\View
     {
         $userGetByEmailRequest = new UserGetByEmailRequest('test@gmail.com');
         $userGetByEmailResponse = $userGetByEmailUseCase->handle($userGetByEmailRequest);
