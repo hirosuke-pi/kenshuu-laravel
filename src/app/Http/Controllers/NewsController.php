@@ -30,15 +30,19 @@ class NewsController extends Controller
         $newsGetRequest = new NewsGetRequest($newsId);
         $newsGetResponse = $newsGetUseCase->handle($newsGetRequest);
 
-        $news = $newsGetResponse->getNews();
-        if (is_null($news)) {
+        if (!$newsGetResponse->hasNews()) {
             session()->flash(config('define.session.status'), ['type' => 'error', 'message' => 'ニュースが見つかりませんでした。']);
             return redirect()->route('home');
         }
 
+        $news = $newsGetResponse->getNews();
         return view('components.pages.news', [
             'news' => $news,
-            'user' => $userGetByEmailResponse->getUser()
+            'user' => $userGetByEmailResponse->getUser(),
+            'isGuest' => !$userGetByEmailResponse->hasUser(),
+            'paths' => [
+                ['name' => 'ニュース - '. $news->getTitle(), 'link' => '#']
+            ]
         ]);
     }
 }

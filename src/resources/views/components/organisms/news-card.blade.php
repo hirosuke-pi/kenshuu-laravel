@@ -1,7 +1,7 @@
 <li class="m-3 {{ $cardSizeStyle }}">
     <div class="rounded overflow-hidden border border-gray-300">
         <a href="{{ $newsLink }}" class="">
-            <img class="w-full" src="{{ $thumbnailImageUrl }}" alt="news image">
+            <img class="w-full" src="{{ $news->getThumbnailImageUrl() }}" alt="news image">
         </a>
         <div class="px-6 py-4">
             <a href="{{ $newsLink }}" class="hover:underline hover:text-gray-500">
