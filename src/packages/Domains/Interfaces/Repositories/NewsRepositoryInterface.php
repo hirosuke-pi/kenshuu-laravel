@@ -2,17 +2,17 @@
 
 namespace Packages\Domains\Interfaces\Repositories;
 
-use Packages\Domains\Interfaces\Factories\NewsFactory;
+use Packages\Domains\Interfaces\Factories\NewsFactoryInterface;
 use Packages\Domains\Entities\News;
 
-interface NewsRepository
+interface NewsRepositoryInterface
 {
     /**
      * NewsRepositoryのコンストラクタ
      *
      * @param NewsFactory $newsFactory ニュースファクトリ
      */
-    public function __construct(NewsFactory $newsFactory);
+    public function __construct(NewsFactoryInterface $newsFactory);
 
     /**
      * ニュースを全件取得する
