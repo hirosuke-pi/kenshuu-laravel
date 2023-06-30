@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Packages\Applications\User\Requests\UserGetByEmailRequest;
-use Packages\Applications\User\Interface\UserGetByEmailInterface;
+use Packages\Applications\User\Interfaces\UserGetByEmailInterface;
 
 class HomeController extends Controller
 {

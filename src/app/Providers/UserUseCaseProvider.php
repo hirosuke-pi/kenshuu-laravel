@@ -5,8 +5,8 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 
 use Packages\Applications\User\Handlers\UserGetByEmailHandler;
-use Packages\Applications\User\Interface\UserGetByIdInterface;
-use Packages\Applications\User\Interface\UserGetByEmailInterface;
+use Packages\Applications\User\Interfaces\UserGetByIdInterface;
+use Packages\Applications\User\Interfaces\UserGetByEmailInterface;
 
 use Packages\Infrastructure\Repositories\EloquentUserRepository;
 
