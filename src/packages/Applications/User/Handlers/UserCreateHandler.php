@@ -5,11 +5,11 @@ namespace Packages\Applications\User\Handlers;
 use DateTime;
 use Packages\Applications\User\Requests\UserCreateRequest;
 use Packages\Applications\User\Responses\UserCreateResponse;
-use Packages\Applications\User\UseCases\UserCreateUseCase;
+use Packages\Applications\User\Interface\UserCreateInterface;
 use Packages\Domains\Entities\User;
 use Packages\Domains\Interfaces\Repositories\UserRepositoryInterface;
 
-final class UserCreateHandler implements UserCreateUseCase
+final class UserCreateHandler implements UserCreateInterface
 {
     /**
      * ユーザーを作成するハンドラのコンストラクタ

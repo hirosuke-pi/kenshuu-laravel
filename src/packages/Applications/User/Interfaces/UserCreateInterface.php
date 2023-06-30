@@ -1,12 +1,12 @@
 <?php
 
-namespace Packages\Applications\User\UseCases;
+namespace Packages\Applications\User\Interfaces;
 
 use Packages\Applications\User\Requests\UserCreateRequest;
 use Packages\Applications\User\Responses\UserCreateResponse;
 use Packages\Domains\Interfaces\Repositories\UserRepositoryInterface;
 
-interface UserCreateUseCase
+interface UserCreateInterface
 {
     /**
      * ユーザーを作成するユースケースのコンストラクタ

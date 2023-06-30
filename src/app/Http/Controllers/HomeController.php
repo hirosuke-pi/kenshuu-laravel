@@ -14,8 +14,8 @@ class HomeController extends Controller
     /**
      * ホーム画面を表示する
      *
-     * @param UserGetByEmailInterface $userGetByEmailUseCase メールアドレスからユーザーを取得するユースケース
-     * @param NewsGetAllInterface $newsGetAllUseCase ニュースを全件取得するユースケース
+     * @param UserGetByEmailInterface $userGetByEmail メールアドレスからユーザーを取得するユースケース
+     * @param NewsGetAllInterface $newsGetAll ニュースを全件取得するユースケース
      * @return void
      */
     public static function index(

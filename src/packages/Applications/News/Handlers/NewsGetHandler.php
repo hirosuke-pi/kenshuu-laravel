@@ -4,10 +4,10 @@ namespace Packages\Applications\News\Handlers;
 
 use Packages\Applications\News\Requests\NewsGetRequest;
 use Packages\Applications\News\Responses\NewsGetResponse;
-use Packages\Applications\News\UseCases\NewsGetUseCase;
+use Packages\Applications\News\Interfaces\NewsGetInterface;
 use Packages\Domains\Interfaces\Repositories\NewsRepositoryInterface;
 
-final class NewsGetHandler implements NewsGetUseCase
+final class NewsGetHandler implements NewsGetInterface
 {
     /**
      * ニュース取得ユースケースのコンストラクタ
