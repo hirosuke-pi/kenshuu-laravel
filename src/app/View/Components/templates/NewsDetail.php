@@ -29,7 +29,6 @@ class NewsDetail extends Component
         $this->user = $user;
         $this->isGuest = $isGuest;
         $this->title = $title;
-
     }
 
     /**
