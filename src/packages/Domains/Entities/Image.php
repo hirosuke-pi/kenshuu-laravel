@@ -55,6 +55,6 @@ final class Image {
      */
     public function getUrl(): string
     {
-        return self::BASE_NEWS_IMAGE_URL . $this->id . '.' . $this->filePath;
+        return asset(self::BASE_NEWS_IMAGE_URL . $this->id . '.' . $this->filePath);
     }
 }

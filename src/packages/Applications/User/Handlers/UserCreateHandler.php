@@ -34,7 +34,8 @@ final class UserCreateHandler implements UserCreateUseCase
             name: $request->getName(),
             password: $request->getPassword(),
             profileImagePath: $request->getProfileImagePath(),
-            createdAt: (new DateTime())->format(DateTime::ATOM)
+            createdAt: (new DateTime())->format(DateTime::ATOM),
+            postsCount: 0
         );
         $this->repository->save($user);
 

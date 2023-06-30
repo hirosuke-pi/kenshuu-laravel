@@ -3,6 +3,7 @@
 namespace Packages\Domains\Entities;
 
 final class User {
+    private const BASE_USER_IMAGE_URL = '/img/user/';
 
     /**
      * ユーザーエンティティ
@@ -13,6 +14,7 @@ final class User {
      * @param string $password パスワード (ハッシュ済み)
      * @param string|null $profileImagePath プロフィール画像パス
      * @param string $createdAt 作成日時
+     * @param int $postsCount 投稿数
      */
     public function __construct(
         private string $id,
@@ -21,6 +23,7 @@ final class User {
         private string $password,
         private ?string $profileImagePath,
         private string $createdAt,
+        private int $postsCount,
     ) {}
 
     /**
@@ -74,6 +77,16 @@ final class User {
     }
 
     /**
+     * 投稿数を取得する
+     *
+     * @return int 投稿数
+     */
+    public function getPostsCount(): int
+    {
+        return $this->postsCount;
+    }
+
+    /**
      * プロフィール画像パスを取得する
      *
      * @return string|null プロフィール画像パス
@@ -115,12 +128,19 @@ final class User {
     }
 
     /**
-     * プロフィール画像のファイル名を取得する
+     * プロフィール画像のURLを取得する
      *
-     * @return string|null プロフィール画像のファイル名
+     * @return string プロフィール画像のURL
      */
-    public function getProfileImageName(): ?string
+    public function getProfileImageUrl(): ?string
     {
-        return $this->id . '.' . $this->profileImagePath;
+        if ($this->hasUserProfileImage()) {
+            return asset(self::BASE_USER_IMAGE_URL . $this->id . '.' . $this->profileImagePath);
+        }
+        return asset('img/assets/thumbnail.jpg');
+    }
+
+    public function validate(User $user): bool {
+        return $this->id === $user->id;
     }
 }
