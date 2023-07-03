@@ -13,7 +13,6 @@ class NewsCard extends Component
     public readonly News $news;
     public readonly string $newsLink;
     public readonly string $cardSizeStyle;
-    public readonly string $thumbnailImageUrl;
 
     /**
      * カードのコンポーネントインスタンス
