@@ -13,8 +13,9 @@ class NewsDetail extends Component
 {
     public readonly News $news;
     public readonly User $newsUser;
+    public readonly string $newsUserLink;
     public readonly User $user;
-    public readonly bool $isGuest;
+    public readonly bool $isAdmin;
     public readonly string $title;
 
     /**
@@ -22,12 +23,13 @@ class NewsDetail extends Component
      *
      * @param News $news
      */
-    public function __construct(News $news, User $user, bool $isGuest, string $title)
+    public function __construct(News $news, User $user, string $title)
     {
         $this->news = $news;
         $this->newsUser = $news->getUser();
+        $this->newsUserLink = route('user.index', ['userId' => $this->newsUser->getId()]);
         $this->user = $user;
-        $this->isGuest = $isGuest;
+        $this->isAdmin = $user->validate($this->newsUser);
         $this->title = $title;
     }
 

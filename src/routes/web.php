@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NewsController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,3 +21,5 @@ use App\Http\Controllers\NewsController;
  */
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/news/{newsId}', [NewsController::class, 'view'])->name('news.view');
+
+Route::get('/user/{userId}', [UserController::class, 'index'])->name('user.index');

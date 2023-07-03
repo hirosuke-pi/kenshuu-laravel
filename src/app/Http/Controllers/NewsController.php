@@ -39,7 +39,6 @@ class NewsController extends Controller
         return view('components.pages.news', [
             'news' => $news,
             'user' => $userGetByEmailResponse->getUser(),
-            'isGuest' => !$userGetByEmailResponse->hasUser(),
             'paths' => [
                 ['name' => 'ニュース - '. $news->getTitle(), 'link' => '#']
             ]

@@ -11,7 +11,7 @@ use Packages\Domains\Entities\User;
 class Header extends Component
 {
     public readonly ?User $user;
-    public readonly bool $isGuestUser;
+    public readonly bool $isLoginUser;
 
     /**
      * ヘッダーコンポーネント
@@ -21,7 +21,7 @@ class Header extends Component
     public function __construct(?User $user)
     {
         $this->user = $user;
-        $this->isGuestUser = is_null($user);
+        $this->isLoginUser = is_null($user);
     }
 
     /**
