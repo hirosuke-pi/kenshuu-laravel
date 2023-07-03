@@ -2,22 +2,22 @@
 
 namespace Packages\Domains\Interfaces\Repositories;
 
-use Packages\Domains\Interfaces\Factories\NewsFactory;
+
 use Packages\Domains\Entities\News;
 
-interface NewsRepository
+interface NewsRepositoryInterface
 {
     /**
      * NewsRepositoryのコンストラクタ
      *
-     * @param UserRepository $userRepository ユーザーリポジトリ
-     * @param TagRepository $newsRepository タグリポジトリ
-     * @param ImageRepository $imageRepository 画像リポジトリ
+     * @param UserRepositoryInterface $userRepository ユーザーリポジトリ
+     * @param TagRepositoryInterface $newsRepository タグリポジトリ
+     * @param ImageRepositoryInterface $imageRepository 画像リポジトリ
      */
     public function __construct(
-        UserRepository $userRepository,
-        TagRepository $newsRepository,
-        ImageRepository $imageRepository
+        UserRepositoryInterface $userRepository,
+        TagRepositoryInterface $newsRepository,
+        ImageRepositoryInterface $imageRepository
     );
 
     /**

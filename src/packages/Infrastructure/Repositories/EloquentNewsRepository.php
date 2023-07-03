@@ -2,30 +2,32 @@
 
 namespace Packages\Infrastructure\Repositories;
 
-use Packages\Domains\Interfaces\Repositories\ImageRepository;
-use Packages\Domains\Interfaces\Repositories\NewsRepository;
+use Packages\Domains\Interfaces\Repositories\ImageRepositoryInterface;
+use Packages\Domains\Interfaces\Repositories\NewsRepositoryInterface;
 use Packages\Domains\Entities\News;
-use Packages\Domains\Interfaces\Factories\NewsFactory;
-use Packages\Domains\Interfaces\Repositories\TagRepository;
-use Packages\Domains\Interfaces\Repositories\UserRepository;
+use Packages\Domains\Interfaces\Factories\NewsFactoryInterface;
+use Packages\Domains\Interfaces\Repositories\TagRepositoryInterface;
+use Packages\Domains\Interfaces\Repositories\UserRepositoryInterface;
 use Packages\Infrastructure\Factories\RepositoryNewsFactory;
 
-final class EloquentNewsRepository implements NewsRepository
+use App\Models\Post as PostModel;
+
+final class EloquentNewsRepository implements NewsRepositoryInterface
 {
     private const PREFIX = 'news';
-    private NewsFactory $newsFactory;
+    private NewsFactoryInterface $newsFactory;
 
     /**
      * NewsRepositoryのコンストラクタ
      *
-     * @param UserRepository $userRepository ユーザーリポジトリ
-     * @param TagRepository $tagRepository タグリポジトリ
-     * @param ImageRepository $imageRepository 画像リポジトリ
+     * @param UserRepositoryInterface $userRepository ユーザーリポジトリ
+     * @param TagRepositoryInterface $tagRepository タグリポジトリ
+     * @param ImageRepositoryInterface $imageRepository 画像リポジトリ
      */
     public function __construct(
-        private readonly UserRepository $userRepository,
-        private readonly TagRepository $tagRepository,
-        private readonly ImageRepository $imageRepository
+        private readonly UserRepositoryInterface $userRepository,
+        private readonly TagRepositoryInterface $tagRepository,
+        private readonly ImageRepositoryInterface $imageRepository
     ) {
         $this->newsFactory = new RepositoryNewsFactory(
             userRepository: $this->userRepository,
@@ -41,7 +43,8 @@ final class EloquentNewsRepository implements NewsRepository
      */
     public function findAll(): array
     {
-        $posts = \App\Models\Post::whereNull('deleted_at')->get();
+
+        $posts = PostModel::whereNull('deleted_at')->get();
         $newsEntities = [];
         foreach($posts as $post) {
             $newsEntities[] = $this->newsFactory->create(
@@ -65,7 +68,7 @@ final class EloquentNewsRepository implements NewsRepository
      */
     public function find(string $id): ?News
     {
-        $post = \App\Models\Post::whereNull('deleted_at')->find($id);
+        $post = PostModel::whereNull('deleted_at')->find($id);
         if (is_null($post)) {
             return null;
         }
@@ -88,7 +91,7 @@ final class EloquentNewsRepository implements NewsRepository
      */
     public function save(News $news): void
     {
-        $post = new \App\Models\Post();
+        $post = new PostModel();
         $post->id = $news->getId();
         $post->user_id = $news->getUser()->getId();
         $post->title = $news->getTitle();

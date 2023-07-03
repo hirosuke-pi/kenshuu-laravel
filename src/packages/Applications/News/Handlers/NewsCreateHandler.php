@@ -4,18 +4,18 @@ namespace Packages\Applications\News\Handlers;
 
 use Packages\Applications\News\Requests\NewsCreateRequest;
 use Packages\Applications\News\Responses\NewsCreateResponse;
-use Packages\Applications\News\UseCases\NewsCreateUseCase;
-use Packages\Domains\Interfaces\Repositories\NewsRepository;
+use Packages\Applications\News\Interfaces\NewsCreateInterface;
+use Packages\Domains\Interfaces\Repositories\NewsRepositoryInterface;
 
-final class NewsCreateHandler implements NewsCreateUseCase
+final class NewsCreateHandler implements NewsCreateInterface
 {
     /**
      * ニュース作成ハンドラのコンストラクタ
      *
-     * @param NewsRepository $repository ニュースリポジトリ
+     * @param NewsRepositoryInterface $repository ニュースリポジトリ
      */
     public function __construct(
-        private readonly NewsRepository $repository
+        private readonly NewsRepositoryInterface $repository
     ) {}
 
     /**

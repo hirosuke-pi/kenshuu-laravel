@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Packages\Applications\News\Requests\NewsGetRequest;
-use Packages\Applications\News\UseCases\NewsGetUseCase;
+use Packages\Applications\News\Interfaces\NewsGetInterface;
 use Packages\Applications\User\Requests\UserGetByEmailRequest;
-use Packages\Applications\User\UseCases\UserGetByEmailUseCase;
+use Packages\Applications\User\Interfaces\UserGetByEmailInterface;
 
 class NewsController extends Controller
 {
@@ -14,21 +14,21 @@ class NewsController extends Controller
      * ニュース詳細画面を表示する
      *
      * @param string $newsId ニュースID
-     * @param UserGetByEmailUseCase $userGetByEmailUseCase メールアドレスからユーザーを取得するユースケース
-     * @param NewsGetUseCase $newsGetUseCase ニュースを取得するユースケース
+     * @param UserGetByEmailInterface $userGetByEmail メールアドレスからユーザーを取得するユースケース
+     * @param NewsGetInterface $newsGet ニュースを取得するユースケース
      * @return void
      */
     public function view(
         string $newsId,
-        UserGetByEmailUseCase $userGetByEmailUseCase,
-        NewsGetUseCase $newsGetUseCase
+        UserGetByEmailInterface $userGetByEmail,
+        NewsGetInterface $newsGet
     ): \Illuminate\Contracts\View\Factory | \Illuminate\Contracts\View\View | \Illuminate\Http\RedirectResponse
     {
         $userGetByEmailRequest = new UserGetByEmailRequest(config('test.user1.email'));
-        $userGetByEmailResponse = $userGetByEmailUseCase->handle($userGetByEmailRequest);
+        $userGetByEmailResponse = $userGetByEmail->handle($userGetByEmailRequest);
 
         $newsGetRequest = new NewsGetRequest($newsId);
-        $newsGetResponse = $newsGetUseCase->handle($newsGetRequest);
+        $newsGetResponse = $newsGet->handle($newsGetRequest);
 
         if (!$newsGetResponse->hasNews()) {
             session()->flash(config('define.session.status'), ['type' => 'error', 'message' => 'ニュースが見つかりませんでした。']);

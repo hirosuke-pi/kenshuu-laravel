@@ -5,8 +5,8 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 
 use Packages\Applications\User\Handlers\UserGetByEmailHandler;
-use Packages\Applications\User\UseCases\UserGetByIdUseCase;
-use Packages\Applications\User\UseCases\UserGetByEmailUseCase;
+use Packages\Applications\User\Interfaces\UserGetByIdInterface;
+use Packages\Applications\User\Interfaces\UserGetByEmailInterface;
 
 use Packages\Infrastructure\Repositories\EloquentUserRepository;
 
@@ -20,11 +20,15 @@ class UserUseCaseProvider extends ServiceProvider
         $eloquentUserRepository = new EloquentUserRepository();
 
         $this->app->bind(
-            UserGetByEmailUseCase::class,
+            UserGetByEmailInterface::class,
             fn () => new UserGetByEmailHandler($eloquentUserRepository)
         );
         $this->app->bind(
-            UserGetByIdUseCase::class,
+            UserGetByIdInterface::class,
+            fn () => new UserGetByEmailHandler($eloquentUserRepository)
+        );
+        $this->app->bind(
+            UserGetByIdInterface::class,
             fn () => new UserGetByEmailHandler($eloquentUserRepository)
         );
     }

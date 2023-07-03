@@ -5,7 +5,7 @@ namespace Packages\Applications\News\Requests;
 use DateTime;
 use Packages\Domains\Entities\News;
 use Packages\Domains\Entities\User;
-use Packages\Domains\Interfaces\Repositories\NewsRepository;
+use Packages\Domains\Interfaces\Repositories\NewsRepositoryInterface;
 
 final class NewsCreateRequest
 {
@@ -29,10 +29,10 @@ final class NewsCreateRequest
     /**
      * ニュースEntityを生成する
      *
-     * @param NewsRepository $repository ニュースリポジトリ
+     * @param NewsRepositoryInterface $repository ニュースリポジトリ
      * @return News ニュースEntity
      */
-    public function generateNews(NewsRepository $repository): News
+    public function generateNews(NewsRepositoryInterface $repository): News
     {
         return new News(
             id: $repository->generateId(),

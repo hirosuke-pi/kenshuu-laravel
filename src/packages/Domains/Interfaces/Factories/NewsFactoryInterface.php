@@ -2,20 +2,20 @@
 
 namespace Packages\Domains\Interfaces\Factories;
 
-use Packages\Domains\Interfaces\Repositories\UserRepository;
-use Packages\Domains\Interfaces\Repositories\TagRepository;
-use Packages\Domains\Interfaces\Repositories\ImageRepository;
+use Packages\Domains\Interfaces\Repositories\UserRepositoryInterface;
+use Packages\Domains\Interfaces\Repositories\TagRepositoryInterface;
+use Packages\Domains\Interfaces\Repositories\ImageRepositoryInterface;
 use Packages\Domains\Entities\News;
 
-interface NewsFactory {
+interface NewsFactoryInterface {
     /**
      * NewsFactoryのコンストラクタ
      *
-     * @param UserRepository $userRepository ユーザーリポジトリ
-     * @param TagRepository $newsRepository タグリポジトリ
-     * @param ImageRepository $imageRepository 画像リポジトリ
+     * @param UserRepositoryInterface $userRepository ユーザーリポジトリ
+     * @param TagRepositoryInterface $newsRepository タグリポジトリ
+     * @param ImageRepositoryInterface $imageRepository 画像リポジトリ
      */
-    public function __construct(UserRepository $userRepository, TagRepository $newsRepository, ImageRepository $imageRepository);
+    public function __construct(UserRepositoryInterface $userRepository, TagRepositoryInterface $newsRepository, ImageRepositoryInterface $imageRepository);
 
     /**
      * ニュースを生成する

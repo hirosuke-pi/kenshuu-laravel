@@ -1,19 +1,19 @@
 <?php
 
-namespace Packages\Applications\News\UseCases;
+namespace Packages\Applications\News\Interfaces;
 
 use Packages\Applications\News\Requests\NewsCreateRequest;
 use Packages\Applications\News\Responses\NewsCreateResponse;
-use Packages\Domains\Interfaces\Repositories\NewsRepository;
+use Packages\Domains\Interfaces\Repositories\NewsRepositoryInterface;
 
-interface NewsCreateUseCase
+interface NewsCreateInterface
 {
     /**
      * ニュース作成ユースケースのコンストラクタ
      *
-     * @param NewsRepository $repository ニュースリポジトリ
+     * @param NewsRepositoryInterface $repository ニュースリポジトリ
      */
-    public function __construct(NewsRepository $repository);
+    public function __construct(NewsRepositoryInterface $repository);
 
     /**
      * ニュースを作成するハンドラ

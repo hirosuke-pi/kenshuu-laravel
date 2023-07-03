@@ -4,7 +4,7 @@ namespace Packages\Domains\Interfaces\Repositories;
 
 use Packages\Domains\Entities\Tag;
 
-interface TagRepository
+interface TagRepositoryInterface
 {
     /**
      * タグIDからタグEntityを取得する
