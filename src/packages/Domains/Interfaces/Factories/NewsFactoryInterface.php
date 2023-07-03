@@ -6,6 +6,7 @@ use Packages\Domains\Interfaces\Repositories\UserRepositoryInterface;
 use Packages\Domains\Interfaces\Repositories\TagRepositoryInterface;
 use Packages\Domains\Interfaces\Repositories\ImageRepositoryInterface;
 use Packages\Domains\Entities\News;
+use Packages\Domains\Entities\User;
 
 interface NewsFactoryInterface {
     /**
@@ -26,7 +27,8 @@ interface NewsFactoryInterface {
      * @param string $body 本文
      * @param string $createdAt 作成日時
      * @param string $updatedAt 更新日時
+     * @param User|null $user ユーザーエンティティ
      * @return News ニュースEntity
      */
-    public function create(string $id, string $userId, string $title, string $body, string $createdAt, string $updatedAt): News;
+    public function create(string $id, string $userId, string $title, string $body, string $createdAt, string $updatedAt, ?User $user = null): News;
 }

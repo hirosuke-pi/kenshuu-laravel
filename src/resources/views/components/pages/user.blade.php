@@ -1,5 +1,5 @@
 <x-common.base>
     <section class="flex justify-center flex-wrap items-start">
-        {{ $user->getId() }}
+        {{ dd($user, $newsList) }}
     </section>
 </x-common.base>

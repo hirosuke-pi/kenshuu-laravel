@@ -4,6 +4,7 @@ namespace Packages\Domains\Interfaces\Repositories;
 
 
 use Packages\Domains\Entities\News;
+use Packages\Domains\Entities\User;
 
 interface NewsRepositoryInterface
 {
@@ -34,6 +35,14 @@ interface NewsRepositoryInterface
      * @return News|null ニュースEntity
      */
     public function find(string $id): ?News;
+
+    /**
+     * ユーザーIDに紐づくニュースを取得する
+     *
+     * @param User $user ユーザーエンティティ
+     * @return array ニュースEntityの配列
+     */
+    public function findByUser(User $user): array;
 
     /**
      * ニュースを保存する

@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
+use Packages\Applications\News\Handlers\NewsGetByUserHandler;
 use Packages\Infrastructure\Repositories\EloquentImageRepository;
 use Packages\Infrastructure\Repositories\EloquentNewsRepository;
 use Packages\Infrastructure\Repositories\EloquentTagRepository;
@@ -15,6 +16,7 @@ use Packages\Applications\News\Handlers\NewsCreateHandler;
 use Packages\Applications\News\Interfaces\NewsGetInterface;
 use Packages\Applications\News\Interfaces\NewsGetAllInterface;
 use Packages\Applications\News\Interfaces\NewsCreateInterface;
+use Packages\Applications\News\Interfaces\NewsGetByUserInterface;
 
 class NewsUseCaseProvider extends ServiceProvider
 {
@@ -40,6 +42,10 @@ class NewsUseCaseProvider extends ServiceProvider
         $this->app->bind(
             NewsCreateInterface::class,
             fn () => new NewsCreateHandler($eloquentNewsRepository)
+        );
+        $this->app->bind(
+            NewsGetByUserInterface::class,
+            fn () => new NewsGetByUserHandler($eloquentNewsRepository)
         );
     }
 
