@@ -10,7 +10,7 @@ use Packages\Domains\Entities\User;
 
 class UserHeader extends Component
 {
-    public readonly User $user;
+    public readonly User $loginUser;
     public readonly string $userLink;
 
     /**
@@ -18,10 +18,10 @@ class UserHeader extends Component
      *
      * @param User $user
      */
-    public function __construct(User $user)
+    public function __construct(User $loginUser)
     {
-        $this->user = $user;
-        $this->userLink = route('user.index', ['userId' => $user->getId()]);
+        $this->loginUser = $loginUser;
+        $this->userLink = route('user.index', ['userId' => $loginUser->getId()]);
     }
 
     /**

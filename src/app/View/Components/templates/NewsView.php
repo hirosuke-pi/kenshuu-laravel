@@ -14,7 +14,6 @@ class NewsView extends Component
     public readonly array $paths;
     public readonly User $newsUser;
     public readonly bool $isAdmin;
-    public readonly User $user;
 
     /**
      * ニュース概要画面を表示するコンポーネント
@@ -22,13 +21,12 @@ class NewsView extends Component
      * @param array $paths [['link' => 'https://example.com', 'name' => 'ホーム'], ...]
      * @return void
      */
-    public function __construct(News $news, User $user, array $paths)
+    public function __construct(News $news, bool $isAdmin, array $paths)
     {
         $this->news = $news;
         $this->paths = $paths;
         $this->newsUser = $news->getUser();
-        $this->isAdmin = $user->validate($this->newsUser);
-        $this->user = $user;
+        $this->isAdmin = $isAdmin;
     }
 
     /**

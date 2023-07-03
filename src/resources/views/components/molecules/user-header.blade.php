@@ -4,7 +4,7 @@
     </button>
 </form>
 <a href="{{ $userLink }}" class="flex items-center py-2 px-4 hover:bg-gray-200 rounded-lg border border-gray-300 mt-3">
-    <img class="w-7 h-7 rounded-full object-cover mr-1" src="{{ $user->getProfileImageUrl() }}" alt="user image">
-    <p class="text-xl font-bold">{{ $user->getNameTag() }}</p>
+    <img class="w-7 h-7 rounded-full object-cover mr-1" src="{{ $loginUser->getProfileImageUrl() }}" alt="user image">
+    <p class="text-xl font-bold">{{ $loginUser->getNameTag() }}</p>
 </a>
 

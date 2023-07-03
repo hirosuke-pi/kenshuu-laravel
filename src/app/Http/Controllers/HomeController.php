@@ -31,7 +31,7 @@ class HomeController extends Controller
 
         return view('components.pages.home', [
             'newsList' => $newsGetAllResponse->getNewsAll(),
-            'user' => $userGetByEmailResponse->getUser()
+            'loginUser' => $userGetByEmailResponse->getUser()
         ]);
     }
 }

@@ -26,6 +26,7 @@ class NewsController extends Controller
     {
         $userGetByEmailRequest = new UserGetByEmailRequest(config('test.user1.email'));
         $userGetByEmailResponse = $userGetByEmail->handle($userGetByEmailRequest);
+        $loginUser = $userGetByEmailResponse->getUser();
 
         $newsGetRequest = new NewsGetRequest($newsId);
         $newsGetResponse = $newsGet->handle($newsGetRequest);
@@ -36,9 +37,11 @@ class NewsController extends Controller
         }
 
         $news = $newsGetResponse->getNews();
+
         return view('components.pages.news', [
             'news' => $news,
-            'user' => $userGetByEmailResponse->getUser(),
+            'loginUser' => $loginUser,
+            'isAdmin' => $userGetByEmailResponse->hasUser() ? $loginUser->validate($news->getUser()) : false,
             'paths' => [
                 ['name' => 'ニュース - '. $news->getTitle(), 'link' => '#']
             ]

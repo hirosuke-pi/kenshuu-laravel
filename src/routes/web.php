@@ -19,7 +19,10 @@ use App\Http\Controllers\UserController;
 /**
  * ホームページ
  */
-Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('/news/{newsId}', [NewsController::class, 'view'])->name('news.view');
 
-Route::get('/user/{userId}', [UserController::class, 'index'])->name('user.index');
+Route::group([], function() {
+    Route::get('/', [HomeController::class, 'index'])->name('home');
+    Route::get('/news/{newsId}', [NewsController::class, 'view'])->name('news.view');
+
+    Route::get('/user/{userId}', [UserController::class, 'index'])->name('user.index');
+});

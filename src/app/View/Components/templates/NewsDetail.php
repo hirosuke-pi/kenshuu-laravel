@@ -14,7 +14,6 @@ class NewsDetail extends Component
     public readonly News $news;
     public readonly User $newsUser;
     public readonly string $newsUserLink;
-    public readonly User $user;
     public readonly bool $isAdmin;
     public readonly string $title;
 
@@ -23,13 +22,12 @@ class NewsDetail extends Component
      *
      * @param News $news
      */
-    public function __construct(News $news, User $user, string $title)
+    public function __construct(News $news, bool $isAdmin, string $title)
     {
         $this->news = $news;
         $this->newsUser = $news->getUser();
         $this->newsUserLink = route('user.index', ['userId' => $this->newsUser->getId()]);
-        $this->user = $user;
-        $this->isAdmin = $user->validate($this->newsUser);
+        $this->isAdmin = $isAdmin;
         $this->title = $title;
     }
 

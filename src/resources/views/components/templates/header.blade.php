@@ -7,7 +7,7 @@
         </a>
         <div class="flex items-center text-gray-700 flex-wrap">
             @if ($isLoginUser)
-                <x-molecules.user-header :user="$user" />
+                <x-molecules.user-header :loginUser="$loginUser" />
             @else
                 <x-molecules.guest-header />
             @endif

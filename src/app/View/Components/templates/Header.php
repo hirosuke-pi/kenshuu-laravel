@@ -10,7 +10,7 @@ use Packages\Domains\Entities\User;
 
 class Header extends Component
 {
-    public readonly ?User $user;
+    public readonly ?User $loginUser;
     public readonly bool $isLoginUser;
 
     /**
@@ -18,10 +18,10 @@ class Header extends Component
      *
      * @param User|null $user ユーザーEntity
      */
-    public function __construct(?User $user)
+    public function __construct(?User $loginUser)
     {
-        $this->user = $user;
-        $this->isLoginUser = is_null($user);
+        $this->loginUser = $loginUser;
+        $this->isLoginUser = !is_null($loginUser);
     }
 
     /**
