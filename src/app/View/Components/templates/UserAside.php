@@ -7,7 +7,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 use Packages\Domains\Entities\User;
 
-class UserDetail extends Component
+class UserAside extends Component
 {
     public readonly User $user;
     public readonly bool $isAdmin;
@@ -29,6 +29,6 @@ class UserDetail extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.templates.user-detail');
+        return view('components.templates.user-aside');
     }
 }

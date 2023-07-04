@@ -5,30 +5,32 @@ namespace App\View\Components\templates;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
+
 use Packages\Domains\Entities\News;
 use Packages\Domains\Entities\User;
 
-class NewsView extends Component
+class NewsAside extends Component
 {
     public readonly News $news;
-    public readonly array $paths;
     public readonly User $newsUser;
+    public readonly string $newsUserLink;
     public readonly bool $isAdmin;
+    public readonly string $title;
 
     /**
-     * ニュース概要画面を表示するコンポーネント
+     * ニュース詳細画面を表示するコンポーネント
      *
      * @param News $news ニュースEntity
      * @param boolean $isAdmin 管理者かどうか
-     * @param array $paths [['link' => 'https://example.com', 'name' => 'ホーム'], ...]
-     * @return void
+     * @param string $title タイトル
      */
-    public function __construct(News $news, bool $isAdmin, array $paths)
+    public function __construct(News $news, bool $isAdmin, string $title)
     {
         $this->news = $news;
-        $this->paths = $paths;
         $this->newsUser = $news->getUser();
+        $this->newsUserLink = route('user.index', ['userId' => $this->newsUser->getId()]);
         $this->isAdmin = $isAdmin;
+        $this->title = $title;
     }
 
     /**
@@ -36,6 +38,6 @@ class NewsView extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.templates.news-view');
+        return view('components.templates.news-aside');
     }
 }

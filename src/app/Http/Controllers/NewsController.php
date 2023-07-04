@@ -45,4 +45,32 @@ class NewsController extends Controller
             ]
         ]);
     }
+
+    public function edit(
+        string $newsId,
+        Request $request,
+        NewsGetInterface $newsGet
+    ): \Illuminate\Contracts\View\Factory | \Illuminate\Contracts\View\View | \Illuminate\Http\RedirectResponse
+    {
+        $loginUser = $request->input(config('session.user'))['entity'];
+
+        $newsGetRequest = new NewsGetRequest($newsId);
+        $newsGetResponse = $newsGet->handle($newsGetRequest);
+
+        if (!$newsGetResponse->hasNews()) {
+            session()->flash(config('define.session.status'), ['type' => 'error', 'message' => 'ニュースが見つかりませんでした。']);
+            return redirect()->route('home');
+        }
+
+        $news = $newsGetResponse->getNews();
+
+        return view('components.pages.news_edit', [
+            'news' => $news,
+            'loginUser' => $loginUser,
+            'isAdmin' => is_null($loginUser) ? false : $loginUser->validate($news->getUser()),
+            'paths' => [
+                ['name' => 'ニュース - '. $news->getTitle(), 'link' => '#']
+            ]
+        ]);
+    }
 }
