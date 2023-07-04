@@ -24,7 +24,7 @@ class NewsController extends Controller
         NewsGetInterface $newsGet
     ): \Illuminate\Contracts\View\Factory | \Illuminate\Contracts\View\View | \Illuminate\Http\RedirectResponse
     {
-        $loginUser = $request->input('loginUser')['entity'];
+        $loginUser = $request->input(config('session.user'))['entity'];
 
         $newsGetRequest = new NewsGetRequest($newsId);
         $newsGetResponse = $newsGet->handle($newsGetRequest);

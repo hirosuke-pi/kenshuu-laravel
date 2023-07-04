@@ -20,13 +20,13 @@ class LoginUserMiddleware
     {
         $eloquentUserRepository = new EloquentUserRepository();
         $userGetByEmail = new UserGetByIdHandler($eloquentUserRepository);
-        $userId = session(config('session.user', ''), '')[0] ?? '';
+        $userId = session(config('session.user'), '')[0] ?? '';
         $userGetByEmailRequest = new UserGetByIdRequest($userId);
 
         $userGetByEmailResponse = $userGetByEmail->handle($userGetByEmailRequest);
 
         $loginUser = $userGetByEmailResponse->getUser();
-        $request->merge(['loginUser' => ['entity' => $loginUser]]);
+        $request->merge([config('session.user') => ['entity' => $loginUser]]);
 
         return $next($request);
     }
