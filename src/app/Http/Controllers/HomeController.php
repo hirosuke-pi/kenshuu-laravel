@@ -19,19 +19,18 @@ class HomeController extends Controller
      * @return void
      */
     public static function index(
-        UserGetByEmailInterface $userGetByEmail,
+        Request $request,
         NewsGetAllInterface $newsGetAll
     ): \Illuminate\Contracts\View\Factory | \Illuminate\Contracts\View\View
     {
-        $userGetByEmailRequest = new UserGetByEmailRequest(config('test.user1.email'));
-        $userGetByEmailResponse = $userGetByEmail->handle($userGetByEmailRequest);
+        $loginUser = $request->input('loginUser')['entity'];
 
         $newsGetAllRequest = new NewsGetAllRequest();
         $newsGetAllResponse = $newsGetAll->handle($newsGetAllRequest);
 
         return view('components.pages.home', [
             'newsList' => $newsGetAllResponse->getNewsAll(),
-            'loginUser' => $userGetByEmailResponse->getUser()
+            'loginUser' => $loginUser
         ]);
     }
 }

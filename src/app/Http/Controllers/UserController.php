@@ -23,14 +23,12 @@ class UserController extends Controller
      */
     public function index(
         string $userId,
-        UserGetByEmailInterface $userGetByEmail,
+        Request $request,
         UserGetByIdInterface $userGetById,
         NewsGetByUserInterface $newsGetByUser
     ): \Illuminate\Contracts\View\Factory | \Illuminate\Contracts\View\View | \Illuminate\Http\RedirectResponse
     {
-        $userGetByEmailRequest = new UserGetByEmailRequest(config('test.user1.email'));
-        $userGetByEmailResponse = $userGetByEmail->handle($userGetByEmailRequest);
-        $loginUser = $userGetByEmailResponse->getUser();
+        $loginUser = $request->input('loginUser')['entity'];
 
         $userRequest = new UserGetByIdRequest($userId);
         $userResponse = $userGetById->handle($userRequest);
@@ -47,8 +45,24 @@ class UserController extends Controller
         return view('components.pages.user', [
             'user' => $user,
             'loginUser' => $loginUser,
-            'isAdmin' => $userGetByEmailResponse->hasUser() ? $loginUser->validate($user) : false,
+            'isAdmin' => is_null($loginUser) ? false : $loginUser->validate($user),
             'newsList' => $newsResponse->getNewsAll(),
         ]);
+    }
+
+    public function login(UserGetByEmailInterface $userGetByEmail) {
+        $userGetByEmailRequest = new UserGetByEmailRequest(config('test.user1.email'));
+        $userGetByEmailResponse = $userGetByEmail->handle($userGetByEmailRequest);
+        $loginUser = $userGetByEmailResponse->getUser();
+
+        session()->push(config('session.user'), $loginUser->getId());
+
+        return redirect()->route('home');
+    }
+
+    public function logout() {
+        session()->forget(config('session.user'));
+
+        return redirect()->route('home');
     }
 }

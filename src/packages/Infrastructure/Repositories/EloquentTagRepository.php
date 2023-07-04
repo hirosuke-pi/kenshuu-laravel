@@ -35,7 +35,7 @@ final class EloquentTagRepository implements TagRepositoryInterface
      */
     public function findByIds(array $ids): array
     {
-        $tags = \App\Models\Tag::whereIn('id', $ids)->get();
+        $tags = TagModel::whereIn('id', $ids)->get();
 
         $tagEntities = [];
         foreach($tags as $tag) {
@@ -94,7 +94,7 @@ final class EloquentTagRepository implements TagRepositoryInterface
      */
     public function saveWithPostId(Tag $tag, string $postId): void
     {
-        $postsTag = new \App\Models\PostsTag();
+        $postsTag = new PostsTagModel();
         $postsTag->post_id = $postId;
         $postsTag->tag_id = $tag->getId();
         $postsTag->save();

@@ -18,7 +18,7 @@ final class EloquentUserRepository implements UserRepositoryInterface
      */
     public function find(string $id): ?User
     {
-        $user = UserModel::find($id)->whereNull('deleted_at')->first();
+        $user = UserModel::whereNull('deleted_at')->find($id);
         if (is_null($user)) {
             return null;
         }

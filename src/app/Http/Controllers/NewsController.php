@@ -20,13 +20,11 @@ class NewsController extends Controller
      */
     public function view(
         string $newsId,
-        UserGetByEmailInterface $userGetByEmail,
+        Request $request,
         NewsGetInterface $newsGet
     ): \Illuminate\Contracts\View\Factory | \Illuminate\Contracts\View\View | \Illuminate\Http\RedirectResponse
     {
-        $userGetByEmailRequest = new UserGetByEmailRequest(config('test.user1.email'));
-        $userGetByEmailResponse = $userGetByEmail->handle($userGetByEmailRequest);
-        $loginUser = $userGetByEmailResponse->getUser();
+        $loginUser = $request->input('loginUser')['entity'];
 
         $newsGetRequest = new NewsGetRequest($newsId);
         $newsGetResponse = $newsGet->handle($newsGetRequest);
@@ -41,7 +39,7 @@ class NewsController extends Controller
         return view('components.pages.news', [
             'news' => $news,
             'loginUser' => $loginUser,
-            'isAdmin' => $userGetByEmailResponse->hasUser() ? $loginUser->validate($news->getUser()) : false,
+            'isAdmin' => is_null($loginUser) ? false : $loginUser->validate($news->getUser()),
             'paths' => [
                 ['name' => 'ニュース - '. $news->getTitle(), 'link' => '#']
             ]
