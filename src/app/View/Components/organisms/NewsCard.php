@@ -18,6 +18,7 @@ class NewsCard extends Component
      * カードのコンポーネントインスタンス
      *
      * @param News $news ニュースEntity
+     * @param bool $isWide カードの幅を広くするかどうか
      */
     public function __construct(News $news, bool $isWide = false)
     {

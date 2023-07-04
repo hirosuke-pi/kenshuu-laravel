@@ -11,8 +11,12 @@ class UserPosts extends Component
 {
     public readonly array $newsList;
     public readonly array $paths;
+
     /**
-     * Create a new component instance.
+     * ユーザーの投稿一覧を表示するコンポーネント
+     *
+     * @param User $user ユーザーEntity
+     * @param array $newsList ニュースリスト
      */
     public function __construct(User $user, array $newsList)
     {

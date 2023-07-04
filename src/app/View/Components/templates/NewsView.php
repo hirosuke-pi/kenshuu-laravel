@@ -18,6 +18,8 @@ class NewsView extends Component
     /**
      * ニュース概要画面を表示するコンポーネント
      *
+     * @param News $news ニュースEntity
+     * @param boolean $isAdmin 管理者かどうか
      * @param array $paths [['link' => 'https://example.com', 'name' => 'ホーム'], ...]
      * @return void
      */

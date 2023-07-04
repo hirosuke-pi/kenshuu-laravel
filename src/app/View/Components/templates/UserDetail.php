@@ -5,15 +5,23 @@ namespace App\View\Components\templates;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
+use Packages\Domains\Entities\User;
 
 class UserDetail extends Component
 {
+    public readonly User $user;
+    public readonly bool $isAdmin;
+
     /**
-     * Create a new component instance.
+     * ユーザー詳細画面を表示する全体コンポーネント
+     *
+     * @param User $user ユーザーEntity
+     * @param boolean $isAdmin 管理者かどうか
      */
-    public function __construct()
+    public function __construct(User $user, bool $isAdmin)
     {
-        //
+        $this->user = $user;
+        $this->isAdmin = $isAdmin;
     }
 
     /**

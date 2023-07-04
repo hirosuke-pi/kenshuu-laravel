@@ -20,7 +20,9 @@ class NewsDetail extends Component
     /**
      * ニュース詳細画面を表示するコンポーネント
      *
-     * @param News $news
+     * @param News $news ニュースEntity
+     * @param boolean $isAdmin 管理者かどうか
+     * @param string $title タイトル
      */
     public function __construct(News $news, bool $isAdmin, string $title)
     {

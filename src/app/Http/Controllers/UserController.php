@@ -12,6 +12,15 @@ use Packages\Applications\User\Requests\UserGetByIdRequest;
 
 class UserController extends Controller
 {
+    /**
+     * ユーザー画面を表示する
+     *
+     * @param string $userId
+     * @param UserGetByEmailInterface $userGetByEmail メールアドレスからユーザーを取得するユースケース
+     * @param UserGetByIdInterface $userGetById ユーザーIDからユーザーを取得するユースケース
+     * @param NewsGetByUserInterface $newsGetByUser ユーザーからニュースを取得するユースケース
+     * @return void
+     */
     public function index(
         string $userId,
         UserGetByEmailInterface $userGetByEmail,

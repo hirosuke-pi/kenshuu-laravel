@@ -16,7 +16,7 @@ class UserHeader extends Component
     /**
      * ユーザーヘッダーコンポーネント
      *
-     * @param User $user
+     * @param User $user ユーザーEntity
      */
     public function __construct(User $loginUser)
     {
