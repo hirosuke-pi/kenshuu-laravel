@@ -40,12 +40,21 @@ class NewsController extends Controller
             'news' => $news,
             'loginUser' => $loginUser,
             'isAdmin' => is_null($loginUser) ? false : $loginUser->validate($news->getUser()),
+            'isEditorMode' => false,
             'paths' => [
                 ['name' => 'ニュース - '. $news->getTitle(), 'link' => '#']
             ]
         ]);
     }
 
+    /**
+     * ニュースを編集する
+     *
+     * @param string $newsId ニュースID
+     * @param UserGetByEmailInterface $userGetByEmail メールアドレスからユーザーを取得するユースケース
+     * @param NewsGetInterface $newsGet ニュースを取得するユースケース
+     * @return void
+     */
     public function edit(
         string $newsId,
         Request $request,
@@ -64,12 +73,14 @@ class NewsController extends Controller
 
         $news = $newsGetResponse->getNews();
 
-        return view('components.pages.news_edit', [
+        return view('components.pages.news', [
             'news' => $news,
             'loginUser' => $loginUser,
             'isAdmin' => is_null($loginUser) ? false : $loginUser->validate($news->getUser()),
+            'isEditorMode' => true,
             'paths' => [
-                ['name' => 'ニュース - '. $news->getTitle(), 'link' => '#']
+                ['name' => 'ニュース - '. $news->getTitle(), 'link' => route('news.view', ['newsId' => $news->getId()])],
+                ['name' => 'ニュースを編集', 'link' => '#']
             ]
         ]);
     }
