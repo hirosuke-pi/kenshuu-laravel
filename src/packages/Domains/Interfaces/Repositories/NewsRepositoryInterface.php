@@ -10,7 +10,7 @@ interface NewsRepositoryInterface
     /**
      * NewsRepositoryのコンストラクタ
      *
-     * @param NewsFactory $newsFactory ニュースファクトリ
+     * @param NewsFactoryInterface $newsFactory ニュースファクトリ
      */
     public function __construct(NewsFactoryInterface $newsFactory);
 
