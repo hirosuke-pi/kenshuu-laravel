@@ -6,10 +6,11 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 use Packages\Domains\Entities\Image;
+use Packages\Domains\Entities\News;
 
 class InputImage extends Component
 {
-    public readonly Image $image;
+    public readonly string $imageUrl;
     public readonly string $imageId;
     public readonly string $buttonId;
     public readonly string $inputId;
@@ -17,12 +18,21 @@ class InputImage extends Component
     /**
      * Create a new component instance.
      */
-    public function __construct(Image $image)
+    public function __construct(?Image $image, string $defaultPrefix = '')
     {
-        $this->image = $image;
-        $this->imageId = $image->getId();
-        $this->buttonId = 'button-' . $image->getId();
-        $this->inputId = 'input-' . $image->getId();
+        if ($image === null) {
+            $this->imageUrl = News::getDefaultImageUrl();
+            $this->imageId = $defaultPrefix;
+            $this->buttonId = 'button-' . $defaultPrefix;
+            $this->inputId = 'input-' . $defaultPrefix;
+            return;
+        }
+        else {
+            $this->imageUrl = $image->getUrl();
+            $this->imageId = $image->getId();
+            $this->buttonId = 'button-' . $image->getId();
+            $this->inputId = 'input-' . $image->getId();
+        }
     }
 
     /**

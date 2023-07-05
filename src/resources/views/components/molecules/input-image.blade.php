@@ -1,5 +1,5 @@
 <div class="w-full relative">
-    <img id="{{ $imageId }}" class="w-full" src="{{ $image->getUrl() }}" alt="news image">
+    <img id="{{ $imageId }}" class="w-full" src="{{ $imageUrl }}" alt="news image">
     <input id="{{ $inputId }}" class="hidden image-input" type="file" name="{{ $inputId }}" accept="image/*">
     <div class="absolute top-0 right-0">
         <button id="{{ $buttonId }}" type="button" class="m-2 px-3 py-2 text-xl border border-gray-400 bg-gray-100 rounded-full opacity-80 hover:opacity-100" >

@@ -1,14 +1,16 @@
 <div class="w-full lg:w-3/6 ">
     <x-organisms.breadcrumb-section :paths="$paths" />
     @if ($isAdmin && !$isEditorMode)
-        <x-molecules.news-action />
+        <x-molecules.news-action :news="$news" />
     @endif
-    <main class="rounded-lg border border-gray-300 m-3 overflow-hidden">
-        <img class="w-full" src="{{ $news->getThumbnailImageUrl() }}" alt="news image">
-        @if ($isEditorMode)
+    @if ($isEditorMode)
+        <main>
             <x-organisms.news-editor :news="$news" />
-        @else
+        </main>
+    @else
+        <main class="rounded-lg border border-gray-300 m-3 overflow-hidden">
             <x-organisms.news-viewer :news="$news" />
-        @endif
+        </main>
+    @endif
     </main>
 </div>

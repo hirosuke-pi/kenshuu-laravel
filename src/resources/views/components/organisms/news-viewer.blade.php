@@ -1,3 +1,4 @@
+<img class="w-full" src="{{ $news->getThumbnailImageUrl() }}" alt="news image">
 <article class="p-5">
     <h2 class="text-4xl text-gray-800 font-bold mt-2 mb-2">
         {{ $news->getTitle() }}

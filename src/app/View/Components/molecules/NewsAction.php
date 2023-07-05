@@ -5,15 +5,18 @@ namespace App\View\Components\molecules;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
+use Packages\Domains\Entities\News;
 
 class NewsAction extends Component
 {
+    public readonly string $newsEditUrl;
+
     /**
      * Create a new component instance.
      */
-    public function __construct()
+    public function __construct(News $news)
     {
-        //
+        $this->newsEditUrl = route('news.edit', ['newsId' => $news->getId()]);
     }
 
     /**

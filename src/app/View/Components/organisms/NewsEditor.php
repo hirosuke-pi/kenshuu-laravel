@@ -5,18 +5,36 @@ namespace App\View\Components\organisms;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
+use Packages\Domains\Entities\Image;
 use Packages\Domains\Entities\News;
 
 class NewsEditor extends Component
 {
-    public readonly News $news;
+    public readonly ?News $news;
+    public readonly ?Image $thumbnailImage;
+    public readonly string $title;
+    public readonly string $body;
+    public readonly bool $isNewNews;
 
     /**
      * Create a new component instance.
      */
-    public function __construct(News $news)
+    public function __construct(?News $news = null)
     {
-        $this->news = $news;
+        if (is_null($news)) {
+            $this->news = null;
+            $this->thumbnailImage = null;
+            $this->title = '';
+            $this->body = '';
+            $this->isNewNews = true;
+        }
+        else {
+            $this->news = $news;
+            $this->thumbnailImage = $news->getThumbnailImage();
+            $this->title = $news->getTitle();
+            $this->body = $news->getBody();
+            $this->isNewNews = false;
+        }
     }
 
     /**
