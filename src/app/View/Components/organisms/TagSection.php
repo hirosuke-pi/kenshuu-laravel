@@ -5,10 +5,13 @@ namespace App\View\Components\organisms;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
+use Packages\Applications\Tag\Handlers\TagGetAllHandler;
+use Packages\Infrastructure\Repositories\EloquentTagRepository;
 
 class TagSection extends Component
 {
-    public readonly array $tags;
+    public readonly ?array $tags;
+    public readonly ?array $checkboxTags;
     public readonly bool $isCheckbox;
 
     /**
@@ -16,7 +19,24 @@ class TagSection extends Component
      */
     public function __construct(array $tags, bool $isCheckbox = false)
     {
-        $this->tags = $tags;
+        if ($isCheckbox) {
+            $handler = new TagGetAllHandler(new EloquentTagRepository());
+            $tagAll = $handler->handle()->getTagEntities();
+
+            $checkboxTags = [];
+            foreach($tagAll as $tag) {
+                $checkboxTags[] = [
+                    'checked' => !empty(array_filter($tags, fn($t) => $t->getId() === $tag->getId())),
+                    'tag' => $tag
+                ];
+            }
+            $this->checkboxTags = $checkboxTags;
+            $this->tags = [];
+        }
+        else {
+            $this->tags = $tags;
+            $this->checkboxTags = [];
+        }
         $this->isCheckbox = $isCheckbox;
     }
 

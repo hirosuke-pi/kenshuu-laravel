@@ -11,13 +11,15 @@ use Packages\Domains\Entities\Tag;
 class CategoryCheckbox extends Component
 {
     public readonly Tag $tag;
+    public readonly string $checked;
 
     /**
      * Create a new component instance.
      */
-    public function __construct(Tag $tag)
+    public function __construct(Tag $tag, bool $checked = false)
     {
         $this->tag = $tag;
+        $this->checked = $checked ? 'checked' : '';
     }
 
     /**

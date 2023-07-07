@@ -2,17 +2,16 @@
 
 namespace Packages\Applications\Tag\Handlers;
 
-use Packages\Applications\Tag\Requests\TagGetByIdsRequest;
 use Packages\Applications\Tag\Responses\TagGetArrayResponse;
-use Packages\Applications\Tag\Interfaces\TagGetByIdsInterface;
+use Packages\Applications\Tag\Interfaces\TagGetAllInterface;
 use Packages\Domains\Interfaces\Repositories\TagRepositoryInterface;
 
-final class TagGetByIdsHandler implements TagGetByIdsInterface
+final class TagGetAllHandler implements TagGetAllInterface
 {
     private TagRepositoryInterface $tagRepository;
 
     /**
-     * タグIDリストからタグリストを取得するハンドラのコンストラクタ
+     * タグを全て取得するハンドラのコンストラクタ
      *
      * @param TagRepositoryInterface $tagRepository タグリポジトリ
      */
@@ -21,13 +20,12 @@ final class TagGetByIdsHandler implements TagGetByIdsInterface
     }
 
     /**
-     * タグIDリストからタグリストを取得するハンドラ
+     * タグを全て取得するハンドラ
      *
-     * @param TagGetByIdsRequest $request リクエスト
      * @return TagGetArrayResponse レスポンス
      */
-    public function handle(TagGetByIdsRequest $request): TagGetArrayResponse {
-        $tagEntities = $this->tagRepository->findByIds($request->getTagIds());
+    public function handle(): TagGetArrayResponse {
+        $tagEntities = $this->tagRepository->findAll();
 
         return new TagGetArrayResponse(
             tagEntities: $tagEntities

@@ -2,7 +2,7 @@
 
 namespace Packages\Applications\Tag\Responses;
 
-final class TagGetByIdsResponse {
+final class TagGetArrayResponse {
 
     /**
      * タグID配列からタグEntity配列を取得するハンドラのレスポンス

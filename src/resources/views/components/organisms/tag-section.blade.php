@@ -4,8 +4,8 @@
     </h3>
     <div class="mt-3 flex flex-wrap">
         @if($isCheckbox)
-            @foreach($tags as $tag)
-                <x-atoms.category-checkbox :tag="$tag" />
+            @foreach($checkboxTags as $checkboxTag)
+                <x-atoms.category-checkbox :tag="$checkboxTag['tag']" :checked="$checkboxTag['checked']" />
             @endforeach
         @else
             @foreach($tags as $tag)
