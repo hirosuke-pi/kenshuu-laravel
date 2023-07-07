@@ -41,6 +41,7 @@ class NewsController extends Controller
             'loginUser' => $loginUser,
             'isAdmin' => is_null($loginUser) ? false : $loginUser->validate($news->getUser()),
             'isEditorMode' => false,
+            'isNewMode' => false,
             'paths' => [
                 ['name' => 'ニュース - '. $news->getTitle(), 'link' => '#']
             ]
@@ -78,6 +79,7 @@ class NewsController extends Controller
             'loginUser' => $loginUser,
             'isAdmin' => is_null($loginUser) ? false : $loginUser->validate($news->getUser()),
             'isEditorMode' => true,
+            'isNewMode' => false,
             'paths' => [
                 ['name' => 'ニュース - '. $news->getTitle(), 'link' => route('news.view', ['newsId' => $news->getId()])],
                 ['name' => 'ニュースを編集', 'link' => '#']

@@ -17,6 +17,7 @@ class NewsAside extends Component
     public readonly bool $isAdmin;
     public readonly string $title;
     public readonly bool $isEditorMode;
+    public readonly bool $isNewMode;
 
     /**
      * ニュース詳細画面を表示するコンポーネント
@@ -25,7 +26,7 @@ class NewsAside extends Component
      * @param boolean $isAdmin 管理者かどうか
      * @param string $title タイトル
      */
-    public function __construct(News $news, bool $isAdmin, string $title, bool $isEditorMode)
+    public function __construct(News $news, bool $isAdmin, string $title, bool $isEditorMode, bool $isNewMode)
     {
         $this->news = $news;
         $this->newsUser = $news->getUser();
@@ -33,6 +34,7 @@ class NewsAside extends Component
         $this->isAdmin = $isAdmin;
         $this->title = $title;
         $this->isEditorMode = $isEditorMode;
+        $this->isNewMode = $isNewMode;
     }
 
     /**
