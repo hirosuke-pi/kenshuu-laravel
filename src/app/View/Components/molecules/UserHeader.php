@@ -2,23 +2,26 @@
 
 namespace App\View\Components\molecules;
 
-use App\Repo\UserRepo;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
+use Packages\Domains\Entities\User;
+
 class UserHeader extends Component
 {
-    public UserRepo $user;
+    public readonly User $loginUser;
+    public readonly string $userLink;
 
     /**
      * ユーザーヘッダーコンポーネント
      *
-     * @param UserRepo $user ユーザーリポジトリ
+     * @param User $user ユーザーEntity
      */
-    public function __construct(UserRepo $user)
+    public function __construct(User $loginUser)
     {
-        $this->user = $user;
+        $this->loginUser = $loginUser;
+        $this->userLink = route('user.index', ['userId' => $loginUser->getId()]);
     }
 
     /**

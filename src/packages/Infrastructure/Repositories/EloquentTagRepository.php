@@ -2,9 +2,11 @@
 
 namespace Packages\Infrastructure\Repositories;
 
+use Illuminate\Support\Facades\DB;
 use Packages\Domains\Interfaces\Repositories\TagRepositoryInterface;
 use Packages\Domains\Entities\Tag;
 use \App\Models\Tag as TagModel;
+use \App\Models\PostsTag as PostsTagModel;
 
 final class EloquentTagRepository implements TagRepositoryInterface
 {
@@ -14,15 +16,35 @@ final class EloquentTagRepository implements TagRepositoryInterface
      * タグIDからタグを取得する
      *
      * @param string $id タグID
-     * @return Tag
+     * @return Tag タグEntity
      */
     public function find(string $id): Tag
     {
         $tag = TagModel::find($id);
         return new Tag(
             id: $tag->id,
-            name: $tag->name,
+            name: $tag->tag_name,
         );
+    }
+
+    /**
+     * タグIDからタグを取得する
+     *
+     * @param string $id タグID
+     * @return array タグEntity配列
+     */
+    public function findByIds(array $ids): array
+    {
+        $tags = TagModel::whereIn('id', $ids)->get();
+
+        $tagEntities = [];
+        foreach($tags as $tag) {
+            $tagEntities[] = new Tag(
+                id: $tag->id,
+                name: $tag->tag_name,
+            );
+        }
+        return $tagEntities;
     }
 
     /**
@@ -38,7 +60,7 @@ final class EloquentTagRepository implements TagRepositoryInterface
         foreach($tags as $tag) {
             $tagEntities[] = new Tag(
                 id: $tag->id,
-                name: $tag->name,
+                name: $tag->tag_name,
             );
         }
         return $tagEntities;
@@ -52,16 +74,30 @@ final class EloquentTagRepository implements TagRepositoryInterface
      */
     public function findByPostId(string $postId): array
     {
-        $tags = TagModel::where('post_id', $postId)->get();
-
+        $tags = PostsTagModel::join('tags', 'tags.id', '=', 'posts_tags.tag_id')->where('post_id', $postId)->get();
         $tagEntities = [];
         foreach($tags as $tag) {
             $tagEntities[] = new Tag(
                 id: $tag->id,
-                name: $tag->name,
+                name: $tag->tag_name,
             );
         }
         return $tagEntities;
+    }
+
+    /**
+     * タグをPost IDと紐付けて保存する
+     *
+     * @param Tag $tag タグEntity
+     * @param string $postId 投稿ID
+     * @return void
+     */
+    public function saveWithPostId(Tag $tag, string $postId): void
+    {
+        $postsTag = new PostsTagModel();
+        $postsTag->post_id = $postId;
+        $postsTag->tag_id = $tag->getId();
+        $postsTag->save();
     }
 
     /**

@@ -1,2 +1,3 @@
 php_errors.log
 docker/db/mysql
+.DS_Store

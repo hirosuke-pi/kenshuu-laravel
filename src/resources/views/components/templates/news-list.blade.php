@@ -1,16 +1,16 @@
-<div class="flex flex-col justify-center items-center">
-    <div class="w-11/12">
-        <x-organisms.news-search />
-    </div>
-    <div class="w-11/12">
-        <div class="m-3">
+<main class="flex flex-col justify-center items-center">
+    <section class="w-11/12">
+        <x-organisms.news-search :word="request()->input('word', '')" :newsCount="$newsCount" />
+    </section>
+    <section class="w-11/12">
+        <div class="mx-3 mb-3">
             <x-molecules.alert-status :status="session(config('define.session.status'), [])" />
         </div>
         <div>
             <ul class="flex justify-center flex-wrap">
-                @if (count($posts) > 0)
-                    @foreach ($posts as $post)
-                        NewsCard::render($post, CardSize::SMALL)
+                @if ($newsCount > 0)
+                    @foreach ($newsList as $news)
+                        <x-organisms.news-card :news="$news" />
                     @endforeach
                 @else
                     <li class="flex justify-center items-center my-3">
@@ -19,5 +19,5 @@
                 @endif
             </ul>
         </div>
-    </div>
-</div>
+    </section>
+</main>

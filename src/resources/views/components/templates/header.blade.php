@@ -6,10 +6,10 @@
             </h1>
         </a>
         <div class="flex items-center text-gray-700 flex-wrap">
-            @if ($isGuestUser)
-                <x-molecules.guest-header />
+            @if ($isLoginUser)
+                <x-molecules.user-header :loginUser="$loginUser" />
             @else
-                <x-molecules.user-header :user="$user" />
+                <x-molecules.guest-header />
             @endif
         </div>
     </div>

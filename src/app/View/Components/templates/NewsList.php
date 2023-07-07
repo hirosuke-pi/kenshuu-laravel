@@ -10,14 +10,18 @@ use App\Repo\NewsRepo;
 
 class NewsList extends Component
 {
-    public array $posts = [];
+    public readonly array $newsList;
+    public readonly int $newsCount;
 
     /**
-     * Create a new component instance.
+     * ニュースリストコンポーネント
+     *
+     * @param array $newsList ニュースリスト
      */
-    public function __construct()
+    public function __construct(array $newsList)
     {
-        $this->posts = NewsRepo::getAllNews(request()->input('word') ?? '');
+        $this->newsList = $newsList;
+        $this->newsCount = count($newsList);
     }
 
     /**

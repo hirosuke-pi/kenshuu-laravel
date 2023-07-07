@@ -3,7 +3,7 @@
 namespace Packages\Domains\Entities;
 
 final class Image {
-    private const BASE_NEWS_IMAGE_URL = '/img/news/';
+    public const BASE_NEWS_IMAGE_URL = '/img/news/';
 
     /**
      * 画像エンティティ
@@ -43,8 +43,18 @@ final class Image {
      *
      * @return string 画像ファイルパス
      */
+    public function getFilePath(): string
+    {
+        return $this->filePath;
+    }
+
+    /**
+     * 画像URLを取得する
+     *
+     * @return string 画像URL
+     */
     public function getUrl(): string
     {
-        return self::BASE_NEWS_IMAGE_URL . $this->id . '.' . $this->filePath;
+        return asset(self::BASE_NEWS_IMAGE_URL . $this->id . '.' . $this->filePath);
     }
 }

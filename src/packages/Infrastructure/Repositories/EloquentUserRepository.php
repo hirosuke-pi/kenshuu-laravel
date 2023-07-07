@@ -18,29 +18,7 @@ final class EloquentUserRepository implements UserRepositoryInterface
      */
     public function find(string $id): ?User
     {
-        $user = UserModel::find($id)->whereNotNull('deleted_at')->first();
-        if (is_null($user)) {
-            return null;
-        }
-
-        return new User(
-            id: $user->id,
-            name: $user->name,
-            email: $user->email,
-            password: $user->password,
-            profileImagePath: $user->profile_image_path,
-            createdAt: $user->createdAt,
-        );
-    }
-
-    /**
-     * メールアドレスからユーザーを取得する
-     *
-     * @param string $email メールアドレス
-     * @return User|null ユーザーEntity
-     */
-    public function findByEmail(string $email): ?User {
-        $user = UserModel::where('email', $email)->whereNotNull('deleted_at')->first();
+        $user = UserModel::whereNull('deleted_at')->find($id);
         if (is_null($user)) {
             return null;
         }
@@ -52,6 +30,30 @@ final class EloquentUserRepository implements UserRepositoryInterface
             password: $user->password,
             profileImagePath: $user->profile_image_path,
             createdAt: $user->created_at,
+            postsCount: \App\Models\Post::where('user_id', $user->id)->whereNull('deleted_at')->count(),
+        );
+    }
+
+    /**
+     * メールアドレスからユーザーを取得する
+     *
+     * @param string $email メールアドレス
+     * @return User|null ユーザーEntity
+     */
+    public function findByEmail(string $email): ?User {
+        $user = UserModel::where('email', $email)->whereNull('deleted_at')->first();
+        if (is_null($user)) {
+            return null;
+        }
+
+        return new User(
+            id: $user->id,
+            name: $user->username,
+            email: $user->email,
+            password: $user->password,
+            profileImagePath: $user->profile_image_path,
+            createdAt: $user->created_at,
+            postsCount: \App\Models\Post::where('user_id', $user->id)->whereNull('deleted_at')->count(),
         );
     }
 
@@ -75,8 +77,24 @@ final class EloquentUserRepository implements UserRepositoryInterface
         $user->save();
     }
 
+    /**
+     * ユーザーIDを生成する
+     *
+     * @return string ユーザーID
+     */
     public function generateId(): string
     {
         return self::PREFIX .'-'. uniqid(mt_rand());
+    }
+
+    /**
+     * パスワードをハッシュ化する
+     *
+     * @param string $password パスワード
+     * @return string ハッシュ化されたパスワード
+     */
+    public function hashPassword(string $password): string
+    {
+        return password_hash($password, PASSWORD_DEFAULT);
     }
 }

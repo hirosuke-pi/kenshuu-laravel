@@ -2,7 +2,9 @@
 
 namespace Packages\Domains\Entities;
 
-final class User {
+class User {
+    private const BASE_USER_IMAGE_URL = '/img/user/';
+    private const NEWS_DEFAULT_IMAGE_URL = 'img/assets/thumbnail.jpg';
 
     /**
      * ユーザーエンティティ
@@ -13,6 +15,7 @@ final class User {
      * @param string $password パスワード (ハッシュ済み)
      * @param string|null $profileImagePath プロフィール画像パス
      * @param string $createdAt 作成日時
+     * @param int $postsCount 投稿数
      */
     public function __construct(
         private string $id,
@@ -21,6 +24,7 @@ final class User {
         private string $password,
         private ?string $profileImagePath,
         private string $createdAt,
+        private int $postsCount,
     ) {}
 
     /**
@@ -44,6 +48,16 @@ final class User {
     }
 
     /**
+     * ユーザータグを取得する
+     *
+     * @return string ユーザータグ
+     */
+    public function getNameTag(): string
+    {
+        return '@' . $this->name;
+    }
+
+    /**
      * メールアドレスを取得する
      *
      * @return string メールアドレス
@@ -61,6 +75,16 @@ final class User {
     public function getHashedPassword(): string
     {
         return $this->password;
+    }
+
+    /**
+     * 投稿数を取得する
+     *
+     * @return int 投稿数
+     */
+    public function getPostsCount(): int
+    {
+        return $this->postsCount;
     }
 
     /**
@@ -105,12 +129,35 @@ final class User {
     }
 
     /**
-     * プロフィール画像のファイル名を取得する
+     * プロフィール画像のURLを取得する
      *
-     * @return string|null プロフィール画像のファイル名
+     * @return string プロフィール画像のURL
      */
-    public function getProfileImageName(): ?string
+    public function getProfileImageUrl(): ?string
     {
-        return $this->id . '.' . $this->profileImagePath;
+        if ($this->hasUserProfileImage()) {
+            return asset(self::BASE_USER_IMAGE_URL . $this->id . '.' . $this->profileImagePath);
+        }
+        return self::getBaseUserImageUrl();
+    }
+
+    /**
+     * ユーザーが自分自身かどうかを検証する
+     *
+     * @param User $user ユーザーEntity
+     * @return boolean 検証結果
+     */
+    public function validate(User $user): bool {
+        return $this->id === $user->id;
+    }
+
+    /**
+     * ユーザーのプロフィール画像のデフォルトURLを取得する
+     *
+     * @return string ユーザーのプロフィール画像のデフォルトURL
+     */
+    public static function getBaseUserImageUrl(): string
+    {
+        return asset(self::NEWS_DEFAULT_IMAGE_URL);
     }
 }

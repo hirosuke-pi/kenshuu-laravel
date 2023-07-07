@@ -2,24 +2,40 @@
 
 namespace Packages\Infrastructure\Repositories;
 
+use Packages\Domains\Entities\User;
+use Packages\Domains\Interfaces\Repositories\ImageRepositoryInterface;
 use Packages\Domains\Interfaces\Repositories\NewsRepositoryInterface;
 use Packages\Domains\Entities\News;
 use Packages\Domains\Interfaces\Factories\NewsFactoryInterface;
+use Packages\Domains\Interfaces\Repositories\TagRepositoryInterface;
+use Packages\Domains\Interfaces\Repositories\UserRepositoryInterface;
+use Packages\Infrastructure\Factories\RepositoryNewsFactory;
 
 use App\Models\Post as PostModel;
 
 final class EloquentNewsRepository implements NewsRepositoryInterface
 {
     private const PREFIX = 'news';
+    private NewsFactoryInterface $newsFactory;
 
     /**
      * NewsRepositoryのコンストラクタ
      *
-     * @param NewsFactoryInterface $newsFactory ニュースファクトリ
+     * @param UserRepositoryInterface $userRepository ユーザーリポジトリ
+     * @param TagRepositoryInterface $tagRepository タグリポジトリ
+     * @param ImageRepositoryInterface $imageRepository 画像リポジトリ
      */
     public function __construct(
-        private NewsFactoryInterface $newsFactory
-    ) {}
+        private readonly UserRepositoryInterface $userRepository,
+        private readonly TagRepositoryInterface $tagRepository,
+        private readonly ImageRepositoryInterface $imageRepository
+    ) {
+        $this->newsFactory = new RepositoryNewsFactory(
+            userRepository: $this->userRepository,
+            tagRepository: $this->tagRepository,
+            imageRepository: $this->imageRepository,
+        );
+    }
 
     /**
      * ニュースを全件取得する
@@ -28,7 +44,8 @@ final class EloquentNewsRepository implements NewsRepositoryInterface
      */
     public function findAll(): array
     {
-        $posts = PostModel::whereNotNull('deleted_at')->get();
+
+        $posts = PostModel::whereNull('deleted_at')->get();
         $newsEntities = [];
         foreach($posts as $post) {
             $newsEntities[] = $this->newsFactory->create(
@@ -52,7 +69,7 @@ final class EloquentNewsRepository implements NewsRepositoryInterface
      */
     public function find(string $id): ?News
     {
-        $post = PostModel::whereNotNull('deleted_at')->find($id);
+        $post = PostModel::whereNull('deleted_at')->find($id);
         if (is_null($post)) {
             return null;
         }
@@ -65,6 +82,30 @@ final class EloquentNewsRepository implements NewsRepositoryInterface
             createdAt: $post->created_at,
             updatedAt: $post->updated_at,
         );
+    }
+
+    /**
+     * ユーザーIDに紐づくニュースを取得する
+     *
+     * @param User $user ユーザーエンティティ
+     * @return array ニュースEntityの配列
+     */
+    public function findByUser(User $user): array {
+        $posts = PostModel::where('user_id', $user->getId())->whereNull('deleted_at')->get();
+        $newsEntities = [];
+        foreach($posts as $post) {
+            $newsEntities[] = $this->newsFactory->create(
+                id: $post->id,
+                userId: $post->user_id,
+                title: $post->title,
+                body: $post->body,
+                createdAt: $post->created_at,
+                updatedAt: $post->updated_at,
+                user: $user
+            );
+        }
+
+        return $newsEntities;
     }
 
     /**
@@ -83,6 +124,14 @@ final class EloquentNewsRepository implements NewsRepositoryInterface
         $post->created_at = $news->getCreatedAt();
         $post->updated_at = $news->getUpdatedAt();
         $post->save();
+
+        foreach($news->getTags() as $tag) {
+            $this->tagRepository->saveWithPostId($tag, $news->getId());
+        }
+
+        foreach($news->getImages() as $image) {
+            $this->imageRepository->save($image, $news->getId());
+        }
     }
 
     /**
