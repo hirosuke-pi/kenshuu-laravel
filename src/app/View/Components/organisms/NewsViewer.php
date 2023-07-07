@@ -12,7 +12,9 @@ class NewsViewer extends Component
     public readonly News $news;
 
     /**
-     * Create a new component instance.
+     * ニュースを表示するコンポーネント
+     *
+     * @param News $news ニュースEntity
      */
     public function __construct(News $news)
     {

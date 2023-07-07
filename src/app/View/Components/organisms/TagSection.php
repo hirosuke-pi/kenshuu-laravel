@@ -15,7 +15,10 @@ class TagSection extends Component
     public readonly bool $isCheckbox;
 
     /**
-     * Create a new component instance.
+     * ニュースにつけられたタグを表示するコンポーネント
+     *
+     * @param array $tags タグの配列
+     * @param boolean $isCheckbox チェックボックスを表示するかどうか
      */
     public function __construct(array $tags, bool $isCheckbox = false)
     {

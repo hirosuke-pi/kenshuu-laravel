@@ -11,7 +11,9 @@ class BreadcrumbSection extends Component
     public readonly array $paths;
 
     /**
-     * Create a new component instance.
+     * 現在のパスを表示するコンポーネント
+     *
+     * @param array $paths パスの配列
      */
     public function __construct(array $paths)
     {

@@ -86,4 +86,33 @@ class NewsController extends Controller
             ]
         ]);
     }
+
+    /**
+     * ニュースを新規作成する
+     *
+     * @param string $newsId ニュースID
+     * @param UserGetByEmailInterface $userGetByEmail メールアドレスからユーザーを取得するユースケース
+     * @param NewsGetInterface $newsGet ニュースを取得するユースケース
+     * @return void
+     */
+    public function create(
+        Request $request,
+        NewsGetInterface $newsGet
+    ): \Illuminate\Contracts\View\Factory | \Illuminate\Contracts\View\View | \Illuminate\Http\RedirectResponse
+    {
+        $loginUser = $request->input(config('session.user'))['entity'];
+
+        return view('components.pages.news', [
+            'news' => null,
+            'loginUser' => $loginUser,
+            'isAdmin' => false,
+            'isEditorMode' => true,
+            'isNewMode' => true,
+            'creator' => $loginUser,
+            'paths' => [
+                ['name' => 'ユーザー - '. $loginUser->getNameTag(), 'link' => route('user.index', ['userId' => $loginUser->getId()])],
+                ['name' => 'ニュースを作成', 'link' => '#']
+            ]
+        ]);
+    }
 }
