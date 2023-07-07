@@ -22,11 +22,11 @@ class ImageSection extends Component
     {
         if ($isEdit) {
             $inputImage = $images;
-            $maxImageCount = config('define.max_image_count', 5);
+            $maxImageCount = config('define.max_image_count');
             for($i = count($images); $i < $maxImageCount; $i++) {
-                $inputImage[] = new Image('image-new-' . $i, false, '');
+                $inputImage['image-'. $i] = null;
             }
-            $this->$images = $inputImage;
+            $this->images = $inputImage;
         }
         else {
             $this->images = $images;
