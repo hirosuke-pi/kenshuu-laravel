@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use \Illuminate\Contracts\View\Factory;
+use \Illuminate\Contracts\View\View;
+
 use Packages\Handlers\User\UserGetByEmailHandler;
 use Packages\Handlers\News\NewsGetAllHandler;
 
@@ -18,7 +21,7 @@ class HomeController extends Controller
     public static function index(
         UserGetByEmailHandler $userGetByEmail,
         NewsGetAllHandler $newsGetAll
-    ): \Illuminate\Contracts\View\Factory | \Illuminate\Contracts\View\View
+    ): Factory | View
     {
         $user = $userGetByEmail->handle(config('test.user1.email'));
         $newsEntities = $newsGetAll->handle();
