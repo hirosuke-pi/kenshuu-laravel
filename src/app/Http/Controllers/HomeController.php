@@ -3,24 +3,32 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Packages\Applications\User\Requests\UserGetByEmailRequest;
-use Packages\Applications\User\Interfaces\UserGetByEmailInterface;
+use \Illuminate\Contracts\View\Factory;
+use \Illuminate\Contracts\View\View;
+
+use Packages\Handlers\User\UserGetByEmailHandler;
+use Packages\Handlers\News\NewsGetAllHandler;
 
 class HomeController extends Controller
 {
     /**
      * ホーム画面を表示する
      *
-     * @param UserGetByEmailInterface $userGetByEmailInterface メールアドレスからユーザーを取得するユースケース
-     * @return \Illuminate\View\View ホーム画面のView
+     * @param UserGetByEmailHandler $userGetByEmail メールアドレスからユーザーを取得するハンドラ
+     * @param NewsGetAllHandler $newsGetAll ニュースを全件取得するハンドラ
+     * @return void
      */
-    public static function index(UserGetByEmailInterface $userGetByEmail): \Illuminate\View\View
+    public static function index(
+        UserGetByEmailHandler $userGetByEmail,
+        NewsGetAllHandler $newsGetAll
+    ): Factory | View
     {
-        $userGetByEmailRequest = new UserGetByEmailRequest('test@gmail.com');
-        $userGetByEmailResponse = $userGetByEmail->handle($userGetByEmailRequest);
+        $user = $userGetByEmail->handle(config('test.user1.email'));
+        $newsEntities = $newsGetAll->handle();
 
         return view('components.pages.home', [
-            'user' => $userGetByEmailResponse->getUser()
+            'newsList' => $newsEntities,
+            'user' => $user
         ]);
     }
 }

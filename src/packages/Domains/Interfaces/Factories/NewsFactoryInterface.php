@@ -9,15 +9,6 @@ use Packages\Domains\Entities\News;
 
 interface NewsFactoryInterface {
     /**
-     * NewsFactoryのコンストラクタ
-     *
-     * @param UserRepositoryInterface $userRepository ユーザーリポジトリ
-     * @param TagRepositoryInterface $newsRepository タグリポジトリ
-     * @param ImageRepositoryInterface $imageRepository 画像リポジトリ
-     */
-    public function __construct(UserRepositoryInterface $userRepository, TagRepositoryInterface $newsRepository, ImageRepositoryInterface $imageRepository);
-
-    /**
      * ニュースを生成する
      *
      * @param string $id ニュースID

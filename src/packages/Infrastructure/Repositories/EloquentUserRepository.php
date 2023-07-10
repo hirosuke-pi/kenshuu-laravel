@@ -75,8 +75,24 @@ final class EloquentUserRepository implements UserRepositoryInterface
         $user->save();
     }
 
+    /**
+     * ユーザーIDを生成する
+     *
+     * @return string ユーザーID
+     */
     public function generateId(): string
     {
         return self::PREFIX .'-'. uniqid(mt_rand());
+    }
+
+    /**
+     * パスワードをハッシュ化する
+     *
+     * @param string $password パスワード
+     * @return string ハッシュ化されたパスワード
+     */
+    public function hashPassword(string $password): string
+    {
+        return password_hash($password, PASSWORD_DEFAULT);
     }
 }
