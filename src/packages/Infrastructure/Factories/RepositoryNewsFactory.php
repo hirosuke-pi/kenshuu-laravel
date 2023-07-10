@@ -33,12 +33,11 @@ final class RepositoryNewsFactory implements NewsFactoryInterface
      * @param string $body 本文
      * @param string $createdAt 作成日時
      * @param string $updatedAt 更新日時
-     * @param User|null $user ユーザーエンティティ
      * @return News ニュースEntity
      */
-    public function createById(string $id, string $userId, string $title, string $body, string $createdAt, ?string $updatedAt): News
+    public function createWithUserId(string $id, string $userId, string $title, string $body, string $createdAt, ?string $updatedAt): News
     {
-        return $this->createByUser(
+        return $this->create(
             id: $id,
             author: $this->userRepository->find($userId),
             title: $title,
@@ -59,7 +58,7 @@ final class RepositoryNewsFactory implements NewsFactoryInterface
      * @param string $updatedAt 更新日時
      * @return News ニュースEntity
      */
-    public function createByUser(string $id, User $author, string $title, string $body, string $createdAt, ?string $updatedAt): News
+    public function create(string $id, User $author, string $title, string $body, string $createdAt, ?string $updatedAt): News
     {
         return new News(
             id: $id,

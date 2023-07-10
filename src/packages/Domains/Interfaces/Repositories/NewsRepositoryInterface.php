@@ -29,7 +29,7 @@ interface NewsRepositoryInterface
      * @param User $user ユーザーエンティティ
      * @return array ニュースEntityの配列
      */
-    public function findByUser(User $user): array;
+    public function findByUser(NewsFactoryInterface $newsFactory, User $user): array;
 
     /**
      * ニュースを保存する
