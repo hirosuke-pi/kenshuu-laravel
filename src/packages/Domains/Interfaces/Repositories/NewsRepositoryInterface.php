@@ -8,13 +8,6 @@ use Packages\Domains\Entities\News;
 interface NewsRepositoryInterface
 {
     /**
-     * NewsRepositoryのコンストラクタ
-     *
-     * @param NewsFactoryInterface $newsFactory ニュースファクトリ
-     */
-    public function __construct(NewsFactoryInterface $newsFactory);
-
-    /**
      * ニュースを全件取得する
      *
      * @return array ニュースEntityの配列
