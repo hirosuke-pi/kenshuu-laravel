@@ -8,18 +8,11 @@ use Packages\Domains\Entities\News;
 interface NewsRepositoryInterface
 {
     /**
-     * NewsRepositoryのコンストラクタ
-     *
-     * @param NewsFactory $newsFactory ニュースファクトリ
-     */
-    public function __construct(NewsFactoryInterface $newsFactory);
-
-    /**
      * ニュースを全件取得する
      *
      * @return array ニュースEntityの配列
      */
-    public function findAll(): array;
+    public function findAll(NewsFactoryInterface $newsFactory): array;
 
     /**
      * ニュースIDからニュースを取得する
@@ -27,7 +20,7 @@ interface NewsRepositoryInterface
      * @param string $id ニュースID
      * @return News|null ニュースEntity
      */
-    public function find(string $id): ?News;
+    public function find(NewsFactoryInterface $newsFactory, string $id): ?News;
 
     /**
      * ニュースを保存する

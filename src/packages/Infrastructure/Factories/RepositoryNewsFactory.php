@@ -2,6 +2,9 @@
 
 namespace Packages\Infrastructure\Factories;
 
+use DateTime;
+use DateTimeInterface;
+use Packages\Domains\Entities\User;
 use Packages\Domains\Interfaces\Factories\NewsFactoryInterface;
 use Packages\Domains\Interfaces\Repositories\ImageRepositoryInterface;
 use Packages\Domains\Interfaces\Repositories\TagRepositoryInterface;
@@ -45,6 +48,20 @@ final class RepositoryNewsFactory implements NewsFactoryInterface
             images: $this->imageRepository->findByPostId($id),
             createdAt: $createdAt,
             updatedAt: $updatedAt,
+        );
+    }
+
+    public function createNew(User $author, string $title, string $body, array $tags = [], array $images = []): News
+    {
+        return new News(
+            id: $this->userRepository->generateId(),
+            user: $author,
+            title: $title,
+            body: $body,
+            tags: $tags,
+            images: $images,
+            createdAt: (new DateTime())->format(DateTimeInterface::ATOM),
+            updatedAt: null,
         );
     }
 }

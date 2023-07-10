@@ -10,14 +10,11 @@ use Packages\Infrastructure\Repositories\EloquentNewsRepository;
 use Packages\Infrastructure\Repositories\EloquentTagRepository;
 use Packages\Infrastructure\Repositories\EloquentUserRepository;
 
-use Packages\Applications\News\Handlers\NewsGetAllHandler;
-use Packages\Applications\News\Handlers\NewsGetHandler;
-use Packages\Applications\News\Handlers\NewsCreateHandler;
-use Packages\Applications\News\Interfaces\NewsGetInterface;
-use Packages\Applications\News\Interfaces\NewsGetAllInterface;
-use Packages\Applications\News\Interfaces\NewsCreateInterface;
+use Packages\Handlers\News\NewsGetAllHandler;
+use Packages\Handlers\News\NewsGetHandler;
+use Packages\Handlers\News\NewsCreateHandler;
 
-class NewsUseCaseProvider extends ServiceProvider
+class NewsHandlerProvider extends ServiceProvider
 {
     /**
      * Register services.
@@ -33,11 +30,11 @@ class NewsUseCaseProvider extends ServiceProvider
         );
 
         $this->app->bind(
-            NewsGetInterface::class,
+            NewsGetHandler::class,
             fn () => new NewsGetHandler($eloquentNewsRepository)
         );
         $this->app->bind(
-            NewsGetAllInterface::class,
+            NewsGetAllHandler::class,
             fn () => new NewsGetAllHandler($eloquentNewsRepository)
         );
         $this->app->bind(

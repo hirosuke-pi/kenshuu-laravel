@@ -14,8 +14,11 @@ migrate:
 bash:
 	docker compose exec app bash
 
-reload:
+clear:
 	docker compose exec app composer dump-autoload
+	docker compose exec app php artisan clear-compiled
+	docker compose exec app php artisan optimize
+	docker compose exec app php artisan config:cache
 
 db:
 	docker compose exec db mysql -u root -p laravel
