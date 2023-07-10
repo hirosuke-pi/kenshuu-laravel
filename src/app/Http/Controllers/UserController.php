@@ -21,7 +21,7 @@ class UserController extends Controller
      * @param UserGetByEmailHandler $userGetByEmail メールアドレスからユーザーを取得するハンドラ
      * @param UserGetByIdHandler $userGetById ユーザーIDからユーザーを取得するハンドラ
      * @param NewsGetByUserHandler $newsGetByUser ユーザーからニュースを取得するハンドラ
-     * @return void
+     * @return Factory | View | RedirectResponse
      */
     public function index(
         string $userId,

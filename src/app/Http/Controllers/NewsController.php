@@ -19,7 +19,7 @@ class NewsController extends Controller
      * @param string $newsId ニュースID
      * @param UserGetByEmailHandler $userGetByEmail メールアドレスからユーザーを取得するユースケース
      * @param NewsGetHandler $newsGet ニュースを取得するユースケース
-     * @return void
+     * @return Factory | View | RedirectResponse
      */
     public function view(
         string $newsId,
