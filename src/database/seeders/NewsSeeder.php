@@ -3,60 +3,48 @@
 namespace Database\Seeders;
 
 use Exception;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-
-use Packages\Applications\News\Requests\NewsCreateRequest;
-use Packages\Applications\News\Interfaces\NewsCreateInterface;
-use Packages\Applications\Tag\Requests\TagGetByIdsRequest;
-use Packages\Applications\Tag\Interfaces\TagGetByIdsInterface;
-use Packages\Applications\User\Requests\UserGetByEmailRequest;
-use Packages\Applications\User\Interfaces\UserGetByEmailInterface;
+use Packages\Handlers\Tag\TagGetByIdsHandler;
+use Packages\Handlers\News\NewsCreateHandler;
+use Packages\Handlers\User\UserGetByEmailHandler;
 
 class NewsSeeder extends Seeder
 {
-    private function getTagIdsToTagEntities(array $ids, TagGetByIdsInterface $tagGetHandler) {
-        $tagResponse = $tagGetHandler->handle(
-            request: new TagGetByIdsRequest($ids)
-        );
-
-        return $tagResponse->getTagEntities();
-    }
-
     /**
      * Run the database seeds.
      */
-    public function run(NewsCreateInterface $newsHandler, UserGetByEmailInterface $userGetHandler, TagGetByIdsInterface $tagGetHandler): void
+    public function run(NewsCreateHandler $newsHandler, UserGetByEmailHandler $userGetHandler, TagGetByIdsHandler $tagGetHandler): void
     {
-        $userResponse = $userGetHandler->handle(
-            new UserGetByEmailRequest(
-                email: config('test.user1.email')
-            )
-        );
-        $user = $userResponse->getUser();
+        $user = $userGetHandler->handle(config('test.user1.email'));
         if (is_null($user)) {
             throw new Exception('テストユーザーが取得できませんでした。');
         }
 
         $newsList = [
-            new NewsCreateRequest(
-                title: 'ニュースタイトル1',
-                body: 'ニュース本文1',
-                user: $user,
-                tags: $this->getTagIdsToTagEntities([1, 2, 5], $tagGetHandler),
-                images: []
-            ),
-            new NewsCreateRequest(
-                title: 'ニュースタイトル2',
-                body: 'ニュース本文2',
-                user: $user,
-                tags: $this->getTagIdsToTagEntities([4, 6, 7, 8, 10], $tagGetHandler),
-                images: []
-            ),
+            [
+                'title' => 'ニュースタイトル1',
+                'body' => 'ニュース本文1',
+                'author' => $user,
+                'tags' => $tagGetHandler->handle([1, 2, 3]),
+                'images' => [],
+            ],
+            [
+                'title' => 'ニュースタイトル2',
+                'body' => 'ニュース本文2',
+                'author' => $user,
+                'tags' => $tagGetHandler->handle([3, 4, 6, 7, 8]),
+                'images' => [],
+            ],
         ];
 
         foreach ($newsList as $news) {
-            $newsHandler->handle($news);
+            $newsHandler->handle(
+                title: $news['title'],
+                body: $news['body'],
+                author: $news['author'],
+                tags: $news['tags'],
+                images: $news['images'],
+            );
         }
     }
 }

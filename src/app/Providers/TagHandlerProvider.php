@@ -3,11 +3,10 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Packages\Applications\Tag\Handlers\TagGetByIdsHandler;
-use Packages\Applications\Tag\Interfaces\TagGetByIdsInterface;
+use Packages\Handlers\Tag\TagGetByIdsHandler;
 use Packages\Infrastructure\Repositories\EloquentTagRepository;
 
-class TagUseCaseProvider extends ServiceProvider
+class TagHandlerProvider extends ServiceProvider
 {
     /**
      * Register services.
@@ -17,7 +16,7 @@ class TagUseCaseProvider extends ServiceProvider
         $tagRepository = new EloquentTagRepository();
 
         $this->app->bind(
-            TagGetByIdsInterface::class,
+            TagGetByIdsHandler::class,
             fn () => new TagGetByIdsHandler($tagRepository)
         );
     }

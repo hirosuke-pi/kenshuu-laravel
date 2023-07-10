@@ -27,7 +27,7 @@ class NewsView extends Component
     {
         $this->news = $news;
         $this->paths = $paths;
-        $this->newsUser = $news->getUser();
+        $this->newsUser = $news->getAuthor();
         $this->isAdmin = $isAdmin;
     }
 
