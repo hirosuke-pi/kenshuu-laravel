@@ -3,10 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Packages\Applications\News\Requests\NewsGetRequest;
-use Packages\Applications\News\Interfaces\NewsGetInterface;
-use Packages\Applications\User\Requests\UserGetByEmailRequest;
-use Packages\Applications\User\Interfaces\UserGetByEmailInterface;
+
+use Packages\Handlers\News\NewsGetHandler;
+use Packages\Handlers\User\UserGetByEmailHandler;
 
 class NewsController extends Controller
 {
@@ -14,23 +13,19 @@ class NewsController extends Controller
      * ニュース詳細画面を表示する
      *
      * @param string $newsId ニュースID
-     * @param UserGetByEmailInterface $userGetByEmail メールアドレスからユーザーを取得するユースケース
-     * @param NewsGetInterface $newsGet ニュースを取得するユースケース
+     * @param UserGetByEmailHandler $userGetByEmail メールアドレスからユーザーを取得するユースケース
+     * @param NewsGetHandler $newsGet ニュースを取得するユースケース
      * @return void
      */
     public function view(
         string $newsId,
-        UserGetByEmailInterface $userGetByEmail,
-        NewsGetInterface $newsGet
+        UserGetByEmailHandler $userGetByEmail,
+        NewsGetHandler $newsGet
     ): \Illuminate\Contracts\View\Factory | \Illuminate\Contracts\View\View | \Illuminate\Http\RedirectResponse
     {
-        $userGetByEmailRequest = new UserGetByEmailRequest(config('test.user1.email'));
-        $userGetByEmailResponse = $userGetByEmail->handle($userGetByEmailRequest);
+        $loginUser = $userGetByEmail->handle(config('test.user1.email'));
 
-        $newsGetRequest = new NewsGetRequest($newsId);
-        $newsGetResponse = $newsGet->handle($newsGetRequest);
-
-        $news = $newsGetResponse->getNews();
+        $news = $newsGet->handle($newsId);
         if (is_null($news)) {
             session()->flash(config('define.session.status'), ['type' => 'error', 'message' => 'ニュースが見つかりませんでした。']);
             return redirect()->route('home');
@@ -38,7 +33,7 @@ class NewsController extends Controller
 
         return view('components.pages.news', [
             'news' => $news,
-            'user' => $userGetByEmailResponse->getUser()
+            'user' => $loginUser
         ]);
     }
 }

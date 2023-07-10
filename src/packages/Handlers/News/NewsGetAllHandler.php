@@ -2,6 +2,7 @@
 
 namespace Packages\Handlers\News;
 
+use Packages\Domains\Interfaces\Factories\NewsFactoryInterface;
 use Packages\Domains\Interfaces\Repositories\NewsRepositoryInterface;
 
 final class NewsGetAllHandler
@@ -10,9 +11,11 @@ final class NewsGetAllHandler
      * ニュース全件取得ユースケースのコンストラクタ
      *
      * @param NewsRepositoryInterface $repository ニュースリポジトリ
+     * @param NewsFactoryInterface $factory ニュースファクトリ
      */
     public function __construct(
-        private readonly NewsRepositoryInterface $repository
+        private readonly NewsRepositoryInterface $repository,
+        private readonly NewsFactoryInterface $newsFactory
     ) {}
 
     /**
@@ -22,6 +25,6 @@ final class NewsGetAllHandler
      */
     public function handle(): array
     {
-        return $this->repository->findAll();
+        return $this->repository->findAll($this->newsFactory);
     }
 }
