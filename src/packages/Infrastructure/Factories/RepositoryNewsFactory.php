@@ -40,7 +40,7 @@ final class RepositoryNewsFactory implements NewsFactoryInterface
     {
         return new News(
             id: $id,
-            user: $user ?? $this->userRepository->find($userId),
+            author: $user ?? $this->userRepository->find($userId),
             title: $title,
             body: $body,
             tags: $this->tagRepository->findByPostId($id),

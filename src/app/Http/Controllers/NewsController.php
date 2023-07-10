@@ -39,9 +39,10 @@ class NewsController extends Controller
         return view('components.pages.news', [
             'news' => $news,
             'loginUser' => $loginUser,
-            'isAdmin' => is_null($loginUser) ? false : $loginUser->validate($news->getUser()),
+            'isAdmin' => is_null($loginUser) ? false : $loginUser->validate($news->getAuthor()),
             'isEditorMode' => false,
-            'isNewMode' => false,
+            'isNewCreate' => false,
+            'author' => $news->getAuthor(),
             'paths' => [
                 ['name' => 'ニュース - '. $news->getTitle(), 'link' => '#']
             ]
@@ -77,9 +78,10 @@ class NewsController extends Controller
         return view('components.pages.news', [
             'news' => $news,
             'loginUser' => $loginUser,
-            'isAdmin' => is_null($loginUser) ? false : $loginUser->validate($news->getUser()),
+            'isAdmin' => is_null($loginUser) ? false : $loginUser->validate($news->getAuthor()),
             'isEditorMode' => true,
-            'isNewMode' => false,
+            'isNewCreate' => false,
+            'author' => $news->getAuthor(),
             'paths' => [
                 ['name' => 'ニュース - '. $news->getTitle(), 'link' => route('news.view', ['newsId' => $news->getId()])],
                 ['name' => 'ニュースを編集', 'link' => '#']
@@ -107,8 +109,8 @@ class NewsController extends Controller
             'loginUser' => $loginUser,
             'isAdmin' => false,
             'isEditorMode' => true,
-            'isNewMode' => true,
-            'creator' => $loginUser,
+            'isNewCreate' => true,
+            'author' => $loginUser,
             'paths' => [
                 ['name' => 'ユーザー - '. $loginUser->getNameTag(), 'link' => route('user.index', ['userId' => $loginUser->getId()])],
                 ['name' => 'ニュースを作成', 'link' => '#']

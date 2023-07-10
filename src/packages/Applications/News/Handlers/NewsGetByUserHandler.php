@@ -27,7 +27,7 @@ final class NewsGetByUserHandler implements NewsGetByUserInterface
     public function handle(NewsGetByUserRequest $request): NewsGetAllResponse
     {
         return new NewsGetAllResponse(
-            newsEntities: $this->repository->findByUser($request->getUser())
+            newsEntities: $this->repository->findByUser($request->getAuthor())
         );
     }
 }

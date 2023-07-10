@@ -20,7 +20,7 @@ final class UserCreateResponse
      *
      * @return User ユーザーエンティティ
      */
-    public function getUser(): User
+    public function getAuthor(): User
     {
         return $this->user;
     }

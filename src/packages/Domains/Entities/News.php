@@ -27,7 +27,7 @@ final class News
      */
     public function __construct(
         private string $id,
-        private User $user,
+        private User $author,
 
         private string $title,
         private string $body,
@@ -67,8 +67,8 @@ final class News
      *
      * @return User ユーザーEntity
      */
-    public function getUser(): User {
-        return $this->user;
+    public function getAuthor(): User {
+        return $this->author;
     }
 
     /**

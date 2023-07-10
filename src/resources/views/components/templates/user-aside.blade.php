@@ -6,7 +6,7 @@
                 <i class="fa-solid fa-newspaper"></i> ニュース
             </h3>
             <div class="mt-3 flex flex-col">
-                <a href="#" class="w-full bg-blue-400 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded mr-3 text-center mt-3">
+                <a href="{{ $newCreateLink }}" class="w-full bg-blue-400 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded mr-3 text-center mt-3">
                     <i class="fa-solid fa-pen-to-square"></i> 新規作成
                 </a>
             </div>

@@ -36,7 +36,7 @@ final class NewsCreateRequest
     {
         return new News(
             id: $repository->generateId(),
-            user: $this->user,
+            author: $this->user,
             title: $this->title,
             body: $this->body,
             createdAt: (new DateTime())->format(DateTime::ATOM),

@@ -12,12 +12,12 @@ use Packages\Domains\Entities\User;
 class NewsAside extends Component
 {
     public readonly ?News $news;
-    public readonly User $newsUser;
-    public readonly string $newsUserLink;
+    public readonly User $author;
+    public readonly string $authorLink;
     public readonly bool $isAdmin;
     public readonly string $title;
     public readonly bool $isEditorMode;
-    public readonly bool $isNewMode;
+    public readonly bool $isNewCreate;
     public readonly array $tags;
     public readonly array $images;
 
@@ -28,27 +28,27 @@ class NewsAside extends Component
      * @param boolean $isAdmin 管理者かどうか
      * @param string $title タイトル
      * @param boolean $isEditorMode 編集モードかどうか
-     * @param boolean $isNewMode 新規作成モードかどうか
-     * @param User|null $creator 作成者
+     * @param boolean $isNewCreate 新規作成モードかどうか
+     * @param User $author 作成者
      */
     public function __construct(
         ?News $news,
         bool $isAdmin,
         string $title,
         bool $isEditorMode,
-        bool $isNewMode,
-        User $creator = null
+        bool $isNewCreate,
+        User $author
     )
     {
         $this->news = $news;
-        $this->newsUser = $creator ?? $news->getUser();
-        $this->newsUserLink = route('user.index', ['userId' => $this->newsUser->getId()]);
+        $this->author = $author;
+        $this->authorLink = route('user.index', ['userId' => $this->author->getId()]);
         $this->isAdmin = $isAdmin;
         $this->title = $title;
         $this->isEditorMode = $isEditorMode;
-        $this->isNewMode = $isNewMode;
+        $this->isNewCreate = $isNewCreate;
 
-        if ($isNewMode) {
+        if ($isNewCreate) {
             $this->tags = [];
             $this->images = [];
         } else {

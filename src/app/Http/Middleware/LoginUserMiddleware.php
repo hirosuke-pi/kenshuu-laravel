@@ -25,7 +25,7 @@ class LoginUserMiddleware
 
         $userGetByEmailResponse = $userGetByEmail->handle($userGetByEmailRequest);
 
-        $loginUser = $userGetByEmailResponse->getUser();
+        $loginUser = $userGetByEmailResponse->getAuthor();
         $request->merge([config('session.user') => ['entity' => $loginUser]]);
 
         return $next($request);

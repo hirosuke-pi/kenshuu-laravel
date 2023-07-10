@@ -19,7 +19,7 @@ final class NewsGetByUserRequest
      *
      * @return User ユーザーEntity
      */
-    public function getUser(): User
+    public function getAuthor(): User
     {
         return $this->user;
     }

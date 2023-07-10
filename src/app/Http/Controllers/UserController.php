@@ -37,7 +37,7 @@ class UserController extends Controller
             session()->flash(config('define.session.status'), ['type' => 'error', 'message' => 'ユーザーが見つかりませんでした。']);
             return redirect()->route('home');
         }
-        $user = $userResponse->getUser();
+        $user = $userResponse->getAuthor();
 
         $newsRequest = new NewsGetByUserRequest($user);
         $newsResponse = $newsGetByUser->handle($newsRequest);
@@ -53,7 +53,7 @@ class UserController extends Controller
     public function login(UserGetByEmailInterface $userGetByEmail) {
         $userGetByEmailRequest = new UserGetByEmailRequest(config('test.user1.email'));
         $userGetByEmailResponse = $userGetByEmail->handle($userGetByEmailRequest);
-        $loginUser = $userGetByEmailResponse->getUser();
+        $loginUser = $userGetByEmailResponse->getAuthor();
 
         session()->push(config('session.user'), $loginUser->getId());
 

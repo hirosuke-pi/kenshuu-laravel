@@ -33,7 +33,7 @@ class NewsSeeder extends Seeder
                 email: config('test.user1.email')
             )
         );
-        $user = $userResponse->getUser();
+        $user = $userResponse->getAuthor();
         if (is_null($user)) {
             throw new Exception('テストユーザーが取得できませんでした。');
         }
