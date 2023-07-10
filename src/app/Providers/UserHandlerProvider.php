@@ -10,7 +10,7 @@ use Packages\Handlers\User\UserCreateHandler;
 
 use Packages\Infrastructure\Repositories\EloquentUserRepository;
 
-class UserUseCaseProvider extends ServiceProvider
+class UserHandlerProvider extends ServiceProvider
 {
     /**
      * Register services.
