@@ -71,7 +71,7 @@ final class EloquentNewsRepository implements NewsRepositoryInterface
     {
         $post = new PostModel();
         $post->id = $news->getId();
-        $post->user_id = $news->getUser()->getId();
+        $post->user_id = $news->getAuthor()->getId();
         $post->title = $news->getTitle();
         $post->body = $news->getBody();
         $post->created_at = $news->getCreatedAt();

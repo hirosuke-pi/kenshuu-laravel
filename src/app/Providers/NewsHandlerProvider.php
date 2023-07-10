@@ -37,8 +37,8 @@ class NewsHandlerProvider extends ServiceProvider
             fn () => new NewsGetAllHandler($eloquentNewsRepository, $eloquentNewsFactory)
         );
         $this->app->bind(
-            NewsCreateInterface::class,
-            fn () => new NewsCreateHandler($eloquentNewsRepository, $eloquentNewsFactory)
+            NewsCreateHandler::class,
+            fn () => new NewsCreateHandler($eloquentNewsRepository)
         );
     }
 

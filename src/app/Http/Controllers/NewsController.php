@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use \Illuminate\Contracts\View\Factory;
+use \Illuminate\Contracts\View\View;
+use \Illuminate\Http\RedirectResponse;
+
 use Packages\Handlers\News\NewsGetHandler;
 use Packages\Handlers\User\UserGetByEmailHandler;
 
@@ -21,7 +25,7 @@ class NewsController extends Controller
         string $newsId,
         UserGetByEmailHandler $userGetByEmail,
         NewsGetHandler $newsGet
-    ): \Illuminate\Contracts\View\Factory | \Illuminate\Contracts\View\View | \Illuminate\Http\RedirectResponse
+    ): Factory|View|RedirectResponse
     {
         $loginUser = $userGetByEmail->handle(config('test.user1.email'));
 

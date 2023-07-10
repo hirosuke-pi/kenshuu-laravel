@@ -41,27 +41,13 @@ final class RepositoryNewsFactory implements NewsFactoryInterface
     {
         return new News(
             id: $id,
-            user: $this->userRepository->find($userId),
+            author: $this->userRepository->find($userId),
             title: $title,
             body: $body,
             tags: $this->tagRepository->findByPostId($id),
             images: $this->imageRepository->findByPostId($id),
             createdAt: $createdAt,
             updatedAt: $updatedAt,
-        );
-    }
-
-    public function createNew(User $author, string $title, string $body, array $tags = [], array $images = []): News
-    {
-        return new News(
-            id: $this->userRepository->generateId(),
-            user: $author,
-            title: $title,
-            body: $body,
-            tags: $tags,
-            images: $images,
-            createdAt: (new DateTime())->format(DateTimeInterface::ATOM),
-            updatedAt: null,
         );
     }
 }
