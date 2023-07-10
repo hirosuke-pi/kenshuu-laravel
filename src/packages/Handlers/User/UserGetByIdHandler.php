@@ -20,9 +20,9 @@ final class UserGetByIdHandler
      * ユーザーIDからユーザーを取得するハンドラ
      *
      * @param string $userId ユーザーID
-     * @return User ユーザー
+     * @return User|null ユーザー
      */
-    public function handle(string $userId): User
+    public function handle(string $userId): ?User
     {
         return $this->repository->find($userId);
     }

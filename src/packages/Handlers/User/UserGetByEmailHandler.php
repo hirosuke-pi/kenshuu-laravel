@@ -20,9 +20,9 @@ final class UserGetByEmailHandler
      * メールアドレスからユーザーを取得するハンドラ
      *
      * @param string $email メールアドレス
-     * @return User ユーザー
+     * @return User|null ユーザー
      */
-    public function handle(string $email): User
+    public function handle(string $email): ?User
     {
         return $this->repository->findByEmail($email);
     }
