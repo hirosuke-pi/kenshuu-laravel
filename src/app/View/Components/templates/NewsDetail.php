@@ -25,7 +25,7 @@ class NewsDetail extends Component
     public function __construct(News $news, User $user, bool $isGuest, string $title)
     {
         $this->news = $news;
-        $this->newsUser = $news->getUser();
+        $this->newsUser = $news->getAuthor();
         $this->user = $user;
         $this->isGuest = $isGuest;
         $this->title = $title;

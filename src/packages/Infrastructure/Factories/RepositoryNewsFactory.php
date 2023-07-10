@@ -2,6 +2,9 @@
 
 namespace Packages\Infrastructure\Factories;
 
+use DateTime;
+use DateTimeInterface;
+use Packages\Domains\Entities\User;
 use Packages\Domains\Interfaces\Factories\NewsFactoryInterface;
 use Packages\Domains\Interfaces\Repositories\ImageRepositoryInterface;
 use Packages\Domains\Interfaces\Repositories\TagRepositoryInterface;
@@ -38,7 +41,7 @@ final class RepositoryNewsFactory implements NewsFactoryInterface
     {
         return new News(
             id: $id,
-            user: $this->userRepository->find($userId),
+            author: $this->userRepository->find($userId),
             title: $title,
             body: $body,
             tags: $this->tagRepository->findByPostId($id),

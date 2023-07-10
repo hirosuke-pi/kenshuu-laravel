@@ -3,6 +3,8 @@
 namespace Packages\Domains\Entities;
 
 use DateTime;
+use DateTimeInterface;
+use Exception;
 use Packages\Domains\Entities\Tag;
 use Packages\Domains\Entities\Image;
 use Packages\Domains\Entities\User;
@@ -13,7 +15,7 @@ final class News
      * ニュースエンティティ
      *
      * @param string $id ニュースID
-     * @param User $user ユーザーEntity
+     * @param User $author ユーザーEntity
      * @param string $title タイトル
      * @param string $body 本文
      * @param string $createdAt 作成日時
@@ -23,7 +25,7 @@ final class News
      */
     public function __construct(
         private string $id,
-        private User $user,
+        private User $author,
 
         private string $title,
         private string $body,
@@ -45,7 +47,7 @@ final class News
     {
         $this->title = $title;
         $this->body = $body;
-        $this->updatedAt = (new DateTime())->format(DateTime::ATOM);
+        $this->updatedAt = (new DateTime())->format(DateTimeInterface::ATOM);
     }
 
     /**
@@ -63,8 +65,8 @@ final class News
      *
      * @return User ユーザーEntity
      */
-    public function getUser(): User {
-        return $this->user;
+    public function getAuthor(): User {
+        return $this->author;
     }
 
     /**
@@ -164,7 +166,7 @@ final class News
      * タグを適応する
      *
      * @param array $tags タグEntityの配列
-     * @throws \Exception タグクラス以外のオブジェクトが含まれている場合
+     * @throws Exception タグクラス以外のオブジェクトが含まれている場合
      * @return void
      */
     public function applyTags(array $tags): void
@@ -172,7 +174,7 @@ final class News
         $this->tags = [];
         foreach($tags as $tag) {
             if (!($tag instanceof Tag)) {
-                throw new \Exception('Tagクラス以外のオブジェクトが含まれています');
+                throw new Exception('Tagクラス以外のオブジェクトが含まれています');
             }
             $this->tags[$tag->getId()] = $tag;
         }
@@ -182,7 +184,7 @@ final class News
      * 画像を適応する
      *
      * @param array $images
-     * @throws \Exception 画像クラス以外のオブジェクトが含まれている場合
+     * @throws Exception 画像クラス以外のオブジェクトが含まれている場合
      * @return void
      */
     public function applyImages(array $images): void
@@ -190,7 +192,7 @@ final class News
         $this->images = [];
         foreach($images as $image) {
             if (!($image instanceof Image)) {
-                throw new \Exception('Imageクラス以外のオブジェクトが含まれています');
+                throw new Exception('Imageクラス以外のオブジェクトが含まれています');
             }
             $this->images[$image->getId()] = $image;
         }

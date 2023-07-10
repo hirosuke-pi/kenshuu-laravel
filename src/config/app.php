@@ -168,9 +168,9 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-        App\Providers\UserUseCaseProvider::class,
-        App\Providers\NewsUseCaseProvider::class,
-        App\Providers\TagUseCaseProvider::class,
+        App\Providers\UserHandlerProvider::class,
+        App\Providers\NewsHandlerProvider::class,
+        App\Providers\TagHandlerProvider::class
     ])->toArray(),
 
     /*
