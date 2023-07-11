@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use \Illuminate\Contracts\View\Factory;
 use \Illuminate\Contracts\View\View;
 
-use Packages\Handlers\User\UserGetByEmailHandler;
 use Packages\Handlers\News\NewsGetAllHandler;
 
 class HomeController extends Controller

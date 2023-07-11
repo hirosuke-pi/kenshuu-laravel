@@ -34,7 +34,7 @@ class UserController extends Controller
 
         $user = $userGetById->handle($userId);
         if (is_null($user)) {
-            session()->flash(config('define.session.status'), ['type' => 'error', 'message' => 'ユーザーが見つかりませんでした。']);
+            status('error', 'ニュースが見つかりませんでした。');
             return redirect()->route('home');
         }
 

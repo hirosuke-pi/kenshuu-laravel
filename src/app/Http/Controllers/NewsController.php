@@ -31,7 +31,7 @@ class NewsController extends Controller
 
         $news = $newsGet->handle($newsId);
         if (is_null($news)) {
-            session()->flash(config('define.session.status'), ['type' => 'error', 'message' => 'ニュースが見つかりませんでした。']);
+            status('error', 'ニュースが見つかりませんでした。');
             return redirect()->route('home');
         }
 
