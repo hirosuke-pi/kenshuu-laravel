@@ -17,8 +17,8 @@ class NewsController extends Controller
      * ニュース詳細画面を表示する
      *
      * @param string $newsId ニュースID
-     * @param UserGetByEmailHandler $userGetByEmail メールアドレスからユーザーを取得するユースケース
-     * @param NewsGetHandler $newsGet ニュースを取得するユースケース
+     * @param Request $request リクエスト
+     * @param NewsGetHandler $newsGet ニュースを取得するハンドラ
      * @return Factory | View | RedirectResponse
      */
     public function view(
@@ -31,7 +31,7 @@ class NewsController extends Controller
 
         $news = $newsGet->handle($newsId);
         if (is_null($news)) {
-            session()->flash(config('define.session.status'), ['type' => 'error', 'message' => 'ニュースが見つかりませんでした。']);
+            status('error', 'ニュースが見つかりませんでした。');
             return redirect()->route('home');
         }
 

@@ -18,7 +18,7 @@ class UserController extends Controller
      * ユーザー画面を表示する
      *
      * @param string $userId
-     * @param UserGetByEmailHandler $userGetByEmail メールアドレスからユーザーを取得するハンドラ
+     * @param Request $request リクエスト
      * @param UserGetByIdHandler $userGetById ユーザーIDからユーザーを取得するハンドラ
      * @param NewsGetByUserHandler $newsGetByUser ユーザーからニュースを取得するハンドラ
      * @return Factory | View | RedirectResponse
@@ -34,7 +34,7 @@ class UserController extends Controller
 
         $user = $userGetById->handle($userId);
         if (is_null($user)) {
-            session()->flash(config('define.session.status'), ['type' => 'error', 'message' => 'ユーザーが見つかりませんでした。']);
+            status('error', 'ニュースが見つかりませんでした。');
             return redirect()->route('home');
         }
 
