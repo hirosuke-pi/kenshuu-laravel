@@ -8,47 +8,37 @@ use Packages\Domains\Interfaces\Repositories\NewsRepositoryInterface;
 use Packages\Domains\Entities\News;
 use Packages\Domains\Interfaces\Factories\NewsFactoryInterface;
 use Packages\Domains\Interfaces\Repositories\TagRepositoryInterface;
-use Packages\Domains\Interfaces\Repositories\UserRepositoryInterface;
-use Packages\Infrastructure\Factories\RepositoryNewsFactory;
 
 use App\Models\Post as PostModel;
 
 final class EloquentNewsRepository implements NewsRepositoryInterface
 {
     private const PREFIX = 'news';
-    private NewsFactoryInterface $newsFactory;
 
     /**
      * NewsRepositoryのコンストラクタ
      *
-     * @param UserRepositoryInterface $userRepository ユーザーリポジトリ
      * @param TagRepositoryInterface $tagRepository タグリポジトリ
      * @param ImageRepositoryInterface $imageRepository 画像リポジトリ
      */
     public function __construct(
-        private readonly UserRepositoryInterface $userRepository,
         private readonly TagRepositoryInterface $tagRepository,
         private readonly ImageRepositoryInterface $imageRepository
-    ) {
-        $this->newsFactory = new RepositoryNewsFactory(
-            userRepository: $this->userRepository,
-            tagRepository: $this->tagRepository,
-            imageRepository: $this->imageRepository,
-        );
-    }
+    ) {}
 
     /**
      * ニュースを全件取得する
      *
+     * @param NewsFactoryInterface $newsFactory ニュースファクトリ
      * @return array
      */
-    public function findAll(): array
+    public function findAll(NewsFactoryInterface $newsFactory): array
     {
 
         $posts = PostModel::whereNull('deleted_at')->get();
         $newsEntities = [];
         foreach($posts as $post) {
-            $newsEntities[] = $this->newsFactory->create(
+            $newsEntities[] = $newsFactory->createWithUserId(
                 id: $post->id,
                 userId: $post->user_id,
                 title: $post->title,
@@ -64,17 +54,18 @@ final class EloquentNewsRepository implements NewsRepositoryInterface
     /**
      * ニュースを取得する
      *
+     * @param NewsFactoryInterface $newsFactory ニュースファクトリ
      * @param string $id ニュースID
      * @return News|null ニュースEntity
      */
-    public function find(string $id): ?News
+    public function find(NewsFactoryInterface $newsFactory, string $id): ?News
     {
         $post = PostModel::whereNull('deleted_at')->find($id);
         if (is_null($post)) {
             return null;
         }
 
-        return $this->newsFactory->create(
+        return $newsFactory->createWithUserId(
             id: $post->id,
             userId: $post->user_id,
             title: $post->title,
@@ -87,21 +78,21 @@ final class EloquentNewsRepository implements NewsRepositoryInterface
     /**
      * ユーザーIDに紐づくニュースを取得する
      *
+     * @param NewsFactoryInterface $newsFactory ニュースファクトリ
      * @param User $user ユーザーエンティティ
      * @return array ニュースEntityの配列
      */
-    public function findByUser(User $user): array {
+    public function findByUser(NewsFactoryInterface $newsFactory, User $user): array {
         $posts = PostModel::where('user_id', $user->getId())->whereNull('deleted_at')->get();
         $newsEntities = [];
         foreach($posts as $post) {
-            $newsEntities[] = $this->newsFactory->create(
+            $newsEntities[] = $newsFactory->create(
                 id: $post->id,
-                userId: $post->user_id,
+                author: $user,
                 title: $post->title,
                 body: $post->body,
                 createdAt: $post->created_at,
                 updatedAt: $post->updated_at,
-                user: $user
             );
         }
 
@@ -118,7 +109,7 @@ final class EloquentNewsRepository implements NewsRepositoryInterface
     {
         $post = new PostModel();
         $post->id = $news->getId();
-        $post->user_id = $news->getUser()->getId();
+        $post->user_id = $news->getAuthor()->getId();
         $post->title = $news->getTitle();
         $post->body = $news->getBody();
         $post->created_at = $news->getCreatedAt();

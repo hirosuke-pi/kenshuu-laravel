@@ -5,7 +5,7 @@ namespace App\View\Components\organisms;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
-use Packages\Applications\Tag\Handlers\TagGetAllHandler;
+use Packages\Handlers\Tag\TagGetAllHandler;
 use Packages\Infrastructure\Repositories\EloquentTagRepository;
 
 class TagSection extends Component
@@ -21,7 +21,7 @@ class TagSection extends Component
     {
         if ($isCheckbox) {
             $handler = new TagGetAllHandler(new EloquentTagRepository());
-            $tagAll = $handler->handle()->getTagEntities();
+            $tagAll = $handler->handle();
 
             $checkboxTags = [];
             foreach($tagAll as $tag) {

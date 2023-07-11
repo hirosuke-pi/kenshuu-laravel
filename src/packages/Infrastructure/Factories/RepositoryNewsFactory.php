@@ -33,14 +33,36 @@ final class RepositoryNewsFactory implements NewsFactoryInterface
      * @param string $body 本文
      * @param string $createdAt 作成日時
      * @param string $updatedAt 更新日時
-     * @param User|null $user ユーザーエンティティ
      * @return News ニュースEntity
      */
-    public function create(string $id, string $userId, string $title, string $body, string $createdAt, ?string $updatedAt, ?User $user = null): News
+    public function createWithUserId(string $id, string $userId, string $title, string $body, string $createdAt, ?string $updatedAt): News
+    {
+        return $this->create(
+            id: $id,
+            author: $this->userRepository->find($userId),
+            title: $title,
+            body: $body,
+            createdAt: $createdAt,
+            updatedAt: $updatedAt,
+        );
+    }
+
+        /**
+     * ニュースを生成する
+     *
+     * @param string $id ニュースID
+     * @param User $author ユーザーEntity
+     * @param string $title タイトル
+     * @param string $body 本文
+     * @param string $createdAt 作成日時
+     * @param string $updatedAt 更新日時
+     * @return News ニュースEntity
+     */
+    public function create(string $id, User $author, string $title, string $body, string $createdAt, ?string $updatedAt): News
     {
         return new News(
             id: $id,
-            user: $user ?? $this->userRepository->find($userId),
+            author: $author,
             title: $title,
             body: $body,
             tags: $this->tagRepository->findByPostId($id),

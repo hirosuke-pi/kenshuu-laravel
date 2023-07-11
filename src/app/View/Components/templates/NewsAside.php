@@ -29,7 +29,7 @@ class NewsAside extends Component
     public function __construct(News $news, bool $isAdmin, string $title, bool $isEditorMode, bool $isNewMode)
     {
         $this->news = $news;
-        $this->newsUser = $news->getUser();
+        $this->newsUser = $news->getAuthor();
         $this->newsUserLink = route('user.index', ['userId' => $this->newsUser->getId()]);
         $this->isAdmin = $isAdmin;
         $this->title = $title;

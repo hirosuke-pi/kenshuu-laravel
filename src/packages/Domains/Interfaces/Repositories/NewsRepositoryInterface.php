@@ -2,31 +2,18 @@
 
 namespace Packages\Domains\Interfaces\Repositories;
 
-
+use Packages\Domains\Interfaces\Factories\NewsFactoryInterface;
 use Packages\Domains\Entities\News;
 use Packages\Domains\Entities\User;
 
 interface NewsRepositoryInterface
 {
     /**
-     * NewsRepositoryのコンストラクタ
-     *
-     * @param UserRepositoryInterface $userRepository ユーザーリポジトリ
-     * @param TagRepositoryInterface $newsRepository タグリポジトリ
-     * @param ImageRepositoryInterface $imageRepository 画像リポジトリ
-     */
-    public function __construct(
-        UserRepositoryInterface $userRepository,
-        TagRepositoryInterface $newsRepository,
-        ImageRepositoryInterface $imageRepository
-    );
-
-    /**
      * ニュースを全件取得する
      *
      * @return array ニュースEntityの配列
      */
-    public function findAll(): array;
+    public function findAll(NewsFactoryInterface $newsFactory): array;
 
     /**
      * ニュースIDからニュースを取得する
@@ -34,7 +21,7 @@ interface NewsRepositoryInterface
      * @param string $id ニュースID
      * @return News|null ニュースEntity
      */
-    public function find(string $id): ?News;
+    public function find(NewsFactoryInterface $newsFactory, string $id): ?News;
 
     /**
      * ユーザーIDに紐づくニュースを取得する
@@ -42,7 +29,7 @@ interface NewsRepositoryInterface
      * @param User $user ユーザーエンティティ
      * @return array ニュースEntityの配列
      */
-    public function findByUser(User $user): array;
+    public function findByUser(NewsFactoryInterface $newsFactory, User $user): array;
 
     /**
      * ニュースを保存する

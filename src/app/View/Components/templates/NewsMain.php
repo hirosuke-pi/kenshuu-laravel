@@ -29,7 +29,7 @@ class NewsMain extends Component
     {
         $this->news = $news;
         $this->paths = $paths;
-        $this->newsUser = $news->getUser();
+        $this->newsUser = $news->getAuthor();
         $this->isAdmin = $isAdmin;
         $this->isEditorMode = $isEditorMode;
     }

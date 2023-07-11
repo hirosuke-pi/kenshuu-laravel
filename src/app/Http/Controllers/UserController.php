@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Packages\Applications\News\Interfaces\NewsGetByUserInterface;
-use Packages\Applications\News\Requests\NewsGetByUserRequest;
-use Packages\Applications\User\Interfaces\UserGetByEmailInterface;
-use Packages\Applications\User\Interfaces\UserGetByIdInterface;
-use Packages\Applications\User\Requests\UserGetByEmailRequest;
-use Packages\Applications\User\Requests\UserGetByIdRequest;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
+use Packages\Handlers\News\NewsGetByUserHandler;
+use Packages\Handlers\User\UserGetByEmailHandler;
+use Packages\Handlers\User\UserGetByIdHandler;
+
+
 
 class UserController extends Controller
 {
@@ -16,45 +18,38 @@ class UserController extends Controller
      * ユーザー画面を表示する
      *
      * @param string $userId
-     * @param UserGetByEmailInterface $userGetByEmail メールアドレスからユーザーを取得するユースケース
-     * @param UserGetByIdInterface $userGetById ユーザーIDからユーザーを取得するユースケース
-     * @param NewsGetByUserInterface $newsGetByUser ユーザーからニュースを取得するユースケース
-     * @return void
+     * @param UserGetByEmailHandler $userGetByEmail メールアドレスからユーザーを取得するハンドラ
+     * @param UserGetByIdHandler $userGetById ユーザーIDからユーザーを取得するハンドラ
+     * @param NewsGetByUserHandler $newsGetByUser ユーザーからニュースを取得するハンドラ
+     * @return Factory | View | RedirectResponse
      */
     public function index(
         string $userId,
         Request $request,
-        UserGetByIdInterface $userGetById,
-        NewsGetByUserInterface $newsGetByUser
-    ): \Illuminate\Contracts\View\Factory | \Illuminate\Contracts\View\View | \Illuminate\Http\RedirectResponse
+        UserGetByIdHandler $userGetById,
+        NewsGetByUserHandler $newsGetByUser
+    ): Factory | View | RedirectResponse
     {
         $loginUser = $request->input('loginUser')['entity'];
 
-        $userRequest = new UserGetByIdRequest($userId);
-        $userResponse = $userGetById->handle($userRequest);
-
-        if (!$userResponse->hasUser()) {
+        $user = $userGetById->handle($userId);
+        if (is_null($user)) {
             session()->flash(config('define.session.status'), ['type' => 'error', 'message' => 'ユーザーが見つかりませんでした。']);
             return redirect()->route('home');
         }
-        $user = $userResponse->getUser();
 
-        $newsRequest = new NewsGetByUserRequest($user);
-        $newsResponse = $newsGetByUser->handle($newsRequest);
+        $newsEntities = $newsGetByUser->handle($user);
 
         return view('components.pages.user', [
             'user' => $user,
             'loginUser' => $loginUser,
             'isAdmin' => is_null($loginUser) ? false : $loginUser->validate($user),
-            'newsList' => $newsResponse->getNewsAll(),
+            'newsList' => $newsEntities,
         ]);
     }
 
-    public function login(UserGetByEmailInterface $userGetByEmail) {
-        $userGetByEmailRequest = new UserGetByEmailRequest(config('test.user1.email'));
-        $userGetByEmailResponse = $userGetByEmail->handle($userGetByEmailRequest);
-        $loginUser = $userGetByEmailResponse->getUser();
-
+    public function login(UserGetByEmailHandler $userGetByEmail) {
+        $loginUser = $userGetByEmail->handle(config('test.user1.email'));
         session()->push(config('session.user'), $loginUser->getId());
 
         return redirect()->route('home');
