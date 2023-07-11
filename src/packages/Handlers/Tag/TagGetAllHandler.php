@@ -1,12 +1,10 @@
 <?php
 
-namespace Packages\Applications\Tag\Handlers;
+namespace Packages\Handlers\Tag;
 
-use Packages\Applications\Tag\Responses\TagGetArrayResponse;
-use Packages\Applications\Tag\Interfaces\TagGetAllInterface;
 use Packages\Domains\Interfaces\Repositories\TagRepositoryInterface;
 
-final class TagGetAllHandler implements TagGetAllInterface
+final class TagGetAllHandler
 {
     private TagRepositoryInterface $tagRepository;
 
@@ -22,13 +20,9 @@ final class TagGetAllHandler implements TagGetAllInterface
     /**
      * タグを全て取得するハンドラ
      *
-     * @return TagGetArrayResponse レスポンス
+     * @return array タグリスト
      */
-    public function handle(): TagGetArrayResponse {
-        $tagEntities = $this->tagRepository->findAll();
-
-        return new TagGetArrayResponse(
-            tagEntities: $tagEntities
-        );
+    public function handle(): array {
+        return $this->tagRepository->findAll();
     }
 }

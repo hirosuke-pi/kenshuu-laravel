@@ -17,7 +17,7 @@ final class News
      * ニュースエンティティ
      *
      * @param string $id ニュースID
-     * @param User $user ユーザーEntity
+     * @param User $author ユーザーEntity
      * @param string $title タイトル
      * @param string $body 本文
      * @param string $createdAt 作成日時

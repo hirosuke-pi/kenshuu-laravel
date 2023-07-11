@@ -18,13 +18,13 @@ class User {
      * @param int $postsCount 投稿数
      */
     public function __construct(
-        private string $id,
-        private string $name,
-        private string $email,
-        private string $password,
-        private ?string $profileImagePath,
-        private string $createdAt,
-        private int $postsCount,
+        private readonly string $id,
+        private readonly string $name,
+        private readonly string $email,
+        private readonly string $password,
+        private readonly ?string $profileImagePath,
+        private readonly string $createdAt,
+        private readonly int $postsCount = 0,
     ) {}
 
     /**
