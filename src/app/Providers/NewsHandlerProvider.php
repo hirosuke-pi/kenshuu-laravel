@@ -12,6 +12,7 @@ use Packages\Infrastructure\Repositories\EloquentUserRepository;
 
 use Packages\Handlers\News\NewsGetAllHandler;
 use Packages\Handlers\News\NewsGetHandler;
+use Packages\Handlers\News\NewsCreateHandler;
 
 class NewsHandlerProvider extends ServiceProvider
 {
@@ -20,21 +21,24 @@ class NewsHandlerProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $eloquentNewsRepository = new EloquentNewsRepository(
-            newsFactory: new RepositoryNewsFactory(
-                userRepository: new EloquentUserRepository(),
-                tagRepository: new EloquentTagRepository(),
-                imageRepository: new EloquentImageRepository()
-            )
+        $eloquentNewsFactory = new RepositoryNewsFactory(
+            userRepository: new EloquentUserRepository(),
+            tagRepository: new EloquentTagRepository(),
+            imageRepository: new EloquentImageRepository()
         );
+        $eloquentNewsRepository = new EloquentNewsRepository();
 
         $this->app->bind(
             NewsGetHandler::class,
-            fn () => new NewsGetHandler($eloquentNewsRepository)
+            fn () => new NewsGetHandler($eloquentNewsRepository, $eloquentNewsFactory)
         );
         $this->app->bind(
             NewsGetAllHandler::class,
-            fn () => new NewsGetAllHandler($eloquentNewsRepository)
+            fn () => new NewsGetAllHandler($eloquentNewsRepository, $eloquentNewsFactory)
+        );
+        $this->app->bind(
+            NewsCreateHandler::class,
+            fn () => new NewsCreateHandler($eloquentNewsRepository)
         );
     }
 

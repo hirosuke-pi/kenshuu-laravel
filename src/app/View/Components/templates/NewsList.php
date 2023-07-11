@@ -11,13 +11,17 @@ use App\Repo\NewsRepo;
 class NewsList extends Component
 {
     public readonly array $newsList;
+    public readonly int $newsCount;
 
     /**
-     * Create a new component instance.
+     * ニュースリストコンポーネント
+     *
+     * @param array $newsList ニュースリスト
      */
     public function __construct(array $newsList)
     {
         $this->newsList = $newsList;
+        $this->newsCount = count($newsList);
     }
 
     /**

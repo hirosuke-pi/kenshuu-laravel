@@ -13,25 +13,18 @@ final class EloquentNewsRepository implements NewsRepositoryInterface
     private const PREFIX = 'news';
 
     /**
-     * NewsRepositoryのコンストラクタ
-     *
-     * @param NewsFactoryInterface $newsFactory ニュースファクトリ
-     */
-    public function __construct(
-        private NewsFactoryInterface $newsFactory
-    ) {}
-
-    /**
      * ニュースを全件取得する
      *
+     * @param NewsFactoryInterface $newsFactory ニュースファクトリ
      * @return array
      */
-    public function findAll(): array
+    public function findAll(NewsFactoryInterface $newsFactory): array
     {
-        $posts = PostModel::whereNotNull('deleted_at')->get();
+
+        $posts = PostModel::whereNull('deleted_at')->get();
         $newsEntities = [];
         foreach($posts as $post) {
-            $newsEntities[] = $this->newsFactory->create(
+            $newsEntities[] = $newsFactory->create(
                 id: $post->id,
                 userId: $post->user_id,
                 title: $post->title,
@@ -47,17 +40,18 @@ final class EloquentNewsRepository implements NewsRepositoryInterface
     /**
      * ニュースを取得する
      *
+     * @param NewsFactoryInterface $newsFactory ニュースファクトリ
      * @param string $id ニュースID
      * @return News|null ニュースEntity
      */
-    public function find(string $id): ?News
+    public function find(NewsFactoryInterface $newsFactory, string $id): ?News
     {
-        $post = PostModel::whereNotNull('deleted_at')->find($id);
+        $post = PostModel::whereNull('deleted_at')->find($id);
         if (is_null($post)) {
             return null;
         }
 
-        return $this->newsFactory->create(
+        return $newsFactory->create(
             id: $post->id,
             userId: $post->user_id,
             title: $post->title,
@@ -77,7 +71,7 @@ final class EloquentNewsRepository implements NewsRepositoryInterface
     {
         $post = new PostModel();
         $post->id = $news->getId();
-        $post->user_id = $news->getUser()->getId();
+        $post->user_id = $news->getAuthor()->getId();
         $post->title = $news->getTitle();
         $post->body = $news->getBody();
         $post->created_at = $news->getCreatedAt();

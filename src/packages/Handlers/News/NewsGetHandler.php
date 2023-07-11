@@ -3,6 +3,7 @@
 namespace Packages\Handlers\News;
 
 use Packages\Domains\Entities\News;
+use Packages\Domains\Interfaces\Factories\NewsFactoryInterface;
 use Packages\Domains\Interfaces\Repositories\NewsRepositoryInterface;
 
 final class NewsGetHandler
@@ -10,10 +11,12 @@ final class NewsGetHandler
     /**
      * ニュース取得ユースケースのコンストラクタ
      *
+     * @param NewsFactoryInterface $factory ニュースファクトリ
      * @param NewsRepositoryInterface $repository ニュースリポジトリ
      */
     public function __construct(
-        private readonly NewsRepositoryInterface $repository
+        private readonly NewsRepositoryInterface $repository,
+        private readonly NewsFactoryInterface $newsFactory
     ) {}
 
     /**
@@ -24,6 +27,6 @@ final class NewsGetHandler
      */
     public function handle(string $newsId): ?News
     {
-        return $this->repository->find($newsId);
+        return $this->repository->find($this->newsFactory, $newsId);
     }
 }

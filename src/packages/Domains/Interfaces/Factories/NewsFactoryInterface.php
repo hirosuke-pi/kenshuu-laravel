@@ -2,9 +2,6 @@
 
 namespace Packages\Domains\Interfaces\Factories;
 
-use Packages\Domains\Interfaces\Repositories\UserRepositoryInterface;
-use Packages\Domains\Interfaces\Repositories\TagRepositoryInterface;
-use Packages\Domains\Interfaces\Repositories\ImageRepositoryInterface;
 use Packages\Domains\Entities\News;
 
 interface NewsFactoryInterface {

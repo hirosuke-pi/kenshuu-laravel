@@ -2,6 +2,9 @@
 
 namespace Packages\Infrastructure\Factories;
 
+use DateTime;
+use DateTimeInterface;
+use Packages\Domains\Entities\User;
 use Packages\Domains\Interfaces\Factories\NewsFactoryInterface;
 use Packages\Domains\Interfaces\Repositories\ImageRepositoryInterface;
 use Packages\Domains\Interfaces\Repositories\TagRepositoryInterface;
@@ -34,11 +37,11 @@ final class RepositoryNewsFactory implements NewsFactoryInterface
      * @param string $updatedAt 更新日時
      * @return News ニュースEntity
      */
-    public function create(string $id, string $userId, string $title, string $body, string $createdAt, string $updatedAt): News
+    public function create(string $id, string $userId, string $title, string $body, string $createdAt, ?string $updatedAt): News
     {
         return new News(
             id: $id,
-            user: $this->userRepository->find($userId),
+            author: $this->userRepository->find($userId),
             title: $title,
             body: $body,
             tags: $this->tagRepository->findByPostId($id),

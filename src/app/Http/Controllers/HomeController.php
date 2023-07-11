@@ -16,7 +16,7 @@ class HomeController extends Controller
      *
      * @param UserGetByEmailHandler $userGetByEmail メールアドレスからユーザーを取得するハンドラ
      * @param NewsGetAllHandler $newsGetAll ニュースを全件取得するハンドラ
-     * @return void
+     * @return Factory|View
      */
     public static function index(
         UserGetByEmailHandler $userGetByEmail,

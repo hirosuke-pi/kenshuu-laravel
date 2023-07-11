@@ -18,18 +18,18 @@ final class EloquentUserRepository implements UserRepositoryInterface
      */
     public function find(string $id): ?User
     {
-        $user = UserModel::find($id)->whereNotNull('deleted_at')->first();
+        $user = UserModel::find($id)->whereNull('deleted_at')->first();
         if (is_null($user)) {
             return null;
         }
 
         return new User(
             id: $user->id,
-            name: $user->name,
+            name: $user->username,
             email: $user->email,
             password: $user->password,
             profileImagePath: $user->profile_image_path,
-            createdAt: $user->createdAt,
+            createdAt: $user->created_at,
         );
     }
 
@@ -40,7 +40,7 @@ final class EloquentUserRepository implements UserRepositoryInterface
      * @return User|null ユーザーEntity
      */
     public function findByEmail(string $email): ?User {
-        $user = UserModel::where('email', $email)->whereNotNull('deleted_at')->first();
+        $user = UserModel::where('email', $email)->whereNull('deleted_at')->first();
         if (is_null($user)) {
             return null;
         }

@@ -9,15 +9,15 @@ use Illuminate\View\Component;
 class NewsSearch extends Component
 {
     public string $word = '';
-    public int $postsCount = 0;
+    public int $newsCount = 0;
 
     /**
      * ニュース検索コンポーネント
      */
-    public function __construct(int $postsCount = 0)
+    public function __construct(string $word, int $newsCount)
     {
-        $this->word = request()->input('word') ?? '';
-        $this->postsCount = $postsCount;
+        $this->word = $word;
+        $this->newsCount = $newsCount;
     }
 
     /**

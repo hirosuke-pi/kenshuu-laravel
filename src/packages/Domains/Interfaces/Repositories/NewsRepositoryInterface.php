@@ -12,7 +12,7 @@ interface NewsRepositoryInterface
      *
      * @return array ニュースEntityの配列
      */
-    public function findAll(): array;
+    public function findAll(NewsFactoryInterface $newsFactory): array;
 
     /**
      * ニュースIDからニュースを取得する
@@ -20,7 +20,7 @@ interface NewsRepositoryInterface
      * @param string $id ニュースID
      * @return News|null ニュースEntity
      */
-    public function find(string $id): ?News;
+    public function find(NewsFactoryInterface $newsFactory, string $id): ?News;
 
     /**
      * ニュースを保存する
