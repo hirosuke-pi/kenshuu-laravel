@@ -17,8 +17,8 @@ class NewsController extends Controller
      * ニュース詳細画面を表示する
      *
      * @param string $newsId ニュースID
-     * @param UserGetByEmailHandler $userGetByEmail メールアドレスからユーザーを取得するユースケース
-     * @param NewsGetHandler $newsGet ニュースを取得するユースケース
+     * @param Request $request リクエスト
+     * @param NewsGetHandler $newsGet ニュースを取得するハンドラ
      * @return Factory | View | RedirectResponse
      */
     public function view(
@@ -51,7 +51,7 @@ class NewsController extends Controller
      * ニュースを編集する
      *
      * @param string $newsId ニュースID
-     * @param Request $request メールアドレスからユーザーを取得するハンドラ
+     * @param Request $request リクエスト
      * @param NewsGetHandler $newsGet ニュースを取得するハンドラ
      * @return void
      */

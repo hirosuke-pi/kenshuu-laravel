@@ -18,7 +18,7 @@ class UserController extends Controller
      * ユーザー画面を表示する
      *
      * @param string $userId
-     * @param UserGetByEmailHandler $userGetByEmail メールアドレスからユーザーを取得するハンドラ
+     * @param Request $request リクエスト
      * @param UserGetByIdHandler $userGetById ユーザーIDからユーザーを取得するハンドラ
      * @param NewsGetByUserHandler $newsGetByUser ユーザーからニュースを取得するハンドラ
      * @return Factory | View | RedirectResponse
