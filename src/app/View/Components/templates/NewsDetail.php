@@ -13,21 +13,23 @@ class NewsDetail extends Component
 {
     public readonly News $news;
     public readonly User $newsUser;
-    public readonly User $user;
-    public readonly bool $isGuest;
+    public readonly string $newsUserLink;
+    public readonly bool $isAdmin;
     public readonly string $title;
 
     /**
      * ニュース詳細画面を表示するコンポーネント
      *
-     * @param News $news
+     * @param News $news ニュースEntity
+     * @param boolean $isAdmin 管理者かどうか
+     * @param string $title タイトル
      */
-    public function __construct(News $news, User $user, bool $isGuest, string $title)
+    public function __construct(News $news, bool $isAdmin, string $title)
     {
         $this->news = $news;
         $this->newsUser = $news->getAuthor();
-        $this->user = $user;
-        $this->isGuest = $isGuest;
+        $this->newsUserLink = route('user.index', ['userId' => $this->newsUser->getId()]);
+        $this->isAdmin = $isAdmin;
         $this->title = $title;
     }
 

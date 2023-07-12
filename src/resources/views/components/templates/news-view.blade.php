@@ -5,7 +5,7 @@
     <div class="m-3">
         <x-molecules.alert-status :status="session(config('define.session.status'), [])" />
     </div>
-    @if ($user->validate($newsUser))
+    @if ($isAdmin)
         <x-molecules.news-action />
     @endif
     <main class="rounded-lg border border-gray-300 m-3 overflow-hidden">
