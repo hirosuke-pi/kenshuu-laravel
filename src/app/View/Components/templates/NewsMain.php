@@ -8,25 +8,28 @@ use Illuminate\View\Component;
 use Packages\Domains\Entities\News;
 use Packages\Domains\Entities\User;
 
-class NewsView extends Component
+class NewsMain extends Component
 {
-    public readonly News $news;
+    public readonly ?News $news;
     public readonly array $paths;
-    public readonly User $newsUser;
-    public readonly User $user;
+    public readonly bool $isAdmin;
+    public readonly bool $isEditorMode;
 
     /**
      * ニュース概要画面を表示するコンポーネント
      *
+     * @param News|null $news ニュースEntity
+     * @param boolean $isAdmin 管理者かどうか
      * @param array $paths [['link' => 'https://example.com', 'name' => 'ホーム'], ...]
+     * @param boolean $isEditorMode 編集モードかどうか
      * @return void
      */
-    public function __construct(News $news, User $user, array $paths)
+    public function __construct(?News $news, bool $isAdmin, array $paths, bool $isEditorMode)
     {
         $this->news = $news;
         $this->paths = $paths;
-        $this->newsUser = $news->getAuthor();
-        $this->user = $user;
+        $this->isAdmin = $isAdmin;
+        $this->isEditorMode = $isEditorMode;
     }
 
     /**
@@ -34,6 +37,6 @@ class NewsView extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.templates.news-view');
+        return view('components.templates.news-main');
     }
 }

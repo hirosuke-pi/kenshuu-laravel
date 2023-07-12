@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-
+use Packages\Handlers\News\NewsGetByUserHandler;
 use Packages\Infrastructure\Factories\RepositoryNewsFactory;
 use Packages\Infrastructure\Repositories\EloquentImageRepository;
 use Packages\Infrastructure\Repositories\EloquentNewsRepository;
@@ -43,6 +43,10 @@ class NewsHandlerProvider extends ServiceProvider
         $this->app->bind(
             NewsCreateHandler::class,
             fn () => new NewsCreateHandler($eloquentNewsRepository)
+        );
+        $this->app->bind(
+            NewsGetByUserHandler::class,
+            fn () => new NewsGetByUserHandler($eloquentNewsRepository, $eloquentNewsFactory)
         );
     }
 

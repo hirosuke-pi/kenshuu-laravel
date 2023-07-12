@@ -10,18 +10,18 @@ use Packages\Domains\Entities\User;
 
 class Header extends Component
 {
-    public readonly ?User $user;
-    public readonly bool $isGuestUser;
+    public readonly ?User $loginUser;
+    public readonly bool $isLoginUser;
 
     /**
      * ヘッダーコンポーネント
      *
      * @param User|null $user ユーザーEntity
      */
-    public function __construct(?User $user)
+    public function __construct(?User $loginUser)
     {
-        $this->user = $user;
-        $this->isGuestUser = is_null($user);
+        $this->loginUser = $loginUser;
+        $this->isLoginUser = !is_null($loginUser);
     }
 
     /**

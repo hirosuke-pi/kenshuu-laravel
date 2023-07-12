@@ -1,22 +1,24 @@
 <?php
 
-namespace App\View\Components\molecules;
+namespace App\View\Components\organisms;
 
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 use Packages\Domains\Entities\News;
 
-class NewsAction extends Component
+class NewsViewer extends Component
 {
-    public readonly string $newsEditUrl;
+    public readonly News $news;
 
     /**
-     * Create a new component instance.
+     * ニュースを表示するコンポーネント
+     *
+     * @param News $news ニュースEntity
      */
     public function __construct(News $news)
     {
-        $this->newsEditUrl = route('news.edit', ['newsId' => $news->getId()]);
+        $this->news = $news;
     }
 
     /**
@@ -24,6 +26,6 @@ class NewsAction extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.molecules.news-action');
+        return view('components.organisms.news-viewer');
     }
 }

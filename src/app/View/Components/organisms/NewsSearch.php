@@ -8,13 +8,16 @@ use Illuminate\View\Component;
 
 class NewsSearch extends Component
 {
-    public string $word = '';
-    public int $newsCount = 0;
+    public readonly string $word;
+    public  int $newsCount;
 
     /**
-     * ニュース検索コンポーネント
+     *  ニュース検索コンポーネント
+     *
+     * @param string $word 検索ワード
+     * @param int $newsCount 検索結果のニュース数
      */
-    public function __construct(string $word, int $newsCount)
+    public function __construct(string $word = '', int $newsCount = 0)
     {
         $this->word = $word;
         $this->newsCount = $newsCount;

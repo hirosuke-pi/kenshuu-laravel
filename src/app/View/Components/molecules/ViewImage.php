@@ -5,18 +5,18 @@ namespace App\View\Components\molecules;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
-use Packages\Domains\Entities\News;
+use Packages\Domains\Entities\Image;
 
-class NewsAction extends Component
+class ViewImage extends Component
 {
-    public readonly string $newsEditUrl;
+    public readonly Image $image;
 
     /**
      * Create a new component instance.
      */
-    public function __construct(News $news)
+    public function __construct(Image $image)
     {
-        $this->newsEditUrl = route('news.edit', ['newsId' => $news->getId()]);
+        $this->image = $image;
     }
 
     /**
@@ -24,6 +24,6 @@ class NewsAction extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.molecules.news-action');
+        return view('components.molecules.view-image');
     }
 }

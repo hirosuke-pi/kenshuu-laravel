@@ -2,8 +2,9 @@
 
 namespace Packages\Domains\Entities;
 
-final class User {
+class User {
     private const BASE_USER_IMAGE_URL = '/img/user/';
+    private const NEWS_DEFAULT_IMAGE_URL = 'img/assets/thumbnail.jpg';
 
     /**
      * ユーザーエンティティ
@@ -137,10 +138,26 @@ final class User {
         if ($this->hasUserProfileImage()) {
             return asset(self::BASE_USER_IMAGE_URL . $this->id . '.' . $this->profileImagePath);
         }
-        return asset('img/assets/thumbnail.jpg');
+        return self::getBaseUserImageUrl();
     }
 
+    /**
+     * ユーザーが自分自身かどうかを検証する
+     *
+     * @param User $user ユーザーEntity
+     * @return boolean 検証結果
+     */
     public function validate(User $user): bool {
         return $this->id === $user->id;
+    }
+
+    /**
+     * ユーザーのプロフィール画像のデフォルトURLを取得する
+     *
+     * @return string ユーザーのプロフィール画像のデフォルトURL
+     */
+    public static function getBaseUserImageUrl(): string
+    {
+        return asset(self::NEWS_DEFAULT_IMAGE_URL);
     }
 }

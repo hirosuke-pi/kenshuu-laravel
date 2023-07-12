@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use \Illuminate\Contracts\View\Factory;
 use \Illuminate\Contracts\View\View;
 
-use Packages\Handlers\User\UserGetByEmailHandler;
 use Packages\Handlers\News\NewsGetAllHandler;
 
 class HomeController extends Controller
@@ -14,21 +13,21 @@ class HomeController extends Controller
     /**
      * ホーム画面を表示する
      *
-     * @param UserGetByEmailHandler $userGetByEmail メールアドレスからユーザーを取得するハンドラ
+     * @param Request $request リクエスト
      * @param NewsGetAllHandler $newsGetAll ニュースを全件取得するハンドラ
      * @return Factory|View
      */
     public static function index(
-        UserGetByEmailHandler $userGetByEmail,
+        Request $request,
         NewsGetAllHandler $newsGetAll
     ): Factory | View
     {
-        $user = $userGetByEmail->handle(config('test.user1.email'));
+        $loginUser = $request->input('loginUser')['entity'];
         $newsEntities = $newsGetAll->handle();
 
         return view('components.pages.home', [
             'newsList' => $newsEntities,
-            'user' => $user
+            'loginUser' => $loginUser
         ]);
     }
 }

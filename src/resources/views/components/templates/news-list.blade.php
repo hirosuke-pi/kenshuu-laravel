@@ -1,8 +1,8 @@
-<div class="flex flex-col justify-center items-center">
-    <div class="w-11/12">
+<main class="flex flex-col justify-center items-center">
+    <section class="w-11/12">
         <x-organisms.news-search :word="request()->input('word', '')" :newsCount="$newsCount" />
-    </div>
-    <div class="w-11/12">
+    </section>
+    <section class="w-11/12">
         <div class="mx-3 mb-3">
             <x-molecules.alert-status :status="session(config('define.session.status'), [])" />
         </div>
@@ -19,5 +19,5 @@
                 @endif
             </ul>
         </div>
-    </div>
-</div>
+    </section>
+</main>

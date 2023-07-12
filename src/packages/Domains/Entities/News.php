@@ -11,6 +11,8 @@ use Packages\Domains\Entities\User;
 
 final class News
 {
+    private const NEWS_DEFAULT_IMAGE_URL = 'img/assets/thumbnail.jpg';
+
     /**
      * ニュースエンティティ
      *
@@ -148,6 +150,20 @@ final class News
     }
 
     /**
+     * ニュースのサムネイルの画像Entityを取得
+     *
+     * @return Image|null
+     */
+    public function getThumbnailImage(): ?Image {
+        foreach($this->images as $image) {
+            if ($image->isThumbnail()) {
+                return $image;
+            }
+        }
+        return null;
+    }
+
+    /**
      * サムネイル画像のURLを取得する
      *
      * @return string
@@ -159,7 +175,7 @@ final class News
                 return $image->getUrl();
             }
         }
-        return asset('img/assets/thumbnail.jpg');
+        return self::getDefaultImageUrl();
     }
 
     /**
@@ -206,5 +222,15 @@ final class News
     public function isUpdated(): bool
     {
         return !is_null($this->updatedAt);
+    }
+
+    /**
+     * ニュースのデフォルト画像のURLを取得する
+     *
+     * @return string ニュースのデフォルト画像のURL
+     */
+    public static function getDefaultImageUrl(): string
+    {
+        return asset(self::NEWS_DEFAULT_IMAGE_URL);
     }
 }
