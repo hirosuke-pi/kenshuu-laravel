@@ -2,15 +2,28 @@
 
 namespace Packages\Infrastructure\Repositories;
 
+use Packages\Domains\Interfaces\Repositories\ImageRepositoryInterface;
 use Packages\Domains\Interfaces\Repositories\NewsRepositoryInterface;
 use Packages\Domains\Entities\News;
 use Packages\Domains\Interfaces\Factories\NewsFactoryInterface;
+use Packages\Domains\Interfaces\Repositories\TagRepositoryInterface;
 
 use App\Models\Post as PostModel;
 
 final class EloquentNewsRepository implements NewsRepositoryInterface
 {
     private const PREFIX = 'news';
+
+    /**
+     * NewsRepositoryのコンストラクタ
+     *
+     * @param TagRepositoryInterface $tagRepository タグリポジトリ
+     * @param ImageRepositoryInterface $imageRepository 画像リポジトリ
+     */
+    public function __construct(
+        private readonly TagRepositoryInterface $tagRepository,
+        private readonly ImageRepositoryInterface $imageRepository
+    ) {}
 
     /**
      * ニュースを全件取得する
@@ -77,6 +90,14 @@ final class EloquentNewsRepository implements NewsRepositoryInterface
         $post->created_at = $news->getCreatedAt();
         $post->updated_at = $news->getUpdatedAt();
         $post->save();
+
+        foreach($news->getTags() as $tag) {
+            $this->tagRepository->saveWithPostId($tag, $news->getId());
+        }
+
+        foreach($news->getImages() as $image) {
+            $this->imageRepository->save($image, $news->getId());
+        }
     }
 
     /**

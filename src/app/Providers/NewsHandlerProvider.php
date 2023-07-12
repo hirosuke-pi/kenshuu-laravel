@@ -21,12 +21,16 @@ class NewsHandlerProvider extends ServiceProvider
      */
     public function register(): void
     {
+        $userRepository = new EloquentUserRepository();
+        $tagRepository = new EloquentTagRepository();
+        $imageRepository = new EloquentImageRepository();
+
         $eloquentNewsFactory = new RepositoryNewsFactory(
-            userRepository: new EloquentUserRepository(),
-            tagRepository: new EloquentTagRepository(),
-            imageRepository: new EloquentImageRepository()
+            userRepository: $userRepository,
+            tagRepository: $tagRepository,
+            imageRepository: $imageRepository
         );
-        $eloquentNewsRepository = new EloquentNewsRepository();
+        $eloquentNewsRepository = new EloquentNewsRepository($tagRepository, $imageRepository);
 
         $this->app->bind(
             NewsGetHandler::class,

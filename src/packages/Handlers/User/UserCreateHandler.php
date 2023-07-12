@@ -39,7 +39,7 @@ final class UserCreateHandler
             name: $name,
             password: $password,
             profileImagePath: $profileImagePath,
-            createdAt: (new DateTime())->format(DateTime::ATOM)
+            createdAt: (new DateTime())->format(DateTime::ATOM),
         );
         $this->repository->save($user);
 

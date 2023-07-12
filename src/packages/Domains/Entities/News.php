@@ -100,6 +100,16 @@ final class News
     }
 
     /**
+     * 作成日時をフォーマットして取得する
+     *
+     * @return string 作成日時
+     */
+    public function getCreatedAtFormat(): string
+    {
+        return (new DateTime($this->createdAt))->format('Y/m/d H:i:s');
+    }
+
+    /**
      * 更新日時を取得する
      *
      * @return string|null 更新日時
@@ -110,18 +120,46 @@ final class News
     }
 
     /**
+     * 更新日時をフォーマットして取得する
+     *
+     * @return string 更新日時
+     */
+    public function getUpdatedAtFormat(): string
+    {
+        return (new DateTime($this->updatedAt))->format('Y/m/d H:i:s');
+    }
+
+    /**
+     * タグEntityの配列を取得する
+     *
+     * @return array タグEntityの配列
+     */
+    public function getTags(): array {
+        return $this->tags;
+    }
+
+    /**
+     *画像Entityの配列を取得する
+     *
+     * @return array 画像Entityの配列
+     */
+    public function getImages(): array {
+        return $this->images;
+    }
+
+    /**
      * サムネイル画像のURLを取得する
      *
-     * @return string|null
+     * @return string
      */
-    public function getThumbnailImageUrl(): ?string
+    public function getThumbnailImageUrl(): string
     {
         foreach($this->images as $image) {
             if ($image->isThumbnail()) {
                 return $image->getUrl();
             }
         }
-        return null;
+        return asset('img/assets/thumbnail.jpg');
     }
 
     /**

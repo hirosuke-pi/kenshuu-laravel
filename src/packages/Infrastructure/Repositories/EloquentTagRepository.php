@@ -2,6 +2,7 @@
 
 namespace Packages\Infrastructure\Repositories;
 
+use Illuminate\Support\Facades\DB;
 use Packages\Domains\Interfaces\Repositories\TagRepositoryInterface;
 use Packages\Domains\Entities\Tag;
 use \App\Models\Tag as TagModel;
@@ -15,7 +16,7 @@ final class EloquentTagRepository implements TagRepositoryInterface
      * タグIDからタグを取得する
      *
      * @param string $id タグID
-     * @return Tag
+     * @return Tag タグEntity
      */
     public function find(string $id): Tag
     {
@@ -24,6 +25,26 @@ final class EloquentTagRepository implements TagRepositoryInterface
             id: $tag->id,
             name: $tag->tag_name,
         );
+    }
+
+    /**
+     * タグIDからタグを取得する
+     *
+     * @param string $id タグID
+     * @return array タグEntity配列
+     */
+    public function findByIds(array $ids): array
+    {
+        $tags = \App\Models\Tag::whereIn('id', $ids)->get();
+
+        $tagEntities = [];
+        foreach($tags as $tag) {
+            $tagEntities[] = new Tag(
+                id: $tag->id,
+                name: $tag->tag_name,
+            );
+        }
+        return $tagEntities;
     }
 
     /**
@@ -53,13 +74,30 @@ final class EloquentTagRepository implements TagRepositoryInterface
      */
     public function findByPostId(string $postId): array
     {
-        $tags = PostsTagModel::where('post_id', $postId)->get();
-
+        $tags = PostsTagModel::join('tags', 'tags.id', '=', 'posts_tags.tag_id')->where('post_id', $postId)->get();
         $tagEntities = [];
         foreach($tags as $tag) {
-            $tagEntities[] = $this->find($tag->tag_id);
+            $tagEntities[] = new Tag(
+                id: $tag->id,
+                name: $tag->tag_name,
+            );
         }
         return $tagEntities;
+    }
+
+    /**
+     * タグをPost IDと紐付けて保存する
+     *
+     * @param Tag $tag タグEntity
+     * @param string $postId 投稿ID
+     * @return void
+     */
+    public function saveWithPostId(Tag $tag, string $postId): void
+    {
+        $postsTag = new \App\Models\PostsTag();
+        $postsTag->post_id = $postId;
+        $postsTag->tag_id = $tag->getId();
+        $postsTag->save();
     }
 
     /**

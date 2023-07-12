@@ -13,7 +13,6 @@ class NewsCard extends Component
     public readonly News $news;
     public readonly string $newsLink;
     public readonly string $cardSizeStyle;
-    public readonly string $thumbnailImageUrl;
 
     /**
      * カードのコンポーネントインスタンス
@@ -25,7 +24,6 @@ class NewsCard extends Component
         $this->news = $news;
         $this->cardSizeStyle = $isWide ? 'w-full' : 'w-96';
         $this->newsLink = route('news.view', ['newsId' => $news->getId()]);
-        $this->thumbnailImageUrl = $news->getThumbnailImageUrl() ?? asset('img/assets/thumbnail.jpg');
     }
 
     /**
