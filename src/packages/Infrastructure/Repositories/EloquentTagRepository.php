@@ -16,11 +16,15 @@ final class EloquentTagRepository implements TagRepositoryInterface
      * タグIDからタグを取得する
      *
      * @param string $id タグID
-     * @return Tag タグEntity
+     * @return Tag|null タグEntity
      */
-    public function find(string $id): Tag
+    public function find(string $id): ?Tag
     {
         $tag = TagModel::find($id);
+        if (is_null($tag)) {
+            return null;
+        }
+
         return new Tag(
             id: $tag->id,
             name: $tag->tag_name,
@@ -30,8 +34,8 @@ final class EloquentTagRepository implements TagRepositoryInterface
     /**
      * タグIDからタグを取得する
      *
-     * @param string $id タグID
-     * @return array タグEntity配列
+     * @param int[] $id タグID
+     * @return Tag[] タグEntity配列
      */
     public function findByIds(array $ids): array
     {
@@ -39,7 +43,7 @@ final class EloquentTagRepository implements TagRepositoryInterface
 
         $tagEntities = [];
         foreach($tags as $tag) {
-            $tagEntities[] = new Tag(
+            $tagEntities[$tag->id] = new Tag(
                 id: $tag->id,
                 name: $tag->tag_name,
             );
@@ -50,7 +54,7 @@ final class EloquentTagRepository implements TagRepositoryInterface
     /**
      * タグを全件取得する
      *
-     * @return array タグEntityの配列
+     * @return Tag[] タグEntityの配列
      */
     public function findAll(): array
     {

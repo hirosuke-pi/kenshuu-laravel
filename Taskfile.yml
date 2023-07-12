@@ -52,6 +52,13 @@ tasks:
         vars:
           SERVICE: app
           CMD: php artisan cache:clear && php artisan config:clear && php artisan route:clear && php artisan view:clear
+  make:
+    desc: artisanのmakeコマンドを実行する
+    cmds:
+      - task: exec
+        vars:
+          SERVICE: app
+          CMD: php artisan make:{{.CLI_ARGS}}
   test:
     desc: テストを実行する
     summary: 引数からテストファイルを指定する
