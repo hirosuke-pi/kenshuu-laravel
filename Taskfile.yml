@@ -1,0 +1,70 @@
+# https://taskfile.dev
+
+version: '3'
+
+vars:
+  GREETING: Hello, World!
+
+tasks:
+  default:
+    cmds:
+      - echo "{{.GREETING}}"
+    silent: true
+  exec:
+    desc: サービスに対してコマンドを実行する
+    cmds:
+      - docker compose exec {{.SERVICE}} bash -c "{{.CMD}}"
+    requires:
+      vars: [SERVICE, CMD]
+  init:
+    desc: docker compose を初期化する
+    cmds:
+      - docker-compose build --no-cache
+      - docker-compose up -d
+  init:db:
+    desc: データベースを初期化する
+    cmds:
+      - task: exec
+        vars:
+          SERVICE: app
+          CMD: php artisan migrate:fresh --seed
+  bash:
+    desc: bash を起動する
+    interactive: true
+    cmds:
+      - task: exec
+        vars:
+          SERVICE: app
+          CMD: bash
+  db:
+    desc: データベースを操作する
+    interactive: true
+    cmds:
+      - task: exec
+        vars:
+          SERVICE: db
+          CMD: mysql -u root -p laravel
+  clear:
+    desc: キャッシュをクリアする
+    interactive: true
+    cmds:
+      - task: exec
+        vars:
+          SERVICE: app
+          CMD: php artisan cache:clear && php artisan config:clear && php artisan route:clear && php artisan view:clear
+  test:
+    desc: テストを実行する
+    summary: 引数からテストファイルを指定する
+    cmds:
+      - task: exec
+        vars:
+          SERVICE: app
+          CMD: ./vendor/bin/phpunit tests/{{.CLI_ARGS}}
+  up:
+    desc: docker compose を起動する
+    cmds:
+      - docker-compose up -d
+  down:
+    desc: docker compose を停止する
+    cmds:
+      - docker-compose down
