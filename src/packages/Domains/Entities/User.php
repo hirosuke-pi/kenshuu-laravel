@@ -2,7 +2,7 @@
 
 namespace Packages\Domains\Entities;
 
-class User {
+final class User {
     private const BASE_USER_IMAGE_URL = '/img/user/';
 
     /**
