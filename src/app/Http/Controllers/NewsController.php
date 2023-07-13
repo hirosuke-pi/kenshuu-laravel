@@ -87,7 +87,6 @@ class NewsController extends Controller
     /**
      * ニュースを新規作成する
      *
-     * @param string $newsId ニュースID
      * @param Request $request リクエスト
      * @return void
      */
