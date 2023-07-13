@@ -6,10 +6,10 @@ use Packages\Domains\Entities\News;
 use Packages\Domains\Entities\User;
 
 use Packages\Infrastructure\Factories\RepositoryNewsFactory;
+use Packages\Infrastructure\Repositories\EloquentImageRepository;
 use Packages\Infrastructure\Repositories\EloquentNewsRepository;
-use Packages\Infrastructure\Repositories\InMemoryImageRepository;
-use Packages\Infrastructure\Repositories\InMemoryTagRepository;
-use Packages\Infrastructure\Repositories\InMemoryUserRepository;
+use Packages\Infrastructure\Repositories\EloquentTagRepository;
+use Packages\Infrastructure\Repositories\EloquentUserRepository;
 use Tests\TestCase;
 
 class NewsRepositoryTest extends TestCase
@@ -19,22 +19,16 @@ class NewsRepositoryTest extends TestCase
     private array $distNews = [];
 
     private readonly EloquentNewsRepository $repository;
-    private readonly RepositoryNewsFactory $factory;
 
     public function setUp(): void
     {
         parent::setUp();
 
-        $userRepository = new InMemoryUserRepository();
-        $tagRepository = new InMemoryTagRepository();
-        $imageRepository = new InMemoryImageRepository();
+        $userRepository = new EloquentUserRepository();
+        $tagRepository = new EloquentTagRepository();
+        $imageRepository = new EloquentImageRepository();
 
         $this->repository = new EloquentNewsRepository($tagRepository, $imageRepository, $userRepository);
-        $this->factory = new RepositoryNewsFactory(
-            userRepository: $userRepository,
-            tagRepository: $tagRepository,
-            imageRepository: $imageRepository
-        );
 
         $this->distUsers['user-test1'] = new User(
             id: 'user-test1',
@@ -96,7 +90,7 @@ class NewsRepositoryTest extends TestCase
 
     public function test_ニュースを全件取得できるか(): void
     {
-        $newsEntities = $this->repository->findAll($this->factory);
+        $newsEntities = $this->repository->findAll();
         $this->assertCount(2, $newsEntities);
 
         foreach($newsEntities as $newsEntity) {

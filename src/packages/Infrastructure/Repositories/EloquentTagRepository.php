@@ -90,14 +90,14 @@ final class EloquentTagRepository implements TagRepositoryInterface
      *
      * @param Tag $tag タグEntity
      * @param string $postId 投稿ID
-     * @return void
+     * @return bool 保存結果
      */
-    public function saveWithPostId(Tag $tag, string $postId): void
+    public function saveWithPostId(Tag $tag, string $postId): bool
     {
         $postsTag = new PostsTagModel();
         $postsTag->post_id = $postId;
         $postsTag->tag_id = $tag->getId();
-        $postsTag->save();
+        return $postsTag->save();
     }
 
     /**
