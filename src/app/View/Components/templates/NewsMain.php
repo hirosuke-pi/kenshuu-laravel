@@ -10,26 +10,24 @@ use Packages\Domains\Entities\User;
 
 class NewsMain extends Component
 {
-    public readonly News $news;
+    public readonly ?News $news;
     public readonly array $paths;
-    public readonly User $newsUser;
     public readonly bool $isAdmin;
     public readonly bool $isEditorMode;
 
     /**
      * ニュース概要画面を表示するコンポーネント
      *
-     * @param News $news ニュースEntity
+     * @param News|null $news ニュースEntity
      * @param boolean $isAdmin 管理者かどうか
      * @param array $paths [['link' => 'https://example.com', 'name' => 'ホーム'], ...]
      * @param boolean $isEditorMode 編集モードかどうか
      * @return void
      */
-    public function __construct(News $news, bool $isAdmin, array $paths, bool $isEditorMode)
+    public function __construct(?News $news, bool $isAdmin, array $paths, bool $isEditorMode)
     {
         $this->news = $news;
         $this->paths = $paths;
-        $this->newsUser = $news->getAuthor();
         $this->isAdmin = $isAdmin;
         $this->isEditorMode = $isEditorMode;
     }

@@ -11,6 +11,7 @@ class UserAside extends Component
 {
     public readonly User $user;
     public readonly bool $isAdmin;
+    public readonly string $newCreateLink;
 
     /**
      * ユーザー詳細画面を表示する全体コンポーネント
@@ -22,6 +23,7 @@ class UserAside extends Component
     {
         $this->user = $user;
         $this->isAdmin = $isAdmin;
+        $this->newCreateLink = route('news.create');
     }
 
     /**

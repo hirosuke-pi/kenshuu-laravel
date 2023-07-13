@@ -40,7 +40,8 @@ class NewsController extends Controller
             'loginUser' => $loginUser,
             'isAdmin' => is_null($loginUser) ? false : $loginUser->validate($news->getAuthor()),
             'isEditorMode' => false,
-            'isNewMode' => false,
+            'isNewCreate' => false,
+            'author' => $news->getAuthor(),
             'paths' => [
                 ['name' => 'ニュース - '. $news->getTitle(), 'link' => '#']
             ]
@@ -59,7 +60,7 @@ class NewsController extends Controller
         string $newsId,
         Request $request,
         NewsGetHandler $newsGet
-    ): Factory | View | RedirectResponse
+    ): Factory|View|RedirectResponse
     {
         $loginUser = $request->input(config('session.user'))['entity'];
 
@@ -74,10 +75,37 @@ class NewsController extends Controller
             'loginUser' => $loginUser,
             'isAdmin' => is_null($loginUser) ? false : $loginUser->validate($news->getAuthor()),
             'isEditorMode' => true,
-            'isNewMode' => false,
+            'isNewCreate' => false,
+            'author' => $news->getAuthor(),
             'paths' => [
                 ['name' => 'ニュース - '. $news->getTitle(), 'link' => route('news.view', ['newsId' => $news->getId()])],
                 ['name' => 'ニュースを編集', 'link' => '#']
+            ]
+        ]);
+    }
+
+    /**
+     * ニュースを新規作成する
+     *
+     * @param Request $request リクエスト
+     * @return void
+     */
+    public function create(
+        Request $request,
+    ): Factory | View | RedirectResponse
+    {
+        $loginUser = $request->input(config('session.user'))['entity'];
+
+        return view('components.pages.news', [
+            'news' => null,
+            'loginUser' => $loginUser,
+            'isAdmin' => false,
+            'isEditorMode' => true,
+            'isNewCreate' => true,
+            'author' => $loginUser,
+            'paths' => [
+                ['name' => 'ユーザー - '. $loginUser->getNameTag(), 'link' => route('user.index', ['userId' => $loginUser->getId()])],
+                ['name' => 'ニュースを作成', 'link' => '#']
             ]
         ]);
     }

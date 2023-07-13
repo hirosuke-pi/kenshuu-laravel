@@ -4,8 +4,10 @@
     </h3>
     <div class="mt-5">
         @if ($isEdit)
-            @foreach($images as $image)
-                <x-molecules.input-image :image="$image" />
+            @foreach($images as $key => $image)
+                <div class="overflow-hidden rounded mt-2">
+                    <x-molecules.input-image :image="$image" :defaultPrefix="$key" />
+                </div>
             @endforeach
         @else
             @foreach($images as $image)

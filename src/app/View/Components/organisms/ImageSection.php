@@ -5,6 +5,7 @@ namespace App\View\Components\organisms;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
+use Packages\Domains\Entities\Image;
 
 class ImageSection extends Component
 {
@@ -12,11 +13,24 @@ class ImageSection extends Component
     public readonly bool $isEdit;
 
     /**
-     * Create a new component instance.
+     * 画像を表示するコンポーネント
+     *
+     * @param array $images 画像の配列
+     * @param boolean $isEdit 編集モードかどうか
      */
     public function __construct(array $images, bool $isEdit = false)
     {
-        $this->images = $images;
+        if ($isEdit) {
+            $inputImage = $images;
+            $maxImageCount = config('define.max_image_count');
+            for($i = count($images); $i < $maxImageCount; $i++) {
+                $inputImage['image-'. $i] = null;
+            }
+            $this->images = $inputImage;
+        }
+        else {
+            $this->images = $images;
+        }
         $this->isEdit = $isEdit;
     }
 

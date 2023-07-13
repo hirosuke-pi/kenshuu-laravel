@@ -17,7 +17,9 @@ class NewsEditor extends Component
     public readonly bool $isNewNews;
 
     /**
-     * Create a new component instance.
+     * ニュースエディタを表示するコンポーネント
+     *
+     * @param News|null $news ニュースEntity
      */
     public function __construct(?News $news = null)
     {
