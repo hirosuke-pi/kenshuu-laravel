@@ -3,13 +3,12 @@
 namespace Packages\Infrastructure\Factories;
 
 use Packages\Domains\Entities\User;
-use Packages\Domains\Interfaces\Factories\NewsFactoryInterface;
 use Packages\Domains\Interfaces\Repositories\ImageRepositoryInterface;
 use Packages\Domains\Interfaces\Repositories\TagRepositoryInterface;
 use Packages\Domains\Interfaces\Repositories\UserRepositoryInterface;
 use Packages\Domains\Entities\News;
 
-final class RepositoryNewsFactory implements NewsFactoryInterface
+final class RepositoryNewsFactory
 {
     /**
      * NewsFactoryのコンストラクタ

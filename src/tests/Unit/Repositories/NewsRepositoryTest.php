@@ -6,9 +6,9 @@ use Packages\Domains\Entities\News;
 use Packages\Domains\Entities\User;
 
 use Packages\Infrastructure\Factories\RepositoryNewsFactory;
-use Packages\Infrastructure\Repositories\EloquentImageRepository;
 use Packages\Infrastructure\Repositories\EloquentNewsRepository;
-use Packages\Infrastructure\Repositories\EloquentTagRepository;
+use Packages\Infrastructure\Repositories\InMemoryImageRepository;
+use Packages\Infrastructure\Repositories\InMemoryTagRepository;
 use Packages\Infrastructure\Repositories\InMemoryUserRepository;
 use Tests\TestCase;
 
@@ -26,10 +26,10 @@ class NewsRepositoryTest extends TestCase
         parent::setUp();
 
         $userRepository = new InMemoryUserRepository();
-        $tagRepository = new EloquentTagRepository();
-        $imageRepository = new EloquentImageRepository();
+        $tagRepository = new InMemoryTagRepository();
+        $imageRepository = new InMemoryImageRepository();
 
-        $this->repository = new EloquentNewsRepository($tagRepository, $imageRepository);
+        $this->repository = new EloquentNewsRepository($tagRepository, $imageRepository, $userRepository);
         $this->factory = new RepositoryNewsFactory(
             userRepository: $userRepository,
             tagRepository: $tagRepository,

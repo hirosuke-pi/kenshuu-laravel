@@ -6,7 +6,6 @@ use Packages\Domains\Entities\User;
 use Packages\Domains\Interfaces\Repositories\ImageRepositoryInterface;
 use Packages\Domains\Interfaces\Repositories\NewsRepositoryInterface;
 use Packages\Domains\Entities\News;
-use Packages\Domains\Interfaces\Factories\NewsFactoryInterface;
 use Packages\Domains\Interfaces\Repositories\TagRepositoryInterface;
 
 final class InMemoryNewsRepository implements NewsRepositoryInterface
@@ -28,10 +27,9 @@ final class InMemoryNewsRepository implements NewsRepositoryInterface
     /**
      * ニュースを全件取得する
      *
-     * @param NewsFactoryInterface $newsFactory ニュースファクトリ
      * @return array
      */
-    public function findAll(NewsFactoryInterface $newsFactory): array
+    public function findAll(): array
     {
         return $this->news;
     }
@@ -39,11 +37,10 @@ final class InMemoryNewsRepository implements NewsRepositoryInterface
     /**
      * ニュースを取得する
      *
-     * @param NewsFactoryInterface $newsFactory ニュースファクトリ
      * @param string $id ニュースID
      * @return News|null ニュースEntity
      */
-    public function find(NewsFactoryInterface $newsFactory, string $id): ?News
+    public function find(string $id): ?News
     {
         return $this->news[$id] ?? null;
     }
@@ -51,11 +48,10 @@ final class InMemoryNewsRepository implements NewsRepositoryInterface
     /**
      * ユーザーIDに紐づくニュースを取得する
      *
-     * @param NewsFactoryInterface $newsFactory ニュースファクトリ
      * @param User $user ユーザーエンティティ
      * @return array ニュースEntityの配列
      */
-    public function findByUser(NewsFactoryInterface $newsFactory, User $user): array {
+    public function findByUser(User $user): array {
         $newsEntities = [];
         foreach($this->news as $news) {
             if ($news->getAuthor()->getId() === $user->getId()) {
