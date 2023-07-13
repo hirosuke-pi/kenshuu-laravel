@@ -74,7 +74,7 @@ final class EloquentTagRepository implements TagRepositoryInterface
      * 投稿IDからタグを取得する
      *
      * @param string $postId 投稿ID
-     * @return array タグEntityの配列
+     * @return Tag[] タグEntityの配列
      */
     public function findByPostId(string $postId): array
     {

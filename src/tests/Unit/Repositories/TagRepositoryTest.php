@@ -18,7 +18,7 @@ class TagRepositoryTest extends TestCase
         $this->repository = new EloquentTagRepository();
     }
 
-    public function test_指定したタグIDのタグEntityが取得できるか(): void {
+    public function test_指定したタグIDのタグTagEntityが取得できるか(): void {
         $tag = $this->repository->find('1');
         $this->assertSame('1', $tag->getId());
         $this->assertSame('テクノロジー', $tag->getName());
@@ -44,5 +44,27 @@ class TagRepositoryTest extends TestCase
 
         $tag = $this->repository->find('-8');
         $this->assertNull($tag);
+    }
+
+    public function test_指定した複数のタグIDから、それに対応するTagEntityの配列を取得できるか(): void {
+        $tag = $this->repository->findByIds([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+        $this->assertCount(10, $tag);
+
+        $tag = $this->repository->findByIds([4, 3, 5, 9]);
+        $this->assertCount(4, $tag);
+
+        $tag = $this->repository->findByIds([2]);
+        $this->assertCount(1, $tag);
+
+        $tag = $this->repository->findByIds([]);
+        $this->assertCount(0, $tag);
+
+        $tag = $this->repository->findByIds([-1, 4, 2, 99]);
+        $this->assertCount(2, $tag);
+    }
+
+    public function test_全てのタグを取得する事ができるか(): void {
+        $tags = $this->repository->findAll();
+        $this->assertCount(10, $tags);
     }
 }
