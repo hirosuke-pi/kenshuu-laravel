@@ -3,7 +3,7 @@
 namespace Packages\Domains\Entities;
 
 final class Image {
-    private const BASE_NEWS_IMAGE_URL = '/img/news/';
+    public const BASE_NEWS_IMAGE_URL = '/img/news/';
 
     /**
      * 画像エンティティ

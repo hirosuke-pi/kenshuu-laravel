@@ -50,6 +50,7 @@ class UserController extends Controller
 
     public function login(UserGetByEmailHandler $userGetByEmail) {
         $loginUser = $userGetByEmail->handle(config('test.user1.email'));
+        status('success', 'ログインしました。');
         session()->push(config('session.user'), $loginUser->getId());
 
         return redirect()->route('home');
@@ -57,6 +58,7 @@ class UserController extends Controller
 
     public function logout() {
         session()->forget(config('session.user'));
+        status('success', 'ログアウトしました。');
 
         return redirect()->route('home');
     }

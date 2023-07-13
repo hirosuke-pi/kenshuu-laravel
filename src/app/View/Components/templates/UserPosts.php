@@ -22,7 +22,7 @@ class UserPosts extends Component
     {
         $this->newsList = $newsList;
         $this->paths = [
-            ['link' => route('user.index', ['userId' => $user->getId()]), 'name' => 'ユーザー - ' . $user->getNameTag()],
+            ['link' => '#', 'name' => 'ユーザー - ' . $user->getNameTag()],
         ];
     }
 

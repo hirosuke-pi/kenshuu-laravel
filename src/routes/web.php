@@ -22,6 +22,7 @@ use App\Http\Controllers\UserController;
 
 Route::group(['middleware' => ['login.user']], function() {
     Route::get('/', [HomeController::class, 'index'])->name('home');
+    Route::get('/news/{newsId}/edit', [NewsController::class, 'edit'])->name('news.edit');
     Route::get('/news/{newsId}', [NewsController::class, 'view'])->name('news.view');
 
     Route::get('/user/{userId}', [UserController::class, 'index'])->name('user.index');
