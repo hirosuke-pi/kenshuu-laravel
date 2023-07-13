@@ -2,15 +2,19 @@
 
 namespace Tests\Unit\Repositories;
 
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Packages\Infrastructure\Repositories\EloquentTagRepository;
 use Tests\TestCase;
 
 class TagRepositoryTest extends TestCase
 {
+    use DatabaseTransactions;
+
     private readonly EloquentTagRepository $repository;
 
     public function setUp(): void
     {
+        parent::setUp();
         $this->repository = new EloquentTagRepository();
     }
 
@@ -20,8 +24,8 @@ class TagRepositoryTest extends TestCase
         $this->assertSame('テクノロジー', $tag->getName());
 
         $tag = $this->repository->find('5');
-        $this->assertSame('10', $tag->getId());
-        $this->assertSame('スポーツ', $tag->getName());
+        $this->assertSame('5', $tag->getId());
+        $this->assertSame('ビューティー', $tag->getName());
 
         $tag = $this->repository->find('3');
         $this->assertSame('3', $tag->getId());

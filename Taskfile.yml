@@ -47,6 +47,8 @@ tasks:
   clear:
     desc: キャッシュをクリアする
     interactive: true
+    aliases:
+      - "c"
     cmds:
       - task: exec
         vars:
@@ -62,11 +64,23 @@ tasks:
   test:
     desc: テストを実行する
     summary: 引数からテストファイルを指定する
+    aliases:
+      - "t"
     cmds:
       - task: exec
         vars:
           SERVICE: app
           CMD: ./vendor/bin/phpunit tests/{{.CLI_ARGS}}
+  test:unit:
+    desc: ユニットテストを実行する
+    summary: 引数からテストファイルを指定する
+    aliases:
+      - "tu"
+    cmds:
+      - task: exec
+        vars:
+          SERVICE: app
+          CMD: ./vendor/bin/phpunit tests/Unit/{{.CLI_ARGS}}
   up:
     desc: docker compose を起動する
     cmds:
