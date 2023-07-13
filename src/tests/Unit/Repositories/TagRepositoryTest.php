@@ -67,4 +67,9 @@ class TagRepositoryTest extends TestCase
         $tags = $this->repository->findAll();
         $this->assertCount(10, $tags);
     }
+
+    public function test_タグIDを生成できるか(): void {
+        $tagId = $this->repository->generateId();
+        $this->assertIsString($tagId);
+    }
 }
