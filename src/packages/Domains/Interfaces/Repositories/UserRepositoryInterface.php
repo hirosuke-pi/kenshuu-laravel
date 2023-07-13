@@ -26,9 +26,9 @@ interface UserRepositoryInterface
      * Undocumented function
      *
      * @param User $user ユーザーEntity
-     * @return void
+     * @return bool 保存結果
      */
-    public function save(User $user): void;
+    public function save(User $user): bool;
 
     /**
      * ユーザーIDを生成する
