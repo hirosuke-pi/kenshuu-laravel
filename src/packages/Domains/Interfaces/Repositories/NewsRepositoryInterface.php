@@ -35,9 +35,9 @@ interface NewsRepositoryInterface
      * ニュースを保存する
      *
      * @param News $news ニュースEntity
-     * @return void
+     * @return bool 保存結果
      */
-    public function save(News $news): void;
+    public function save(News $news): bool;
 
     /**
      * ニュースIDを生成する

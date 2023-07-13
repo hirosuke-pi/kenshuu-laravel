@@ -27,9 +27,9 @@ interface ImageRepositoryInterface
      *
      * @param Image $image 画像Entity
      * @param string $postId 投稿ID
-     * @return void
+     * @return bool 保存結果
      */
-    public function save(Image $image, string $postId): void;
+    public function save(Image $image, string $postId): bool;
 
     /**
      * 画像IDを生成する

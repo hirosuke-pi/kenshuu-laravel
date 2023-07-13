@@ -4,11 +4,11 @@ namespace Packages\Infrastructure\Repositories;
 
 use Packages\Domains\Interfaces\Repositories\ImageRepositoryInterface;
 use Packages\Domains\Entities\Image;
-use \App\Models\Image as ImageModel;
 
-final class EloquentImageRepository implements ImageRepositoryInterface
+final class InMemoryImageRepository implements ImageRepositoryInterface
 {
     private const PREFIX = 'image';
+    private array $images = [];
 
     /**
      * 画像IDから画像を取得する
@@ -18,12 +18,7 @@ final class EloquentImageRepository implements ImageRepositoryInterface
      */
     public function find(string $id): Image
     {
-        $image = ImageModel::find($id);
-        return new Image(
-            id: $image->id,
-            isThumbnail: $image->thumbnail_flag,
-            filePath: $image->name,
-        );
+        return $this->images[$id] ?? null;
     }
 
     /**
@@ -34,15 +29,11 @@ final class EloquentImageRepository implements ImageRepositoryInterface
      */
     public function findByPostId(string $postId): array
     {
-        $images = ImageModel::where('post_id', $postId)->get();
-
         $imageEntities = [];
-        foreach($images as $image) {
-            $imageEntities[] = new Image(
-                id: $image->id,
-                isThumbnail: $image->thumbnail_flag,
-                filePath: $image->name,
-            );
+        foreach($this->images as $image) {
+            if ($image->getPostId() === $postId) {
+                $imageEntities[] = $image;
+            }
         }
         return $imageEntities;
     }
@@ -56,12 +47,8 @@ final class EloquentImageRepository implements ImageRepositoryInterface
      */
     public function save(Image $image, string $postId): bool
     {
-        $imageModel = new ImageModel();
-        $imageModel->id = $image->getId();
-        $imageModel->post_id = $postId;
-        $imageModel->thumbnail_flag = $image->isThumbnail();
-        $imageModel->file_path = $image->getFilePath();
-        return $imageModel->save();
+        $this->images[$image->getId()] = $image;
+        return true;
     }
 
     /**

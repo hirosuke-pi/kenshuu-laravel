@@ -9,11 +9,10 @@ use Packages\Domains\Entities\News;
 use Packages\Domains\Interfaces\Factories\NewsFactoryInterface;
 use Packages\Domains\Interfaces\Repositories\TagRepositoryInterface;
 
-use App\Models\Post as PostModel;
-
-final class EloquentNewsRepository implements NewsRepositoryInterface
+final class InMemoryNewsRepository implements NewsRepositoryInterface
 {
     private const PREFIX = 'news';
+    private array $news = [];
 
     /**
      * NewsRepositoryのコンストラクタ
@@ -34,21 +33,7 @@ final class EloquentNewsRepository implements NewsRepositoryInterface
      */
     public function findAll(NewsFactoryInterface $newsFactory): array
     {
-
-        $posts = PostModel::whereNull('deleted_at')->get();
-        $newsEntities = [];
-        foreach($posts as $post) {
-            $newsEntities[] = $newsFactory->createWithUserId(
-                id: $post->id,
-                userId: $post->user_id,
-                title: $post->title,
-                body: $post->body,
-                createdAt: $post->created_at,
-                updatedAt: $post->updated_at,
-            );
-        }
-
-        return $newsEntities;
+        return $this->news;
     }
 
     /**
@@ -60,19 +45,7 @@ final class EloquentNewsRepository implements NewsRepositoryInterface
      */
     public function find(NewsFactoryInterface $newsFactory, string $id): ?News
     {
-        $post = PostModel::whereNull('deleted_at')->find($id);
-        if (is_null($post)) {
-            return null;
-        }
-
-        return $newsFactory->createWithUserId(
-            id: $post->id,
-            userId: $post->user_id,
-            title: $post->title,
-            body: $post->body,
-            createdAt: $post->created_at,
-            updatedAt: $post->updated_at,
-        );
+        return $this->news[$id] ?? null;
     }
 
     /**
@@ -83,17 +56,11 @@ final class EloquentNewsRepository implements NewsRepositoryInterface
      * @return array ニュースEntityの配列
      */
     public function findByUser(NewsFactoryInterface $newsFactory, User $user): array {
-        $posts = PostModel::where('user_id', $user->getId())->whereNull('deleted_at')->get();
         $newsEntities = [];
-        foreach($posts as $post) {
-            $newsEntities[] = $newsFactory->create(
-                id: $post->id,
-                author: $user,
-                title: $post->title,
-                body: $post->body,
-                createdAt: $post->created_at,
-                updatedAt: $post->updated_at,
-            );
+        foreach($this->news as $news) {
+            if ($news->getAuthor()->getId() === $user->getId()) {
+                $newsEntities[] = $news;
+            }
         }
 
         return $newsEntities;
@@ -107,14 +74,8 @@ final class EloquentNewsRepository implements NewsRepositoryInterface
      */
     public function save(News $news): bool
     {
-        $post = new PostModel();
-        $post->id = $news->getId();
-        $post->user_id = $news->getAuthor()->getId();
-        $post->title = $news->getTitle();
-        $post->body = $news->getBody();
-        $post->created_at = $news->getCreatedAt();
-        $post->updated_at = $news->getUpdatedAt();
-        $result['news'] = $post->save();
+        $this->news[$news->getId()] = $news;
+        $result[$news->getId()] = true;
 
         foreach($news->getTags() as $tag) {
             $result[$tag->getId()] = $this->tagRepository->saveWithPostId($tag, $news->getId());

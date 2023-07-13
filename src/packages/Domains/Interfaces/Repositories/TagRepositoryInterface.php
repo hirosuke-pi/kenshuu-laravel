@@ -42,9 +42,9 @@ interface TagRepositoryInterface
      *
      * @param Tag $tag タグEntity
      * @param string $postId 投稿ID
-     * @return void
+     * @return bool 保存結果
      */
-    public function saveWithPostId(Tag $tag, string $postId): void;
+    public function saveWithPostId(Tag $tag, string $postId): bool;
 
     /**
      * タグIDを生成する
