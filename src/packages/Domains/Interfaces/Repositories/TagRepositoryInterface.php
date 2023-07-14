@@ -10,9 +10,9 @@ interface TagRepositoryInterface
      * タグIDからタグEntityを取得する
      *
      * @param string $id タグID
-     * @return Tag タグEntity
+     * @return Tag|null タグEntity
      */
-    public function find(string $id): Tag;
+    public function find(string $id): ?Tag;
 
     /**
      * タグID配列からタグEntity配列を取得する

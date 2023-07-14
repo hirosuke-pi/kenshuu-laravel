@@ -16,11 +16,15 @@ final class EloquentTagRepository implements TagRepositoryInterface
      * タグIDからタグを取得する
      *
      * @param string $id タグID
-     * @return Tag タグEntity
+     * @return Tag|null タグEntity
      */
-    public function find(string $id): Tag
+    public function find(string $id): ?Tag
     {
         $tag = TagModel::find($id);
+        if (is_null($tag)) {
+            return null;
+        }
+
         return new Tag(
             id: $tag->id,
             name: $tag->tag_name,
