@@ -94,7 +94,8 @@ final class EloquentTagRepository implements TagRepositoryInterface
      */
     public function saveWithPostId(Tag $tag, string $postId): bool
     {
-        $postsTag = new PostsTagModel();
+        $postsTag = PostsTagModel::where('post_id', $postId)->
+            where('tag_id', $tag->getId())->first() ?? new PostsTagModel();
         $postsTag->post_id = $postId;
         $postsTag->tag_id = $tag->getId();
         return $postsTag->save();

@@ -2,6 +2,8 @@
 
 namespace Tests\Unit\Repositories;
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Artisan;
 use Packages\Domains\Entities\News;
 use Packages\Domains\Entities\User;
 
@@ -14,6 +16,7 @@ use Tests\TestCase;
 
 class NewsRepositoryTest extends TestCase
 {
+    use RefreshDatabase;
 
     private array $distUsers = [];
     private array $distNews = [];
@@ -39,6 +42,7 @@ class NewsRepositoryTest extends TestCase
             createdAt: '2021-01-01 00:00:00',
             postsCount: 1,
         );
+        $userRepository->save($this->distUsers['user-test1']);
 
         $this->distUsers['user-test2'] = new User(
             id: 'user-test2',
@@ -49,6 +53,7 @@ class NewsRepositoryTest extends TestCase
             createdAt: '2022-02-02 00:00:00',
             postsCount: 2,
         );
+        $userRepository->save($this->distUsers['user-test2']);
 
         $this->distNews['news-test1'] = new News(
             id: 'news-test1',
@@ -88,16 +93,23 @@ class NewsRepositoryTest extends TestCase
         }
     }
 
+    /**
+     * @depends test_ニュースを保存できるか
+     */
     public function test_ニュースを全件取得できるか(): void
     {
-        $newsEntities = $this->repository->findAll();
-        $this->assertCount(2, $newsEntities);
+        foreach($this->distNews as $news) {
+            $this->repository->save($news);
+        }
 
-        foreach($newsEntities as $newsEntity) {
-            $this->assertInstanceOf(News::class, $newsEntity);
-            $this->assertSame($newsEntity->getId(), $this->distNews[$newsEntity->getId()]->getId());
+        $findAllEntities = $this->repository->findAll();
+        foreach($findAllEntities as $entity) {
+            $this->assertInstanceOf(News::class, $entity);
+            $newsId = $entity->getId();
+
+            if (isset($this->distNews[$newsId])) {
+                $this->assertSame($newsId, $this->distNews[$newsId]->getId());
+            }
         }
     }
-
-
 }

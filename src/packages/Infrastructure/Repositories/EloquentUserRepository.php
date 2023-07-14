@@ -65,7 +65,8 @@ final class EloquentUserRepository implements UserRepositoryInterface
      */
     public function save(User $userEntity): bool
     {
-        $user = new UserModel();
+
+        $user = UserModel::find($userEntity->getId()) ?? new UserModel();
         $user->id = $userEntity->getId();
         $user->username = $userEntity->getName();
         $user->email = $userEntity->getEmail();

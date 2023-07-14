@@ -113,7 +113,7 @@ final class EloquentNewsRepository implements NewsRepositoryInterface
      */
     public function save(News $news): bool
     {
-        $post = new PostModel();
+        $post = PostModel::find($news->getId()) ?? new PostModel();
         $post->id = $news->getId();
         $post->user_id = $news->getAuthor()->getId();
         $post->title = $news->getTitle();

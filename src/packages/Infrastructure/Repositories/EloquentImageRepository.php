@@ -56,7 +56,7 @@ final class EloquentImageRepository implements ImageRepositoryInterface
      */
     public function save(Image $image, string $postId): bool
     {
-        $imageModel = new ImageModel();
+        $imageModel = ImageModel::find($image->getId()) ?? new ImageModel();
         $imageModel->id = $image->getId();
         $imageModel->post_id = $postId;
         $imageModel->thumbnail_flag = $image->isThumbnail();

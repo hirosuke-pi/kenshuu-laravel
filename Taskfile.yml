@@ -23,11 +23,22 @@ tasks:
       - docker-compose up -d
   init:db:
     desc: データベースを初期化する
+    aliases:
+      - "id"
     cmds:
       - task: exec
         vars:
           SERVICE: app
           CMD: php artisan migrate:fresh --seed
+  init:test:
+    desc: データベースを初期化する
+    aliases:
+      - "it"
+    cmds:
+      - task: exec
+        vars:
+          SERVICE: app
+          CMD: php artisan migrate:fresh --env=testing
   bash:
     desc: bash を起動する
     interactive: true
@@ -43,7 +54,15 @@ tasks:
       - task: exec
         vars:
           SERVICE: db
-          CMD: mysql -u root -p laravel
+          CMD: mysql -u root -p
+  db:test:
+    desc: データベースを操作する
+    interactive: true
+    cmds:
+      - task: exec
+        vars:
+          SERVICE: db-test
+          CMD: mysql -u root -p
   clear:
     desc: キャッシュをクリアする
     interactive: true
