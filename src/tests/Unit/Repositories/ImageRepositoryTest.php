@@ -2,88 +2,145 @@
 
 namespace Tests\Unit\Repositories;
 
-use App\Models\Tag;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Artisan;
+use Packages\Domains\Entities\News;
+use Packages\Domains\Entities\User;
 
+use Packages\Infrastructure\Factories\RepositoryNewsFactory;
+use Packages\Infrastructure\Repositories\EloquentImageRepository;
+use Packages\Infrastructure\Repositories\EloquentNewsRepository;
 use Packages\Infrastructure\Repositories\EloquentTagRepository;
+use Packages\Infrastructure\Repositories\EloquentUserRepository;
 use Tests\TestCase;
 
-class TagRepositoryTest extends TestCase
+class ImageRepositoryTest extends TestCase
 {
     use RefreshDatabase;
 
-    private readonly EloquentTagRepository $repository;
+    private array $distUsers = [];
+    private array $distNews = [];
+    private array $distImages = [];
+
+    private readonly EloquentNewsRepository $repository;
 
     public function setUp(): void
     {
         parent::setUp();
-        $this->repository = new EloquentTagRepository();
 
-        $tag = new Tag();
-        $tag->create(['id' => '1',  'tag_name' => 'テクノロジー']);
-        $tag->create(['id' => '2',  'tag_name' => 'モバイル']);
-        $tag->create(['id' => '3',  'tag_name' => 'アプリ']);
-        $tag->create(['id' => '4',  'tag_name' => 'エンタメ']);
-        $tag->create(['id' => '5',  'tag_name' => 'ビューティー']);
-        $tag->create(['id' => '6',  'tag_name' => 'ファッション']);
-        $tag->create(['id' => '7',  'tag_name' => 'ライフスタイル']);
-        $tag->create(['id' => '8',  'tag_name' => 'ビジネス']);
-        $tag->create(['id' => '9',  'tag_name' => 'グルメ']);
-        $tag->create(['id' => '10', 'tag_name' => 'スポーツ']);
+        $userRepository = new EloquentUserRepository();
+        $tagRepository = new EloquentTagRepository();
+        $imageRepository = new EloquentImageRepository();
+
+        $this->repository = new EloquentNewsRepository($tagRepository, $imageRepository, $userRepository);
+
+        $this->distUsers['user-test1'] = new User(
+            id: 'user-test1',
+            name: 'test1',
+            email: 'test1@gmail.com',
+            password: 'password1',
+            profileImagePath: 'test1',
+            createdAt: '2021-01-01 00:00:00',
+            postsCount: 1,
+        );
+        $userRepository->save($this->distUsers['user-test1']);
+
+        $this->distUsers['user-test2'] = new User(
+            id: 'user-test2',
+            name: 'test2',
+            email: 'test2@gmail.com',
+            password: 'password2',
+            profileImagePath: 'test2',
+            createdAt: '2022-02-02 00:00:00',
+            postsCount: 2,
+        );
+        $userRepository->save($this->distUsers['user-test2']);
+
+        $this->distNews['news-test1'] = new News(
+            id: 'news-test1',
+            author: $this->distUsers['user-test1'],
+            title: 'test1',
+            body: 'test1',
+            createdAt: '2021-01-01 00:00:00',
+            updatedAt: '2021-01-01 00:00:00',
+            tags: [],
+            images: [],
+        );
+
+        $this->distNews['news-test2'] = new News(
+            id: 'news-test2',
+            author: $this->distUsers['user-test2'],
+            title: 'test2',
+            body: 'test2',
+            createdAt: '2022-01-01 00:00:00',
+            updatedAt: '2022-01-01 00:00:00',
+            tags: [],
+            images: [],
+        );
     }
 
-    public function test_指定したタグIDのタグTagEntityが取得できるか(): void {
-        $tag = $this->repository->find('1');
-        $this->assertSame('1', $tag->getId());
-        $this->assertSame('テクノロジー', $tag->getName());
-
-        $tag = $this->repository->find('5');
-        $this->assertSame('5', $tag->getId());
-        $this->assertSame('ビューティー', $tag->getName());
-
-        $tag = $this->repository->find('3');
-        $this->assertSame('3', $tag->getId());
-        $this->assertSame('アプリ', $tag->getName());
+    public function test_ニュースを保存できるか(): void
+    {
+        foreach($this->distNews as $news) {
+            $this->assertTrue($this->repository->save($news));
+            $this->assertDatabaseHas('posts', [
+                'id' => $news->getId(),
+                'user_id' => $news->getAuthor()->getId(),
+                'title' => $news->getTitle(),
+                'body' => $news->getBody(),
+                'created_at' => $news->getCreatedAt(),
+                'updated_at' => $news->getUpdatedAt(),
+            ]);
+        }
     }
 
-    public function test_指定したタグIDが存在しなかった場合、nullを返す(): void {
-        $tag = $this->repository->find('0');
-        $this->assertNull($tag);
+    /**
+     * @depends test_ニュースを保存できるか
+     */
+    public function test_ニュースを全件取得できるか(): void
+    {
+        foreach($this->distNews as $news) {
+            $this->repository->save($news);
+        }
 
-        $tag = $this->repository->find('11');
-        $this->assertNull($tag);
+        $findAllEntities = $this->repository->findAll();
+        foreach($findAllEntities as $entity) {
+            $this->assertInstanceOf(News::class, $entity);
+            $newsId = $entity->getId();
 
-        $tag = $this->repository->find('dfgs');
-        $this->assertNull($tag);
-
-        $tag = $this->repository->find('-8');
-        $this->assertNull($tag);
+            if (isset($this->distNews[$newsId])) {
+                $this->assertSame($newsId, $this->distNews[$newsId]->getId());
+            }
+        }
     }
 
-    public function test_指定した複数のタグIDから、それに対応するTagEntityの配列を取得できるか(): void {
-        $tag = $this->repository->findByIds([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
-        $this->assertCount(10, $tag);
+    /**
+     * @depends test_ニュースを保存できるか
+     */
+    public function test_IDを指定してニュースを取得できるか(): void
+    {
+        foreach($this->distNews as $news) {
+            $this->repository->save($news);
+            $newsGet = $this->repository->find($news->getId());
 
-        $tag = $this->repository->findByIds([4, 3, 5, 9]);
-        $this->assertCount(4, $tag);
-
-        $tag = $this->repository->findByIds([2]);
-        $this->assertCount(1, $tag);
-
-        $tag = $this->repository->findByIds([]);
-        $this->assertCount(0, $tag);
-
-        $tag = $this->repository->findByIds([-1, 4, 2, 99]);
-        $this->assertCount(2, $tag);
+            $this->assertInstanceOf(News::class, $newsGet);
+            $this->assertSame($news->getId(), $newsGet->getId());
+        }
     }
 
-    public function test_全てのタグを取得する事ができるか(): void {
-        $tags = $this->repository->findAll();
-        $this->assertCount(10, $tags);
-    }
+    /**
+     * @depends test_ニュースを保存できるか
+     */
+    public function test_Userを指定してニュースを取得できるか(): void
+    {
+        foreach($this->distNews as $news) {
+            $this->repository->save($news);
+        }
 
-    public function test_タグIDを生成できるか(): void {
-        $tagId = $this->repository->generateId();
-        $this->assertIsString($tagId);
+        $newsGet = $this->repository->findByUser($news->getAuthor());
+        foreach($newsGet as $entity) {
+            $this->assertInstanceOf(News::class, $entity);
+            $this->assertSame($news->getAuthor()->getId(), $entity->getAuthor()->getId());
+        }
     }
 }

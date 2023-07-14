@@ -7,7 +7,11 @@ use Illuminate\Support\Facades\Artisan;
 use Packages\Domains\Entities\News;
 use Packages\Domains\Entities\User;
 
+use Packages\Infrastructure\Factories\ImageMockFactory;
+use Packages\Infrastructure\Factories\NewsMockFactory;
 use Packages\Infrastructure\Factories\RepositoryNewsFactory;
+use Packages\Infrastructure\Factories\TagMockFactory;
+use Packages\Infrastructure\Factories\UserMockFactory;
 use Packages\Infrastructure\Repositories\EloquentImageRepository;
 use Packages\Infrastructure\Repositories\EloquentNewsRepository;
 use Packages\Infrastructure\Repositories\EloquentTagRepository;
@@ -18,7 +22,6 @@ class NewsRepositoryTest extends TestCase
 {
     use RefreshDatabase;
 
-    private array $distUsers = [];
     private array $distNews = [];
 
     private readonly EloquentNewsRepository $repository;
@@ -30,52 +33,12 @@ class NewsRepositoryTest extends TestCase
         $userRepository = new EloquentUserRepository();
         $tagRepository = new EloquentTagRepository();
         $imageRepository = new EloquentImageRepository();
-
         $this->repository = new EloquentNewsRepository($tagRepository, $imageRepository, $userRepository);
 
-        $this->distUsers['user-test1'] = new User(
-            id: 'user-test1',
-            name: 'test1',
-            email: 'test1@gmail.com',
-            password: 'password1',
-            profileImagePath: 'test1',
-            createdAt: '2021-01-01 00:00:00',
-            postsCount: 1,
-        );
-        $userRepository->save($this->distUsers['user-test1']);
-
-        $this->distUsers['user-test2'] = new User(
-            id: 'user-test2',
-            name: 'test2',
-            email: 'test2@gmail.com',
-            password: 'password2',
-            profileImagePath: 'test2',
-            createdAt: '2022-02-02 00:00:00',
-            postsCount: 2,
-        );
-        $userRepository->save($this->distUsers['user-test2']);
-
-        $this->distNews['news-test1'] = new News(
-            id: 'news-test1',
-            author: $this->distUsers['user-test1'],
-            title: 'test1',
-            body: 'test1',
-            createdAt: '2021-01-01 00:00:00',
-            updatedAt: '2021-01-01 00:00:00',
-            tags: [],
-            images: [],
-        );
-
-        $this->distNews['news-test2'] = new News(
-            id: 'news-test2',
-            author: $this->distUsers['user-test2'],
-            title: 'test2',
-            body: 'test2',
-            createdAt: '2022-01-01 00:00:00',
-            updatedAt: '2022-01-01 00:00:00',
-            tags: [],
-            images: [],
-        );
+        $userMock = new UserMockFactory($userRepository);
+        $tagMock = new TagMockFactory($tagRepository);
+        $imageMock = new ImageMockFactory($imageRepository);
+        $newsMock = new NewsMockFactory($this->repository, $userMock, $tagMock, $imageMock, false);
     }
 
     public function test_ニュースを保存できるか(): void

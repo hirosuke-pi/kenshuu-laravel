@@ -5,7 +5,10 @@ namespace Tests\Unit\Repositories;
 use App\Models\Tag;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
+use Packages\Infrastructure\Repositories\EloquentImageRepository;
+use Packages\Infrastructure\Repositories\EloquentNewsRepository;
 use Packages\Infrastructure\Repositories\EloquentTagRepository;
+use Packages\Infrastructure\Repositories\EloquentUserRepository;
 use Tests\TestCase;
 
 class TagRepositoryTest extends TestCase
@@ -17,6 +20,13 @@ class TagRepositoryTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
+
+        $userRepository = new EloquentUserRepository();
+        $tagRepository = new EloquentTagRepository();
+        $imageRepository = new EloquentImageRepository();
+
+        $newsRepository = new EloquentNewsRepository($tagRepository, $imageRepository, $userRepository);
+
         $this->repository = new EloquentTagRepository();
 
         $tag = new Tag();
