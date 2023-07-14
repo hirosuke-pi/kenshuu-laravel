@@ -112,4 +112,34 @@ class NewsRepositoryTest extends TestCase
             }
         }
     }
+
+    /**
+     * @depends test_ニュースを保存できるか
+     */
+    public function test_IDを指定してニュースを取得できるか(): void
+    {
+        foreach($this->distNews as $news) {
+            $this->repository->save($news);
+            $newsGet = $this->repository->find($news->getId());
+
+            $this->assertInstanceOf(News::class, $newsGet);
+            $this->assertSame($news->getId(), $newsGet->getId());
+        }
+    }
+
+    /**
+     * @depends test_ニュースを保存できるか
+     */
+    public function test_Userを指定してニュースを取得できるか(): void
+    {
+        foreach($this->distNews as $news) {
+            $this->repository->save($news);
+        }
+
+        $newsGet = $this->repository->findByUser($news->getAuthor());
+        foreach($newsGet as $entity) {
+            $this->assertInstanceOf(News::class, $entity);
+            $this->assertSame($news->getAuthor()->getId(), $entity->getAuthor()->getId());
+        }
+    }
 }
