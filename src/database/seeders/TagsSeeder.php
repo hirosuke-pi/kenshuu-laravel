@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Packages\Infrastructure\Factories\TagMockFactory;
+use Packages\Infrastructure\Factories\TagTestFactory;
 
 class TagsSeeder extends Seeder
 {
@@ -12,6 +12,6 @@ class TagsSeeder extends Seeder
      */
     public function run(): void
     {
-        TagMockFactory::createDefaultTags();
+        TagTestFactory::initializeTable();
     }
 }

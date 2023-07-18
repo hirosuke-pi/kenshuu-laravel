@@ -27,16 +27,16 @@ final class UserTestFactory
      * @return User UserEntity
      */
     public function create(): User {
-        $facker = fake();
-        $this->password = $facker->password();
+        $faker = fake();
+        $this->password = fake()->password();
 
         $user = new User(
             id: $this->userRepository->generateId(),
-            name: $facker->name(),
-            email: $facker->email(),
+            name: $faker->name(),
+            email: $faker->email(),
             password: $this->userRepository->hashPassword($this->password),
-            profileImagePath: $facker->imageUrl(),
-            createdAt: $facker->dateTime()->format(DateTimeInterface::ATOM),
+            profileImagePath: $faker->imageUrl(),
+            createdAt: $faker->dateTime()->format(DateTimeInterface::ATOM),
             postsCount: 0,
             rawPassword: $this->password,
         );

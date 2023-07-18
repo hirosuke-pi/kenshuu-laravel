@@ -1,4 +1,5 @@
 <?php
+/** @noinspection NonAsciiCharacters */
 
 namespace Tests\Unit\Repositories;
 

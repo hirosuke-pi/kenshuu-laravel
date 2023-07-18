@@ -22,7 +22,7 @@ final class NewsTestFactory
         private readonly UserTestFactory $userTestFactory,
         private readonly TagTestFactory $tagTestFactory,
         private readonly ImageTestFactory $imageTestFactory,
-        private bool $isSaveRepository = true,
+        private readonly bool $isSaveRepository = true,
     ) {}
 
     /**
@@ -31,16 +31,16 @@ final class NewsTestFactory
      * @return News NewsEntity
      */
     public function create(): News {
-        $facker = fake();
+        $faker = fake();
 
         $newsId = $this->newsRepository->generateId();
         $news = new News(
             id: $newsId,
             author: $this->userTestFactory->create(),
-            title: $facker->title(),
-            body: $facker->text(),
-            createdAt: $facker->dateTime()->format(DateTimeInterface::ATOM),
-            updatedAt: $facker->dateTime()->format(DateTimeInterface::ATOM),
+            title: $faker->title(),
+            body: $faker->text(),
+            createdAt: $faker->dateTime()->format(DateTimeInterface::ATOM),
+            updatedAt: $faker->dateTime()->format(DateTimeInterface::ATOM),
             tags: $this->tagTestFactory->create(),
             images: $this->imageTestFactory->create(),
         );

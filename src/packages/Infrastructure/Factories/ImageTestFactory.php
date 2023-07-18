@@ -22,15 +22,15 @@ final class ImageTestFactory
      * @return array ImageEntityの配列
      */
     public function create(): array {
-        $facker = fake();
-        $size = $facker->numberBetween(0, 10);
+        $faker = fake();
+        $size = $faker->numberBetween(0, 10);
         $images = [];
 
         for ($i = 0; $i < $size; $i++) {
             $image = new Image(
                 id: $this->imageRepository->generateId(),
                 isThumbnail: false,
-                filePath: $facker->imageUrl(),
+                filePath: $faker->imageUrl(),
             );
             $images[] = $image;
         }
