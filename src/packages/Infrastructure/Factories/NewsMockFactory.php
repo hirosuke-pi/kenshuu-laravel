@@ -8,6 +8,15 @@ use Packages\Domains\Interfaces\Repositories\NewsRepositoryInterface;
 
 final class NewsMockFactory
 {
+    /**
+     * NewsMockFactory constructor.
+     *
+     * @param NewsRepositoryInterface $newsRepository NewsRepositoryInterfaceの実装
+     * @param UserMockFactory $userMockFactory UserMockFactoryの実装
+     * @param TagMockFactory $tagMockFactory TagMockFactoryの実装
+     * @param ImageMockFactory $imageMockFactory ImageMockFactoryの実装
+     * @param boolean $isSaveRepository リポジトリに保存するか
+     */
     public function __construct(
         private readonly NewsRepositoryInterface $newsRepository,
         private readonly UserMockFactory $userMockFactory,
@@ -16,6 +25,11 @@ final class NewsMockFactory
         private bool $isSaveRepository = true,
     ) {}
 
+    /**
+     * NewsEntity のMock生成
+     *
+     * @return News NewsEntity
+     */
     public function create(): News {
         $facker = fake();
 
@@ -36,6 +50,12 @@ final class NewsMockFactory
         return $news;
     }
 
+    /**
+     * 複数のNewsEntityのMock生成
+     *
+     * @param int $size 生成する数
+     * @return array NewsEntityの配列
+     */
     public function createMultiple(int $size): array {
         $newsList = [];
         for ($i = 0; $i < $size; $i++) {

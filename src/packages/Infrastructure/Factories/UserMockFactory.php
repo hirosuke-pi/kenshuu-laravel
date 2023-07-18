@@ -10,11 +10,22 @@ final class UserMockFactory
 {
     private string $password = '';
 
+    /**
+     * UserMockFactory constructor.
+     *
+     * @param UserRepositoryInterface $userRepository UserRepositoryInterfaceの実装
+     * @param boolean $isSaveRepository リポジトリに保存するか
+     */
     public function __construct(
         private readonly UserRepositoryInterface $userRepository,
         private bool $isSaveRepository = true,
     ) {}
 
+    /**
+     * UserEntityのMock生成
+     *
+     * @return User UserEntity
+     */
     public function create(): User {
         $facker = fake();
         $this->password = $facker->password();
@@ -34,6 +45,12 @@ final class UserMockFactory
         return $user;
     }
 
+    /**
+     * 複数のUserEntityのMock生成
+     *
+     * @param integer $size 生成する数
+     * @return array UserEntityの配列
+     */
     public function createMultiple(int $size): array {
         $users = [];
         for ($i = 0; $i < $size; $i++) {

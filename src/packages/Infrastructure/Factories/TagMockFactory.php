@@ -7,12 +7,22 @@ use Packages\Domains\Interfaces\Repositories\TagRepositoryInterface;
 
 final class TagMockFactory
 {
+    /**
+     * TagMockFactory constructor.
+     *
+     * @param TagRepositoryInterface $tagRepository TagRepositoryInterfaceの実装
+     */
     public function __construct(
         private readonly TagRepositoryInterface $tagRepository,
     ) {
         self::initializeTable();
     }
 
+    /**
+     * TagEntityのMock生成
+     *
+     * @return array TagEntityの配列
+     */
     public function create(): array {
         $allTags = $this->tagRepository->findAll();
         shuffle($allTags);
@@ -24,6 +34,11 @@ final class TagMockFactory
         return $selectedTags;
     }
 
+    /**
+     * タグテーブルの初期化
+     *
+     * @return boolean 初期化したかどうか
+     */
     public static function initializeTable(): bool {
         $tagModel = new TagModel();
         if ($tagModel->count() > 0) {
