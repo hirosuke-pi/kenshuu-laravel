@@ -31,8 +31,11 @@ Route::group(['middleware' => ['login.user']], function() {
     Route::group(['middleware' => ['require.login']], function() {
         Route::get('/news/create', [NewsController::class, 'create'])->name('news.create');
     });
+
+    Route::get('/login', [UserController::class, 'loginView'])->name('view.login');
+    Route::get('/register', [UserController::class, 'registerView'])->name('view.register');
 });
 
-Route::get('/auth/login', [AuthController::class, 'login'])->name('auth.login');
+Route::post('/auth/login', [AuthController::class, 'login'])->name('auth.login');
 Route::get('/auth/logout', [AuthController::class, 'logout'])->name('auth.logout');
-Route::get('/auth/register', [AuthController::class, 'register'])->name('auth.register');
+Route::post('/auth/register', [AuthController::class, 'register'])->name('auth.register');
