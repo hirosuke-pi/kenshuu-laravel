@@ -14,15 +14,16 @@ final class EloquentImageRepository implements ImageRepositoryInterface
      * 画像IDから画像を取得する
      *
      * @param string $id 画像ID
-     * @return Image 画像Entity
+     * @return Image|null 画像Entity
      */
-    public function find(string $id): Image
+    public function find(string $id): ?Image
     {
-        $tag = ImageModel::find($id);
+        $image = ImageModel::find($id);
+        if (is_null($image)) return null;
         return new Image(
-            id: $tag->id,
-            isThumbnail: $tag->thumbnail_flag,
-            filePath: $tag->name,
+            id: $image->id,
+            isThumbnail: $image->thumbnail_flag,
+            filePath: $image->file_path,
         );
     }
 
@@ -34,17 +35,17 @@ final class EloquentImageRepository implements ImageRepositoryInterface
      */
     public function findByPostId(string $postId): array
     {
-        $tags = ImageModel::where('post_id', $postId)->get();
+        $images = ImageModel::where('post_id', $postId)->get();
 
-        $tagEntities = [];
-        foreach($tags as $tag) {
-            $tagEntities[] = new Image(
-                id: $tag->id,
-                isThumbnail: $tag->thumbnail_flag,
-                filePath: $tag->name,
+        $imageEntities = [];
+        foreach($images as $image) {
+            $imageEntities[] = new Image(
+                id: $image->id,
+                isThumbnail: $image->thumbnail_flag,
+                filePath: $image->file_path,
             );
         }
-        return $tagEntities;
+        return $imageEntities;
     }
 
     /**
@@ -52,16 +53,16 @@ final class EloquentImageRepository implements ImageRepositoryInterface
      *
      * @param Image $image 画像Entity
      * @param string $postId 投稿ID
-     * @return void
+     * @return bool 保存結果
      */
-    public function save(Image $image, string $postId): void
+    public function save(Image $image, string $postId): bool
     {
-        $imageModel = new ImageModel();
+        $imageModel = ImageModel::find($image->getId()) ?? new ImageModel();
         $imageModel->id = $image->getId();
         $imageModel->post_id = $postId;
         $imageModel->thumbnail_flag = $image->isThumbnail();
         $imageModel->file_path = $image->getFilePath();
-        $imageModel->save();
+        return $imageModel->save();
     }
 
     /**

@@ -10,9 +10,9 @@ interface TagRepositoryInterface
      * タグIDからタグEntityを取得する
      *
      * @param string $id タグID
-     * @return Tag タグEntity
+     * @return Tag|null タグEntity
      */
-    public function find(string $id): Tag;
+    public function find(string $id): ?Tag;
 
     /**
      * タグID配列からタグEntity配列を取得する
@@ -42,9 +42,9 @@ interface TagRepositoryInterface
      *
      * @param Tag $tag タグEntity
      * @param string $postId 投稿ID
-     * @return void
+     * @return bool 保存結果
      */
-    public function saveWithPostId(Tag $tag, string $postId): void;
+    public function saveWithPostId(Tag $tag, string $postId): bool;
 
     /**
      * タグIDを生成する

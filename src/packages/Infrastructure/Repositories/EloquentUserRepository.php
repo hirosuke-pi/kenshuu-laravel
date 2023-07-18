@@ -61,20 +61,22 @@ final class EloquentUserRepository implements UserRepositoryInterface
      * ユーザーを保存する
      *
      * @param User $userEntity ユーザーEntity
-     * @return void
+     * @return bool 保存結果
      */
-    public function save(User $userEntity): void
+    public function save(User $userEntity): bool
     {
-        $user = new UserModel();
+
+        $user = UserModel::find($userEntity->getId()) ?? new UserModel();
         $user->id = $userEntity->getId();
         $user->username = $userEntity->getName();
         $user->email = $userEntity->getEmail();
         $user->password = $userEntity->getHashedPassword();
         $user->created_at = $userEntity->getCreatedAt();
         if ($userEntity->hasUserProfileImage()) {
-            $user->profile_image_path = $userEntity->getProfileImagePath();
+            $user->profile_img_path = $userEntity->getProfileImagePath();
         }
-        $user->save();
+
+        return $user->save();
     }
 
     /**

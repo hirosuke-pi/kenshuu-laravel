@@ -30,15 +30,15 @@ class NewsHandlerProvider extends ServiceProvider
             tagRepository: $tagRepository,
             imageRepository: $imageRepository
         );
-        $eloquentNewsRepository = new EloquentNewsRepository($tagRepository, $imageRepository);
+        $eloquentNewsRepository = new EloquentNewsRepository($tagRepository, $imageRepository, $userRepository);
 
         $this->app->bind(
             NewsGetHandler::class,
-            fn () => new NewsGetHandler($eloquentNewsRepository, $eloquentNewsFactory)
+            fn () => new NewsGetHandler($eloquentNewsRepository)
         );
         $this->app->bind(
             NewsGetAllHandler::class,
-            fn () => new NewsGetAllHandler($eloquentNewsRepository, $eloquentNewsFactory)
+            fn () => new NewsGetAllHandler($eloquentNewsRepository)
         );
         $this->app->bind(
             NewsCreateHandler::class,
@@ -46,7 +46,7 @@ class NewsHandlerProvider extends ServiceProvider
         );
         $this->app->bind(
             NewsGetByUserHandler::class,
-            fn () => new NewsGetByUserHandler($eloquentNewsRepository, $eloquentNewsFactory)
+            fn () => new NewsGetByUserHandler($eloquentNewsRepository)
         );
     }
 
