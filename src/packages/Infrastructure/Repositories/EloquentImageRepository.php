@@ -22,7 +22,7 @@ final class EloquentImageRepository implements ImageRepositoryInterface
         return new Image(
             id: $image->id,
             isThumbnail: $image->thumbnail_flag,
-            filePath: $image->name,
+            filePath: $image->file_path,
         );
     }
 
@@ -41,7 +41,7 @@ final class EloquentImageRepository implements ImageRepositoryInterface
             $imageEntities[] = new Image(
                 id: $image->id,
                 isThumbnail: $image->thumbnail_flag,
-                filePath: $image->name,
+                filePath: $image->file_path,
             );
         }
         return $imageEntities;

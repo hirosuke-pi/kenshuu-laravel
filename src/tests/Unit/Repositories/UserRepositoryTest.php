@@ -26,10 +26,7 @@ class UserRepositoryTest extends TestCase
         $this->repository = new EloquentUserRepository();
 
         $userMock = new UserMockFactory($this->repository, false);
-        for ($i = 0; $i < 10; $i++) {
-            $user = $userMock->create();
-            $this->distUsers[$user->getId()] = $user;
-        }
+        $this->distUsers = $userMock->createMultiple(10);
     }
 
     public function test_UserEntityが保存されるか(): void

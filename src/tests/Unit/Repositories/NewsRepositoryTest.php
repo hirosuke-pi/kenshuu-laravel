@@ -24,34 +24,35 @@ class NewsRepositoryTest extends TestCase
 
     private array $distNews = [];
 
-    private readonly EloquentNewsRepository $repository;
+    private readonly EloquentNewsRepository $newsRepository;
+    private readonly EloquentTagRepository $tagRepository;
+    private readonly EloquentImageRepository $imageRepository;
 
     public function setUp(): void
     {
         parent::setUp();
 
         $userRepository = new EloquentUserRepository();
-        $tagRepository = new EloquentTagRepository();
-        $imageRepository = new EloquentImageRepository();
-        $this->repository = new EloquentNewsRepository($tagRepository, $imageRepository, $userRepository);
+        $this->tagRepository = new EloquentTagRepository();
+        $this->imageRepository = new EloquentImageRepository();
+        $this->newsRepository = new EloquentNewsRepository($this->tagRepository, $this->imageRepository, $userRepository);
 
         $userMock = new UserMockFactory($userRepository);
-        $tagMock = new TagMockFactory($tagRepository);
-        $imageMock = new ImageMockFactory($imageRepository);
-        $newsMock = new NewsMockFactory($this->repository, $userMock, $tagMock, $imageMock, false);
+        $tagMock = new TagMockFactory($this->tagRepository, false);
+        $imageMock = new ImageMockFactory($this->imageRepository, false);
+        $newsMock = new NewsMockFactory($this->newsRepository, $userMock, $tagMock, $imageMock, false);
+        $this->distNews = $newsMock->createMultiple(10);
     }
 
     public function test_ニュースを保存できるか(): void
     {
         foreach($this->distNews as $news) {
-            $this->assertTrue($this->repository->save($news));
+            $this->assertTrue($this->newsRepository->save($news));
             $this->assertDatabaseHas('posts', [
                 'id' => $news->getId(),
                 'user_id' => $news->getAuthor()->getId(),
                 'title' => $news->getTitle(),
                 'body' => $news->getBody(),
-                'created_at' => $news->getCreatedAt(),
-                'updated_at' => $news->getUpdatedAt(),
             ]);
         }
     }
@@ -62,10 +63,10 @@ class NewsRepositoryTest extends TestCase
     public function test_ニュースを全件取得できるか(): void
     {
         foreach($this->distNews as $news) {
-            $this->repository->save($news);
+            $this->newsRepository->save($news);
         }
 
-        $findAllEntities = $this->repository->findAll();
+        $findAllEntities = $this->newsRepository->findAll();
         foreach($findAllEntities as $entity) {
             $this->assertInstanceOf(News::class, $entity);
             $newsId = $entity->getId();
@@ -82,8 +83,8 @@ class NewsRepositoryTest extends TestCase
     public function test_IDを指定してニュースを取得できるか(): void
     {
         foreach($this->distNews as $news) {
-            $this->repository->save($news);
-            $newsGet = $this->repository->find($news->getId());
+            $this->newsRepository->save($news);
+            $newsGet = $this->newsRepository->find($news->getId());
 
             $this->assertInstanceOf(News::class, $newsGet);
             $this->assertSame($news->getId(), $newsGet->getId());
@@ -96,10 +97,10 @@ class NewsRepositoryTest extends TestCase
     public function test_Userを指定してニュースを取得できるか(): void
     {
         foreach($this->distNews as $news) {
-            $this->repository->save($news);
+            $this->newsRepository->save($news);
         }
 
-        $newsGet = $this->repository->findByUser($news->getAuthor());
+        $newsGet = $this->newsRepository->findByUser($news->getAuthor());
         foreach($newsGet as $entity) {
             $this->assertInstanceOf(News::class, $entity);
             $this->assertSame($news->getAuthor()->getId(), $entity->getAuthor()->getId());

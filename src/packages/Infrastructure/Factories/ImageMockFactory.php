@@ -4,7 +4,6 @@ namespace Packages\Infrastructure\Factories;
 
 use Packages\Domains\Entities\Image;
 use Packages\Domains\Interfaces\Repositories\ImageRepositoryInterface;
-use Packages\Domains\Interfaces\Repositories\TagRepositoryInterface;
 
 final class ImageMockFactory
 {

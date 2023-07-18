@@ -5,10 +5,8 @@ namespace Tests\Unit\Repositories;
 use App\Models\Tag;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-use Packages\Infrastructure\Repositories\EloquentImageRepository;
-use Packages\Infrastructure\Repositories\EloquentNewsRepository;
+use Packages\Infrastructure\Factories\TagMockFactory;
 use Packages\Infrastructure\Repositories\EloquentTagRepository;
-use Packages\Infrastructure\Repositories\EloquentUserRepository;
 use Tests\TestCase;
 
 class TagRepositoryTest extends TestCase
@@ -21,25 +19,8 @@ class TagRepositoryTest extends TestCase
     {
         parent::setUp();
 
-        $userRepository = new EloquentUserRepository();
-        $tagRepository = new EloquentTagRepository();
-        $imageRepository = new EloquentImageRepository();
-
-        $newsRepository = new EloquentNewsRepository($tagRepository, $imageRepository, $userRepository);
-
         $this->repository = new EloquentTagRepository();
-
-        $tag = new Tag();
-        $tag->create(['id' => '1',  'tag_name' => 'テクノロジー']);
-        $tag->create(['id' => '2',  'tag_name' => 'モバイル']);
-        $tag->create(['id' => '3',  'tag_name' => 'アプリ']);
-        $tag->create(['id' => '4',  'tag_name' => 'エンタメ']);
-        $tag->create(['id' => '5',  'tag_name' => 'ビューティー']);
-        $tag->create(['id' => '6',  'tag_name' => 'ファッション']);
-        $tag->create(['id' => '7',  'tag_name' => 'ライフスタイル']);
-        $tag->create(['id' => '8',  'tag_name' => 'ビジネス']);
-        $tag->create(['id' => '9',  'tag_name' => 'グルメ']);
-        $tag->create(['id' => '10', 'tag_name' => 'スポーツ']);
+        TagMockFactory::initializeTable();
     }
 
     public function test_指定したタグIDのタグTagEntityが取得できるか(): void {

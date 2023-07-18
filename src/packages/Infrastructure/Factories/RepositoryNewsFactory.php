@@ -46,7 +46,7 @@ final class RepositoryNewsFactory
         );
     }
 
-        /**
+    /**
      * ニュースを生成する
      *
      * @param string $id ニュースID

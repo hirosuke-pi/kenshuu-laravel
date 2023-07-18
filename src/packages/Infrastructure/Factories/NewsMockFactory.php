@@ -16,7 +16,7 @@ final class NewsMockFactory
         private bool $isSaveRepository = true,
     ) {}
 
-    public function create(bool $save = true): News {
+    public function create(): News {
         $facker = fake();
 
         $newsId = $this->newsRepository->generateId();
@@ -27,11 +27,21 @@ final class NewsMockFactory
             body: $facker->text(),
             createdAt: $facker->dateTime()->format(DateTimeInterface::ATOM),
             updatedAt: $facker->dateTime()->format(DateTimeInterface::ATOM),
-            tags: $this->tagMockFactory->create(),
+            tags: $this->tagMockFactory->createWithPostId($newsId),
             images: $this->imageMockFactory->create($newsId),
         );
 
         if ($this->isSaveRepository) $this->newsRepository->save($news);
+
         return $news;
+    }
+
+    public function createMultiple(int $size): array {
+        $newsList = [];
+        for ($i = 0; $i < $size; $i++) {
+            $news = $this->create();
+            $newsList[$news->getId()] = $news;
+        }
+        return $newsList;
     }
 }

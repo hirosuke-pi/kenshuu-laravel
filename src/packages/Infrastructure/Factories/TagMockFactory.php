@@ -10,13 +10,23 @@ final class TagMockFactory
 {
     public function __construct(
         private readonly TagRepositoryInterface $tagRepository,
-    ) {}
-
-    public function create(): array {
+        private bool $isSaveRepository = true,
+    ) {
         self::initializeTable();
+    }
 
-        $tags = $this->tagRepository->findAll();
-        return array_rand($tags, fake()->numberBetween(0, 10));
+    public function createWithPostId(string $postId): array {
+        $allTags = $this->tagRepository->findAll();
+        shuffle($allTags);
+
+        $selectedTags = [];
+        for($i = 0; $i < fake()->numberBetween(0, 10); $i++) {
+            $selectedTags[] = $allTags[$i];
+            if ($this->isSaveRepository) {
+                $this->tagRepository->saveWithPostId($allTags[$i], $postId);
+            }
+        }
+        return $selectedTags;
     }
 
     public static function initializeTable(): bool {

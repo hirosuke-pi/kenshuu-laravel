@@ -27,23 +27,19 @@ final class UserMockFactory
             profileImagePath: $facker->imageUrl(),
             createdAt: $facker->dateTime()->format(DateTimeInterface::ATOM),
             postsCount: 0,
+            rawPassword: $this->password,
         );
         if ($this->isSaveRepository) $this->userRepository->save($user);
 
         return $user;
     }
 
-    // TODO: 残りを実装
-    public function createAny(int $size): array {
+    public function createMultiple(int $size): array {
         $users = [];
         for ($i = 0; $i < $size; $i++) {
             $user = $this->create();
             $users[$user->getId()] = $user;
         }
         return $users;
-    }
-
-    public function getRawPassword(): string {
-        return $this->password;
     }
 }
