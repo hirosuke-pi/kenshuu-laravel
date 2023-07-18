@@ -7,11 +7,11 @@ use Illuminate\Support\Facades\Artisan;
 use Packages\Domains\Entities\News;
 use Packages\Domains\Entities\User;
 
-use Packages\Infrastructure\Factories\ImageMockFactory;
-use Packages\Infrastructure\Factories\NewsMockFactory;
+use Packages\Infrastructure\Factories\ImageTestFactory;
+use Packages\Infrastructure\Factories\NewsTestFactory;
 use Packages\Infrastructure\Factories\RepositoryNewsFactory;
-use Packages\Infrastructure\Factories\TagMockFactory;
-use Packages\Infrastructure\Factories\UserMockFactory;
+use Packages\Infrastructure\Factories\TagTestFactory;
+use Packages\Infrastructure\Factories\UserTestFactory;
 use Packages\Infrastructure\Repositories\EloquentImageRepository;
 use Packages\Infrastructure\Repositories\EloquentNewsRepository;
 use Packages\Infrastructure\Repositories\EloquentTagRepository;
@@ -35,11 +35,11 @@ class ImageRepositoryTest extends TestCase
         $this->imageRepository = new EloquentImageRepository();
         $newsRepository = new EloquentNewsRepository($tagRepository, $this->imageRepository, $userRepository);
 
-        $userMock = new UserMockFactory($userRepository);
-        $tagMock = new TagMockFactory($tagRepository);
-        $imageMock = new ImageMockFactory($this->imageRepository);
-        $newsMock = new NewsMockFactory($newsRepository, $userMock, $tagMock, $imageMock);
-        $this->distNews = $newsMock->createMultiple(10);
+        $userTest = new UserTestFactory($userRepository);
+        $tagTest = new TagTestFactory($tagRepository);
+        $imageTest = new ImageTestFactory($this->imageRepository);
+        $newsTest = new NewsTestFactory($newsRepository, $userTest, $tagTest, $imageTest);
+        $this->distNews = $newsTest->createMultiple(10);
     }
 
     public function test_画像IDから画像を取得できるか(): void

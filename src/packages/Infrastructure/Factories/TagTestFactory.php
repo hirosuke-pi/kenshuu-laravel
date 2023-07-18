@@ -5,10 +5,10 @@ namespace Packages\Infrastructure\Factories;
 use App\Models\Tag as TagModel;
 use Packages\Domains\Interfaces\Repositories\TagRepositoryInterface;
 
-final class TagMockFactory
+final class TagTestFactory
 {
     /**
-     * TagMockFactory constructor.
+     * TagTestFactory constructor.
      *
      * @param TagRepositoryInterface $tagRepository TagRepositoryInterfaceの実装
      */
@@ -19,7 +19,7 @@ final class TagMockFactory
     }
 
     /**
-     * TagEntityのMock生成
+     * TagEntityのTest生成
      *
      * @return array TagEntityの配列
      */

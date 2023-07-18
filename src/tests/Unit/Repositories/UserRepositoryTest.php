@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Artisan;
 use Packages\Domains\Entities\User;
 
 use \App\Models\User as UserModel;
-use Packages\Infrastructure\Factories\UserMockFactory;
+use Packages\Infrastructure\Factories\UserTestFactory;
 use Packages\Infrastructure\Repositories\EloquentUserRepository;
 use Tests\TestCase;
 
@@ -25,8 +25,8 @@ class UserRepositoryTest extends TestCase
 
         $this->repository = new EloquentUserRepository();
 
-        $userMock = new UserMockFactory($this->repository, false);
-        $this->distUsers = $userMock->createMultiple(10);
+        $userTest = new UserTestFactory($this->repository, false);
+        $this->distUsers = $userTest->createMultiple(10);
     }
 
     public function test_UserEntityが保存されるか(): void

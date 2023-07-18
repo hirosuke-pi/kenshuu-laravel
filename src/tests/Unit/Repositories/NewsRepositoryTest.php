@@ -7,11 +7,11 @@ use Illuminate\Support\Facades\Artisan;
 use Packages\Domains\Entities\News;
 use Packages\Domains\Entities\User;
 
-use Packages\Infrastructure\Factories\ImageMockFactory;
-use Packages\Infrastructure\Factories\NewsMockFactory;
+use Packages\Infrastructure\Factories\ImageTestFactory;
+use Packages\Infrastructure\Factories\NewsTestFactory;
 use Packages\Infrastructure\Factories\RepositoryNewsFactory;
-use Packages\Infrastructure\Factories\TagMockFactory;
-use Packages\Infrastructure\Factories\UserMockFactory;
+use Packages\Infrastructure\Factories\TagTestFactory;
+use Packages\Infrastructure\Factories\UserTestFactory;
 use Packages\Infrastructure\Repositories\EloquentImageRepository;
 use Packages\Infrastructure\Repositories\EloquentNewsRepository;
 use Packages\Infrastructure\Repositories\EloquentTagRepository;
@@ -34,11 +34,11 @@ class NewsRepositoryTest extends TestCase
         $imageRepository = new EloquentImageRepository();
         $this->newsRepository = new EloquentNewsRepository($tagRepository, $imageRepository, $userRepository);
 
-        $userMock = new UserMockFactory($userRepository);
-        $tagMock = new TagMockFactory($tagRepository);
-        $imageMock = new ImageMockFactory($imageRepository);
-        $newsMock = new NewsMockFactory($this->newsRepository, $userMock, $tagMock, $imageMock, false);
-        $this->distNews = $newsMock->createMultiple(10);
+        $userTest = new UserTestFactory($userRepository);
+        $tagTest = new TagTestFactory($tagRepository);
+        $imageTest = new ImageTestFactory($imageRepository);
+        $newsTest = new NewsTestFactory($this->newsRepository, $userTest, $tagTest, $imageTest, false);
+        $this->distNews = $newsTest->createMultiple(10);
     }
 
     public function test_ニュースを保存できるか(): void

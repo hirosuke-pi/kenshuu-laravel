@@ -5,10 +5,10 @@ namespace Packages\Infrastructure\Factories;
 use Packages\Domains\Entities\Image;
 use Packages\Domains\Interfaces\Repositories\ImageRepositoryInterface;
 
-final class ImageMockFactory
+final class ImageTestFactory
 {
     /**
-     * ImageMockFactory constructor.
+     * ImageTestFactory constructor.
      *
      * @param ImageRepositoryInterface $imageRepository ImageRepositoryInterfaceの実装
      */
@@ -17,7 +17,7 @@ final class ImageMockFactory
     ) {}
 
     /**
-     * ImageEntityのMock生成
+     * ImageEntityのTest生成
      *
      * @return array ImageEntityの配列
      */

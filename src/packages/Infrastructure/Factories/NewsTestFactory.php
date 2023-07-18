@@ -6,27 +6,27 @@ use DateTimeInterface;
 use Packages\Domains\Entities\News;
 use Packages\Domains\Interfaces\Repositories\NewsRepositoryInterface;
 
-final class NewsMockFactory
+final class NewsTestFactory
 {
     /**
-     * NewsMockFactory constructor.
+     * NewsTestFactory constructor.
      *
      * @param NewsRepositoryInterface $newsRepository NewsRepositoryInterfaceの実装
-     * @param UserMockFactory $userMockFactory UserMockFactoryの実装
-     * @param TagMockFactory $tagMockFactory TagMockFactoryの実装
-     * @param ImageMockFactory $imageMockFactory ImageMockFactoryの実装
+     * @param UserTestFactory $userTestFactory UserTestFactoryの実装
+     * @param TagTestFactory $tagTestFactory TagTestFactoryの実装
+     * @param ImageTestFactory $imageTestFactory ImageTestFactoryの実装
      * @param boolean $isSaveRepository リポジトリに保存するか
      */
     public function __construct(
         private readonly NewsRepositoryInterface $newsRepository,
-        private readonly UserMockFactory $userMockFactory,
-        private readonly TagMockFactory $tagMockFactory,
-        private readonly ImageMockFactory $imageMockFactory,
+        private readonly UserTestFactory $userTestFactory,
+        private readonly TagTestFactory $tagTestFactory,
+        private readonly ImageTestFactory $imageTestFactory,
         private bool $isSaveRepository = true,
     ) {}
 
     /**
-     * NewsEntity のMock生成
+     * NewsEntity のTest生成
      *
      * @return News NewsEntity
      */
@@ -36,13 +36,13 @@ final class NewsMockFactory
         $newsId = $this->newsRepository->generateId();
         $news = new News(
             id: $newsId,
-            author: $this->userMockFactory->create(),
+            author: $this->userTestFactory->create(),
             title: $facker->title(),
             body: $facker->text(),
             createdAt: $facker->dateTime()->format(DateTimeInterface::ATOM),
             updatedAt: $facker->dateTime()->format(DateTimeInterface::ATOM),
-            tags: $this->tagMockFactory->create(),
-            images: $this->imageMockFactory->create(),
+            tags: $this->tagTestFactory->create(),
+            images: $this->imageTestFactory->create(),
         );
 
         if ($this->isSaveRepository) $this->newsRepository->save($news);
@@ -51,7 +51,7 @@ final class NewsMockFactory
     }
 
     /**
-     * 複数のNewsEntityのMock生成
+     * 複数のNewsEntityのTest生成
      *
      * @param int $size 生成する数
      * @return array NewsEntityの配列

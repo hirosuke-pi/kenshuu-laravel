@@ -6,12 +6,12 @@ use DateTimeInterface;
 use Packages\Domains\Entities\User;
 use Packages\Domains\Interfaces\Repositories\UserRepositoryInterface;
 
-final class UserMockFactory
+final class UserTestFactory
 {
     private string $password = '';
 
     /**
-     * UserMockFactory constructor.
+     * UserTestFactory constructor.
      *
      * @param UserRepositoryInterface $userRepository UserRepositoryInterfaceの実装
      * @param boolean $isSaveRepository リポジトリに保存するか
@@ -22,7 +22,7 @@ final class UserMockFactory
     ) {}
 
     /**
-     * UserEntityのMock生成
+     * UserEntityのTest生成
      *
      * @return User UserEntity
      */
@@ -46,7 +46,7 @@ final class UserMockFactory
     }
 
     /**
-     * 複数のUserEntityのMock生成
+     * 複数のUserEntityのTest生成
      *
      * @param integer $size 生成する数
      * @return array UserEntityの配列

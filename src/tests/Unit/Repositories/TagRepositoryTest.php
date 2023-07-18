@@ -5,7 +5,7 @@ namespace Tests\Unit\Repositories;
 use App\Models\Tag;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-use Packages\Infrastructure\Factories\TagMockFactory;
+use Packages\Infrastructure\Factories\TagTestFactory;
 use Packages\Infrastructure\Repositories\EloquentTagRepository;
 use Tests\TestCase;
 
@@ -20,7 +20,7 @@ class TagRepositoryTest extends TestCase
         parent::setUp();
 
         $this->repository = new EloquentTagRepository();
-        TagMockFactory::initializeTable();
+        TagTestFactory::initializeTable();
     }
 
     public function test_指定したタグIDのタグTagEntityが取得できるか(): void {
