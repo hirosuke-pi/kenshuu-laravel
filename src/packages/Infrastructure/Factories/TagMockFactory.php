@@ -2,7 +2,6 @@
 
 namespace Packages\Infrastructure\Factories;
 
-use Packages\Domains\Entities\Tag;
 use App\Models\Tag as TagModel;
 use Packages\Domains\Interfaces\Repositories\TagRepositoryInterface;
 
@@ -10,21 +9,17 @@ final class TagMockFactory
 {
     public function __construct(
         private readonly TagRepositoryInterface $tagRepository,
-        private bool $isSaveRepository = true,
     ) {
         self::initializeTable();
     }
 
-    public function createWithPostId(string $postId): array {
+    public function create(): array {
         $allTags = $this->tagRepository->findAll();
         shuffle($allTags);
 
         $selectedTags = [];
         for($i = 0; $i < fake()->numberBetween(0, 10); $i++) {
             $selectedTags[] = $allTags[$i];
-            if ($this->isSaveRepository) {
-                $this->tagRepository->saveWithPostId($allTags[$i], $postId);
-            }
         }
         return $selectedTags;
     }

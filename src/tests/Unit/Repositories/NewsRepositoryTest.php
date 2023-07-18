@@ -23,23 +23,20 @@ class NewsRepositoryTest extends TestCase
     use RefreshDatabase;
 
     private array $distNews = [];
-
     private readonly EloquentNewsRepository $newsRepository;
-    private readonly EloquentTagRepository $tagRepository;
-    private readonly EloquentImageRepository $imageRepository;
 
     public function setUp(): void
     {
         parent::setUp();
 
         $userRepository = new EloquentUserRepository();
-        $this->tagRepository = new EloquentTagRepository();
-        $this->imageRepository = new EloquentImageRepository();
-        $this->newsRepository = new EloquentNewsRepository($this->tagRepository, $this->imageRepository, $userRepository);
+        $tagRepository = new EloquentTagRepository();
+        $imageRepository = new EloquentImageRepository();
+        $this->newsRepository = new EloquentNewsRepository($tagRepository, $imageRepository, $userRepository);
 
         $userMock = new UserMockFactory($userRepository);
-        $tagMock = new TagMockFactory($this->tagRepository, false);
-        $imageMock = new ImageMockFactory($this->imageRepository, false);
+        $tagMock = new TagMockFactory($tagRepository);
+        $imageMock = new ImageMockFactory($imageRepository);
         $newsMock = new NewsMockFactory($this->newsRepository, $userMock, $tagMock, $imageMock, false);
         $this->distNews = $newsMock->createMultiple(10);
     }

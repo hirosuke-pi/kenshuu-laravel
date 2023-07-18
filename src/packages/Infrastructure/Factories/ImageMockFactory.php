@@ -9,10 +9,9 @@ final class ImageMockFactory
 {
     public function __construct(
         private ImageRepositoryInterface $imageRepository,
-        private bool $isSaveRepository = true,
     ) {}
 
-    public function create(string $postId): array {
+    public function create(): array {
         $facker = fake();
         $size = $facker->numberBetween(0, 10);
         $images = [];
@@ -23,7 +22,6 @@ final class ImageMockFactory
                 isThumbnail: false,
                 filePath: $facker->imageUrl(),
             );
-            if ($this->isSaveRepository) $this->imageRepository->save($image, $postId);
             $images[] = $image;
         }
 

@@ -14,11 +14,12 @@ final class EloquentImageRepository implements ImageRepositoryInterface
      * 画像IDから画像を取得する
      *
      * @param string $id 画像ID
-     * @return Image 画像Entity
+     * @return Image|null 画像Entity
      */
-    public function find(string $id): Image
+    public function find(string $id): ?Image
     {
         $image = ImageModel::find($id);
+        if (is_null($image)) return null;
         return new Image(
             id: $image->id,
             isThumbnail: $image->thumbnail_flag,

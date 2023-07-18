@@ -10,9 +10,9 @@ interface ImageRepositoryInterface
      * 画像リポジトリのコンストラクタ
      *
      * @param string $id 画像ID
-     * @return Image 画像Entity
+     * @return Image|null 画像Entity
      */
-    public function find(string $id): Image;
+    public function find(string $id): ?Image;
 
     /**
      * 投稿IDから画像を取得する

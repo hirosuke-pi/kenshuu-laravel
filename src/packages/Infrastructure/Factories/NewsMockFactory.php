@@ -27,8 +27,8 @@ final class NewsMockFactory
             body: $facker->text(),
             createdAt: $facker->dateTime()->format(DateTimeInterface::ATOM),
             updatedAt: $facker->dateTime()->format(DateTimeInterface::ATOM),
-            tags: $this->tagMockFactory->createWithPostId($newsId),
-            images: $this->imageMockFactory->create($newsId),
+            tags: $this->tagMockFactory->create(),
+            images: $this->imageMockFactory->create(),
         );
 
         if ($this->isSaveRepository) $this->newsRepository->save($news);
