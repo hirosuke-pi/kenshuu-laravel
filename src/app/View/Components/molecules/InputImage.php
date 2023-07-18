@@ -18,7 +18,7 @@ class InputImage extends Component
     /**
      * Create a new component instance.
      */
-    public function __construct(?Image $image, string $defaultPrefix = '')
+    public function __construct(?Image $image = null, string $defaultPrefix = '')
     {
         if ($image === null) {
             $this->imageUrl = News::getDefaultImageUrl();
