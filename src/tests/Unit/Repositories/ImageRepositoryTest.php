@@ -57,7 +57,7 @@ class ImageRepositoryTest extends TestCase
     public function test_ニュースに対応する画像を取得できるか(): void
     {
         foreach($this->distNews as $news) {
-            $imageEntities = $this->imageRepository->findByPostId($news->getId());
+            $imageEntities = $this->imageRepository->findByPostId($news->getId()) ?? [];
             $this->assertSame(count($news->getImages()), count($imageEntities));
         }
     }
