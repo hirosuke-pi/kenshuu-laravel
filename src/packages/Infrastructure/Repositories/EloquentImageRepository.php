@@ -31,11 +31,12 @@ final class EloquentImageRepository implements ImageRepositoryInterface
      * 投稿IDから画像を取得する
      *
      * @param string $postId 投稿ID
-     * @return array 画像Entityの配列
+     * @return array|null 画像Entityの配列
      */
-    public function findByPostId(string $postId): array
+    public function findByPostId(string $postId): ?array
     {
         $images = ImageModel::where('post_id', $postId)->get();
+        if ($images->isEmpty()) return null;
 
         $imageEntities = [];
         foreach($images as $image) {

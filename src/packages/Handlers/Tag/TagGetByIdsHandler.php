@@ -24,6 +24,6 @@ final class TagGetByIdsHandler
      * @return array タグリスト
      */
     public function handle(array $tagIds): array {
-        return $this->tagRepository->findByIds($tagIds);
+        return $this->tagRepository->findByIds($tagIds) ?? [];
     }
 }
