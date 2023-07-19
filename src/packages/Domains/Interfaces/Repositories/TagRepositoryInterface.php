@@ -18,24 +18,24 @@ interface TagRepositoryInterface
      * タグID配列からタグEntity配列を取得する
      *
      * @param array $ids タグID配列
-     * @return array タグEntity配列
+     * @return array|null タグEntity配列
      */
-    public function findByIds(array $ids): array;
+    public function findByIds(array $ids): ?array;
 
     /**
      * 投稿IDからタグを取得する
      *
      * @param string $postId 投稿ID
-     * @return array タグEntityの配列
+     * @return array|null タグEntityの配列
      */
-    public function findByPostId(string $postId): array;
+    public function findByPostId(string $postId): ?array;
 
     /**
      * タグを全件取得する
      *
-     * @return array タグEntityの配列
+     * @return array|null タグEntityの配列
      */
-    public function findAll(): array;
+    public function findAll(): ?array;
 
     /**
      * タグを保存する

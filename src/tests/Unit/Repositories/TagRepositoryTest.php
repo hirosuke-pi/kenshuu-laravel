@@ -1,4 +1,5 @@
 <?php
+/** @noinspection NonAsciiCharacters */
 
 namespace Tests\Unit\Repositories;
 
@@ -53,16 +54,19 @@ class TagRepositoryTest extends TestCase
 
     public function test_指定した複数のタグIDから、それに対応するTagEntityの配列を取得できるか(): void {
         $tag = $this->repository->findByIds([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+        $this->assertIsArray($tag);
         $this->assertCount(10, $tag);
 
         $tag = $this->repository->findByIds([4, 3, 5, 9]);
+        $this->assertIsArray($tag);
         $this->assertCount(4, $tag);
 
         $tag = $this->repository->findByIds([2]);
+        $this->assertIsArray($tag);
         $this->assertCount(1, $tag);
 
         $tag = $this->repository->findByIds([]);
-        $this->assertCount(0, $tag);
+        $this->assertNull($tag);
 
         $tag = $this->repository->findByIds([-1, 4, 2, 99]);
         $this->assertCount(2, $tag);
@@ -70,6 +74,7 @@ class TagRepositoryTest extends TestCase
 
     public function test_全てのタグを取得する事ができるか(): void {
         $tags = $this->repository->findAll();
+        $this->assertIsArray($tags);
         $this->assertCount(10, $tags);
     }
 

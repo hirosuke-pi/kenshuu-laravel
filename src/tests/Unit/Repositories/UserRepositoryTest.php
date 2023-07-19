@@ -1,4 +1,5 @@
 <?php
+/** @noinspection NonAsciiCharacters */
 
 namespace Tests\Unit\Repositories;
 
@@ -63,7 +64,7 @@ class UserRepositoryTest extends TestCase
             $this->repository->save($distUser);
         }
 
-        foreach($this->distUsers as $userId => $distUser) {
+        foreach($this->distUsers as $distUser) {
             $testUser = $this->repository->findByEmail($distUser->getEmail());
             $this->assertNotNull($testUser);
             $this->assertSame($distUser->getId(), $testUser->getId());

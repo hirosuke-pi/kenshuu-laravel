@@ -10,9 +10,9 @@ interface NewsRepositoryInterface
     /**
      * ニュースを全件取得する
      *
-     * @return array ニュースEntityの配列
+     * @return array|null ニュースEntityの配列
      */
-    public function findAll(): array;
+    public function findAll(): ?array;
 
     /**
      * ニュースIDからニュースを取得する
@@ -28,7 +28,7 @@ interface NewsRepositoryInterface
      * @param User $user ユーザーエンティティ
      * @return array ニュースEntityの配列
      */
-    public function findByUser(User $user): array;
+    public function findByUser(User $user): ?array;
 
     /**
      * ニュースを保存する

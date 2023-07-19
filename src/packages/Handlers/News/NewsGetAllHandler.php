@@ -22,6 +22,6 @@ final class NewsGetAllHandler
      */
     public function handle(): array
     {
-        return $this->repository->findAll();
+        return $this->repository->findAll() ?? [];
     }
 }
