@@ -100,6 +100,16 @@ tasks:
         vars:
           SERVICE: app
           CMD: ./vendor/bin/phpunit tests/Unit/{{.CLI_ARGS}}
+  test:feature:
+    desc: 結合テストを実行する
+    summary: 引数からテストファイルを指定する
+    aliases:
+      - "tf"
+    cmds:
+      - task: exec
+        vars:
+          SERVICE: app
+          CMD: ./vendor/bin/phpunit tests/Feature/{{.CLI_ARGS}}
   up:
     desc: docker compose を起動する
     cmds:
