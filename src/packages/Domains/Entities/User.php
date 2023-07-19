@@ -16,6 +16,7 @@ final class User {
      * @param string|null $profileImagePath プロフィール画像パス
      * @param string $createdAt 作成日時
      * @param int $postsCount 投稿数
+     * @param string|null $rawPassword パスワード (ハッシュ前)
      */
     public function __construct(
         private readonly string $id,
@@ -25,6 +26,7 @@ final class User {
         private readonly ?string $profileImagePath,
         private readonly string $createdAt,
         private readonly int $postsCount = 0,
+        private readonly ?string $rawPassword = null,
     ) {}
 
     /**
@@ -75,6 +77,16 @@ final class User {
     public function getHashedPassword(): string
     {
         return $this->password;
+    }
+
+    /**
+     * ハッシュ前のパスワードを取得する
+     *
+     * @return string|null パスワード
+     */
+    public function getRawPassword(): ?string
+    {
+        return $this->rawPassword;
     }
 
     /**

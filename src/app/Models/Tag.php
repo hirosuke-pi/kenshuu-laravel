@@ -11,10 +11,10 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Tag
- * 
+ *
  * @property string $id
  * @property string $tag_name
- * 
+ *
  * @property Collection|Post[] $posts
  *
  * @package App\Models
@@ -26,6 +26,7 @@ class Tag extends Model
 	public $timestamps = false;
 
 	protected $fillable = [
+        'id',
 		'tag_name'
 	];
 

@@ -23,6 +23,6 @@ final class TagGetAllHandler
      * @return array タグリスト
      */
     public function handle(): array {
-        return $this->tagRepository->findAll();
+        return $this->tagRepository->findAll() ?? [];
     }
 }

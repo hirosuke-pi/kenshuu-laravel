@@ -16,11 +16,15 @@ final class EloquentTagRepository implements TagRepositoryInterface
      * タグIDからタグを取得する
      *
      * @param string $id タグID
-     * @return Tag タグEntity
+     * @return Tag|null タグEntity
      */
-    public function find(string $id): Tag
+    public function find(string $id): ?Tag
     {
         $tag = TagModel::find($id);
+        if (is_null($tag)) {
+            return null;
+        }
+
         return new Tag(
             id: $tag->id,
             name: $tag->tag_name,
@@ -31,11 +35,12 @@ final class EloquentTagRepository implements TagRepositoryInterface
      * タグIDからタグを取得する
      *
      * @param string $id タグID
-     * @return array タグEntity配列
+     * @return array|null タグEntity配列
      */
-    public function findByIds(array $ids): array
+    public function findByIds(array $ids): ?array
     {
         $tags = TagModel::whereIn('id', $ids)->get();
+        if ($tags->isEmpty()) return null;
 
         $tagEntities = [];
         foreach($tags as $tag) {
@@ -50,11 +55,12 @@ final class EloquentTagRepository implements TagRepositoryInterface
     /**
      * タグを全件取得する
      *
-     * @return array タグEntityの配列
+     * @return array|null タグEntityの配列
      */
-    public function findAll(): array
+    public function findAll(): ?array
     {
         $tags = TagModel::all();
+        if ($tags->isEmpty()) return null;
 
         $tagEntities = [];
         foreach($tags as $tag) {
@@ -70,11 +76,13 @@ final class EloquentTagRepository implements TagRepositoryInterface
      * 投稿IDからタグを取得する
      *
      * @param string $postId 投稿ID
-     * @return array タグEntityの配列
+     * @return array|null タグEntityの配列
      */
-    public function findByPostId(string $postId): array
+    public function findByPostId(string $postId): ?array
     {
         $tags = PostsTagModel::join('tags', 'tags.id', '=', 'posts_tags.tag_id')->where('post_id', $postId)->get();
+        if ($tags->isEmpty()) return null;
+
         $tagEntities = [];
         foreach($tags as $tag) {
             $tagEntities[] = new Tag(
@@ -90,14 +98,15 @@ final class EloquentTagRepository implements TagRepositoryInterface
      *
      * @param Tag $tag タグEntity
      * @param string $postId 投稿ID
-     * @return void
+     * @return bool 保存結果
      */
-    public function saveWithPostId(Tag $tag, string $postId): void
+    public function saveWithPostId(Tag $tag, string $postId): bool
     {
-        $postsTag = new PostsTagModel();
+        $postsTag = PostsTagModel::where('post_id', $postId)->
+            where('tag_id', $tag->getId())->first() ?? new PostsTagModel();
         $postsTag->post_id = $postId;
         $postsTag->tag_id = $tag->getId();
-        $postsTag->save();
+        return $postsTag->save();
     }
 
     /**
