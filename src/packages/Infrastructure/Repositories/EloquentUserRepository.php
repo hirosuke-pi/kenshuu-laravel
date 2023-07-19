@@ -2,6 +2,7 @@
 
 namespace Packages\Infrastructure\Repositories;
 
+use Illuminate\Support\Facades\Hash;
 use Packages\Domains\Interfaces\Repositories\UserRepositoryInterface;
 use Packages\Domains\Entities\User;
 use App\Models\User as UserModel;
@@ -97,6 +98,6 @@ final class EloquentUserRepository implements UserRepositoryInterface
      */
     public function hashPassword(string $password): string
     {
-        return password_hash($password, PASSWORD_DEFAULT);
+        return Hash::make($password);
     }
 }
