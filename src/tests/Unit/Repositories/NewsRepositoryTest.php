@@ -65,6 +65,7 @@ class NewsRepositoryTest extends TestCase
         }
 
         $findAllEntities = $this->newsRepository->findAll();
+        $this->assertIsArray($findAllEntities);
         foreach($findAllEntities as $entity) {
             $this->assertInstanceOf(News::class, $entity);
             $newsId = $entity->getId();
@@ -99,6 +100,7 @@ class NewsRepositoryTest extends TestCase
         }
 
         $newsGet = $this->newsRepository->findByUser($news->getAuthor());
+        $this->assertIsArray($newsGet);
         foreach($newsGet as $entity) {
             $this->assertInstanceOf(News::class, $entity);
             $this->assertSame($news->getAuthor()->getId(), $entity->getAuthor()->getId());

@@ -64,8 +64,8 @@ final class RepositoryNewsFactory
             author: $author,
             title: $title,
             body: $body,
-            tags: $this->tagRepository->findByPostId($id),
-            images: $this->imageRepository->findByPostId($id),
+            tags: $this->tagRepository->findByPostId($id) ?? [],
+            images: $this->imageRepository->findByPostId($id) ?? [],
             createdAt: $createdAt,
             updatedAt: $updatedAt,
         );

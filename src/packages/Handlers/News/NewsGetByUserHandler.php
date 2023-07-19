@@ -24,6 +24,6 @@ final class NewsGetByUserHandler
      */
     public function handle(User $user): array
     {
-        return $this->repository->findByUser($user);
+        return $this->repository->findByUser($user) ?? [];
     }
 }

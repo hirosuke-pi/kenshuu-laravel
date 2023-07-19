@@ -38,12 +38,13 @@ final class EloquentNewsRepository implements NewsRepositoryInterface
     /**
      * ニュースを全件取得する
      *
-     * @return array
+     * @return array|null ニュースEntityの配列
      */
-    public function findAll(): array
+    public function findAll(): ?array
     {
-
         $posts = PostModel::whereNull('deleted_at')->get();
+        if($posts->isEmpty()) return null;
+
         $newsEntities = [];
         foreach($posts as $post) {
             $newsEntities[] = $this->newsFactory->createWithUserId(
@@ -86,10 +87,14 @@ final class EloquentNewsRepository implements NewsRepositoryInterface
      * ユーザーIDに紐づくニュースを取得する
      *
      * @param User $user ユーザーエンティティ
-     * @return array ニュースEntityの配列
+     * @return array|null ニュースEntityの配列
      */
-    public function findByUser(User $user): array {
+    public function findByUser(User $user): ?array {
         $posts = PostModel::where('user_id', $user->getId())->whereNull('deleted_at')->get();
+        if($posts->isEmpty()) {
+            return null;
+        }
+
         $newsEntities = [];
         foreach($posts as $post) {
             $newsEntities[] = $this->newsFactory->create(

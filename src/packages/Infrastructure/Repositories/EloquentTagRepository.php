@@ -35,11 +35,12 @@ final class EloquentTagRepository implements TagRepositoryInterface
      * タグIDからタグを取得する
      *
      * @param string $id タグID
-     * @return array タグEntity配列
+     * @return array|null タグEntity配列
      */
-    public function findByIds(array $ids): array
+    public function findByIds(array $ids): ?array
     {
         $tags = TagModel::whereIn('id', $ids)->get();
+        if ($tags->isEmpty()) return null;
 
         $tagEntities = [];
         foreach($tags as $tag) {
@@ -54,11 +55,12 @@ final class EloquentTagRepository implements TagRepositoryInterface
     /**
      * タグを全件取得する
      *
-     * @return array タグEntityの配列
+     * @return array|null タグEntityの配列
      */
-    public function findAll(): array
+    public function findAll(): ?array
     {
         $tags = TagModel::all();
+        if ($tags->isEmpty()) return null;
 
         $tagEntities = [];
         foreach($tags as $tag) {
@@ -74,11 +76,13 @@ final class EloquentTagRepository implements TagRepositoryInterface
      * 投稿IDからタグを取得する
      *
      * @param string $postId 投稿ID
-     * @return array タグEntityの配列
+     * @return array|null タグEntityの配列
      */
-    public function findByPostId(string $postId): array
+    public function findByPostId(string $postId): ?array
     {
         $tags = PostsTagModel::join('tags', 'tags.id', '=', 'posts_tags.tag_id')->where('post_id', $postId)->get();
+        if ($tags->isEmpty()) return null;
+
         $tagEntities = [];
         foreach($tags as $tag) {
             $tagEntities[] = new Tag(
