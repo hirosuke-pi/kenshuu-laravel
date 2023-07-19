@@ -49,16 +49,14 @@ class UserController extends Controller
     }
 
     public function loginView(Request $request) {
-        $loginUser = $request->input('loginUser')['entity'];
         return view('components.pages.login', [
-            'loginUser' => $loginUser,
+            'loginUser' => null,
         ]);
     }
 
     public function registerView(Request $request) {
-        $loginUser = $request->input('loginUser')['entity'];
         return view('components.pages.register', [
-            'loginUser' => $loginUser,
+            'loginUser' => null,
         ]);
     }
 }
