@@ -2,23 +2,28 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\LoginFormRequest;
 use Illuminate\Http\Request;
-use Packages\Handlers\User\UserGetByEmailHandler;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
-    public function login(UserGetByEmailHandler $userGetByEmail) {
-        $loginUser = $userGetByEmail->handle(config('test.user1.email'));
-        status('success', 'ログインしました。');
-        session()->push(config('session.user'), $loginUser->getId());
+    public function login(LoginFormRequest $request) {
+        $credentials = $request->validated();
 
-        return redirect()->route('home');
+        if (Auth::attempt([...$credentials, ])) {
+            $request->session()->regenerate();
+            status('success', 'ログインしました。');
+            return redirect()->route('home');
+        }
+
+        status('error', 'メールアドレスまたはパスワードが間違っています。');
+        return redirect()->route('view.login');
     }
 
     public function logout() {
-        session()->forget(config('session.user'));
+        Auth::logout();
         status('success', 'ログアウトしました。');
-
         return redirect()->route('home');
     }
 

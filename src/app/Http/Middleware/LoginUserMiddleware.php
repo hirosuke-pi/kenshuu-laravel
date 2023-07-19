@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Packages\Handlers\User\UserGetByIdHandler;
 use Packages\Infrastructure\Repositories\EloquentUserRepository;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,9 +19,9 @@ class LoginUserMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         $eloquentUserRepository = new EloquentUserRepository();
-        $userGetByEmail = new UserGetByIdHandler($eloquentUserRepository);
+        $userGetById = new UserGetByIdHandler($eloquentUserRepository);
 
-        $loginUser = $userGetByEmail->handle(session(config('session.user'), '')[0] ?? '');
+        $loginUser = $loginUser = Auth::check() ? $userGetById->handle(Auth::id()) : null;
         $request->merge([config('session.user') => ['entity' => $loginUser]]);
 
         return $next($request);
