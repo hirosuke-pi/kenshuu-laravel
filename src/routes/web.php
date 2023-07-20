@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NewsController;
@@ -30,7 +31,11 @@ Route::group(['middleware' => ['login.user']], function() {
     Route::group(['middleware' => ['require.login']], function() {
         Route::get('/news/create', [NewsController::class, 'create'])->name('news.create');
     });
+
+    Route::get('/login', [UserController::class, 'loginView'])->name('view.login');
+    Route::get('/register', [UserController::class, 'registerView'])->name('view.register');
 });
 
-Route::get('/login', [UserController::class, 'login'])->name('user.login');
-Route::get('/logout', [UserController::class, 'logout'])->middleware('require.login')->name('user.logout');
+Route::post('/login', [AuthController::class, 'login'])->name('auth.login');
+Route::get('/logout', [AuthController::class, 'logout'])->name('auth.logout');
+Route::post('/register', [AuthController::class, 'register'])->name('auth.register');

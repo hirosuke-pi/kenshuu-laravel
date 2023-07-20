@@ -1,4 +1,4 @@
-<a href="{{ route('user.logout') }}">
+<a href="{{ route('auth.logout') }}">
     <button class="hover:bg-gray-200 rounded-lg p-2 mr-4 mt-3 ">
         <i class="fa-solid fa-right-from-bracket"></i> ログアウト
     </button>

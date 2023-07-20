@@ -1,7 +1,7 @@
-<a href="{{ route('user.login') }}" class="hover:bg-gray-200 rounded-lg p-2 mr-4 mt-3 ">
+<a href="{{ route('view.login') }}" class="hover:bg-gray-200 rounded-lg p-2 mr-4 mt-3 ">
     <i class="fa-solid fa-right-to-bracket"></i> ログイン
 </a>
-<a href="#" class="flex items-center py-2 px-4 hover:bg-gray-200 rounded-lg border border-gray-300 mt-3">
+<a href="{{ route('view.register') }}" class="flex items-center py-2 px-4 hover:bg-gray-200 rounded-lg border border-gray-300 mt-3">
     <p class=""><i class="fa-solid fa-user-plus"></i> 新規登録</p>
 </a>
 

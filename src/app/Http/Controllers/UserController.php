@@ -48,18 +48,17 @@ class UserController extends Controller
         ]);
     }
 
-    public function login(UserGetByEmailHandler $userGetByEmail) {
-        $loginUser = $userGetByEmail->handle(config('test.user1.email'));
-        status('success', 'ログインしました。');
-        session()->push(config('session.user'), $loginUser->getId());
-
-        return redirect()->route('home');
+    public function loginView(Request $request) {
+        $loginUser = $request->input('loginUser')['entity'];
+        return view('components.pages.login', [
+            'loginUser' => $loginUser,
+        ]);
     }
 
-    public function logout() {
-        session()->forget(config('session.user'));
-        status('success', 'ログアウトしました。');
-
-        return redirect()->route('home');
+    public function registerView(Request $request) {
+        $loginUser = $request->input('loginUser')['entity'];
+        return view('components.pages.register', [
+            'loginUser' => $loginUser,
+        ]);
     }
 }
