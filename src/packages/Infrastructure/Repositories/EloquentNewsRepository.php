@@ -131,7 +131,7 @@ final class EloquentNewsRepository implements NewsRepositoryInterface
             $result[$tag->getId()] = $this->tagRepository->saveWithPostId($tag, $news->getId());
         }
 
-        foreach($news->getImages() as $image) {
+        foreach($news->getAllImages() as $image) {
             $result[$image->getId()] = $this->imageRepository->save($image, $news->getId());
         }
 

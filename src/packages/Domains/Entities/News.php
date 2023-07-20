@@ -141,11 +141,20 @@ final class News
     }
 
     /**
-     *画像Entityの配列を取得する
+     * サムネイルを除く画像Entityの配列を取得する
      *
      * @return array 画像Entityの配列
      */
     public function getImages(): array {
+        return $this->images;
+    }
+
+    /**
+     * 全ての画像Entityの配列を取得する
+     *
+     * @return array 画像Entityの配列
+     */
+    public function getAllImages(): array {
         return $this->images;
     }
 
