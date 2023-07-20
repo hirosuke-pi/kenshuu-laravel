@@ -13,7 +13,7 @@
                 <label class="block text-grey-darker text-sm font-bold mb-2" for="email">
                     メールアドレス
                 </label>
-                <input class="border border-gray-200 appearance-none border rounded w-full py-2 px-3 text-grey-arker" id="email" name="email" type="text" value="test1@test.com" placeholder="test@test.com">
+                <input class="border border-gray-200 appearance-none border rounded w-full py-2 px-3 text-grey-darker" id="email" name="email" type="text" value="test1@test.com" placeholder="test@test.com">
             </div>
             <div class="mb-4">
                 <label class="block text-grey-darker text-sm font-bold mb-2" for="password">
