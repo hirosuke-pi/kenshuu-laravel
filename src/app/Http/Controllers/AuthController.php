@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginFormRequest;
-use Illuminate\Http\Request;
+use App\Http\Requests\UserFormRequest;
+use Exception;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
+use Packages\Handlers\User\UserCreateHandler;
 
 class AuthController extends Controller
 {
@@ -27,8 +30,38 @@ class AuthController extends Controller
         return redirect()->route('home');
     }
 
-    public function register(Request $request) {
-        status('info', 'ユーザー登録処理を追加');
-        return redirect()->route('home');
+    /**
+     * ユーザー登録処理
+     *
+     * @param UserFormRequest $request リクエスト
+     * @param UserCreateHandler $handler ユーザーを作成するハンドラ
+     * @return RedirectResponse リダイレクトレスポンス
+     */
+    public function register(UserFormRequest $request, UserCreateHandler $handler): RedirectResponse {
+        $userForm = $request->validated();
+        if (isset($userForm['input-user-thumbnail'])) {
+            $userForm['user-thumbnail'] = $request->file('input-user-thumbnail')->store('images/user-thumbnail');
+        }
+
+        try {
+            $handler->handle(
+                name: $userForm['username'],
+                email: $userForm['email'],
+                password: $userForm['password'],
+                profileImagePath: $userForm['user-thumbnail'] ?? null
+            );
+        } catch (Exception $e) {
+            status('error', 'ユーザーの登録に失敗しました。既に登録されているメールアドレスです。');
+            return redirect()->route('view.register');
+        }
+
+        if (Auth::attempt(['email' => $userForm['email'], 'password' => $userForm['password']])) {
+            $request->session()->regenerate();
+            status('success', 'ユーザーを登録しました。');
+            return redirect()->route('home');
+        }
+
+        status('error', 'ログインに失敗しました。');
+        return redirect()->route('view.login');
     }
 }

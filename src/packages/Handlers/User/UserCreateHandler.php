@@ -37,7 +37,7 @@ final class UserCreateHandler
             id: $this->repository->generateId(),
             email: $email,
             name: $name,
-            password: $password,
+            password: $this->repository->hashPassword($password),
             profileImagePath: $profileImagePath,
             createdAt: (new DateTime())->format(DateTime::ATOM),
         );

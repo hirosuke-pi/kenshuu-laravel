@@ -29,7 +29,7 @@ final class EloquentUserRepository implements UserRepositoryInterface
             name: $user->username,
             email: $user->email,
             password: $user->password,
-            profileImagePath: $user->profile_image_path,
+            profileImagePath: $user->profile_img_path,
             createdAt: $user->created_at,
             postsCount: \App\Models\Post::where('user_id', $user->id)->whereNull('deleted_at')->count(),
         );
@@ -52,7 +52,7 @@ final class EloquentUserRepository implements UserRepositoryInterface
             name: $user->username,
             email: $user->email,
             password: $user->password,
-            profileImagePath: $user->profile_image_path,
+            profileImagePath: $user->profile_img_path,
             createdAt: $user->created_at,
             postsCount: \App\Models\Post::where('user_id', $user->id)->whereNull('deleted_at')->count(),
         );
