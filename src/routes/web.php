@@ -28,8 +28,8 @@ Route::group(['middleware' => ['login.user']], function() {
 
     Route::get('/user/{userId}', [UserController::class, 'index'])->name('user.index');
 
-    Route::get('/login', [UserController::class, 'loginView'])->name('view.login');
-    Route::get('/register', [UserController::class, 'registerView'])->name('view.register');
+    Route::get('/login', [UserController::class, 'login'])->name('view.login');
+    Route::get('/register', [UserController::class, 'register'])->name('view.register');
 
     Route::group(['middleware' => ['require.login']], function() {
         Route::get('/news/create', [NewsController::class, 'create'])->name('news.create');
