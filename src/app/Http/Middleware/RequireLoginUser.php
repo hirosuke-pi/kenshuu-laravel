@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 class RequireLoginUser
@@ -15,8 +16,8 @@ class RequireLoginUser
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!isset($request->input(config('session.user'))['entity'])) {
-            session()->flash(config('define.session.status'), ['type' => 'error', 'message' => 'ログインしてください。']);
+        if (!Auth::check()) {
+            status('error', 'ログインしてください。');
             return redirect()->route('home');
         }
 
