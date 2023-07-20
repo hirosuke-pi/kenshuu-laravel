@@ -21,7 +21,7 @@ class LoginUserMiddleware
         $eloquentUserRepository = new EloquentUserRepository();
         $userGetById = new UserGetByIdHandler($eloquentUserRepository);
 
-        $loginUser = $loginUser = Auth::check() ? $userGetById->handle(Auth::id()) : null;
+        $loginUser = Auth::check() ? $userGetById->handle(Auth::id()) : null;
         $request->merge([config('session.user') => ['entity' => $loginUser]]);
 
         return $next($request);
