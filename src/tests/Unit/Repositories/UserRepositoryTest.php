@@ -4,10 +4,7 @@
 namespace Tests\Unit\Repositories;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Artisan;
-use Packages\Domains\Entities\User;
 
-use \App\Models\User as UserModel;
 use Packages\Infrastructure\Factories\UserTestFactory;
 use Packages\Infrastructure\Repositories\EloquentUserRepository;
 use Tests\TestCase;

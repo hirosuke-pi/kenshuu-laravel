@@ -3,7 +3,6 @@
 
 namespace Tests\Unit\Repositories;
 
-use App\Models\Tag;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 use Packages\Infrastructure\Factories\TagTestFactory;
