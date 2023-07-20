@@ -11,10 +11,16 @@ use Packages\Handlers\User\UserCreateHandler;
 
 class AuthController extends Controller
 {
-    public function login(LoginFormRequest $request) {
+    /**
+     * ログイン処理
+     *
+     * @param LoginFormRequest $request リクエスト
+     * @return RedirectResponse リダイレクトレスポンス
+     */
+    public function login(LoginFormRequest $request): RedirectResponse {
         $credentials = $request->validated();
 
-        if (Auth::attempt([...$credentials, ])) {
+        if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
             status('success', 'ログインしました。');
             return redirect()->route('home');
@@ -24,7 +30,12 @@ class AuthController extends Controller
         return redirect()->route('view.login');
     }
 
-    public function logout() {
+    /**
+     * ログアウト処理
+     *
+     * @return RedirectResponse リダイレクトレスポンス
+     */
+    public function logout(): RedirectResponse {
         Auth::logout();
         status('success', 'ログアウトしました。');
         return redirect()->route('home');

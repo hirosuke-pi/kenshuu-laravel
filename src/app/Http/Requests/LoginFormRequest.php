@@ -45,9 +45,4 @@ class LoginFormRequest extends FormRequest
             'password.required' => ':attributeを入力してください。'
         ];
     }
-
-    public function failedAuthorization() {
-        status('error', implode('\n', $this->validator->errors()->all()));
-        return redirect()->route('home');
-    }
 }
