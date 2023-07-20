@@ -54,7 +54,7 @@ class UserController extends Controller
      * @param Request $request リクエスト
      * @return Factory | View | RedirectResponse
      */
-    public function loginView(Request $request): Factory | View | RedirectResponse {
+    public function login(Request $request): Factory | View | RedirectResponse {
         $loginUser = $request->input('loginUser')['entity'];
         if (!is_null($loginUser)) {
             status('error', 'ログインしているため、ログイン画面には遷移できません。');
@@ -72,7 +72,7 @@ class UserController extends Controller
      * @param Request $request リクエスト
      * @return Factory | View | RedirectResponse
      */
-    public function registerView(Request $request): Factory | View | RedirectResponse {
+    public function register(Request $request): Factory | View | RedirectResponse {
         $loginUser = $request->input('loginUser')['entity'];
         if (!is_null($loginUser)) {
             status('error', 'ログインしているため、新規登録画面には遷移できません。');
