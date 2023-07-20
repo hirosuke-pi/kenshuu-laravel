@@ -1,6 +1,6 @@
 <div class="w-full lg:w-3/6 ">
     <x-organisms.breadcrumb-section :paths="$paths" />
-    @if ($isAdmin && !$isEditorMode)
+    @if (true)
         <x-molecules.news-action :news="$news" />
     @endif
     @if ($isEditorMode)

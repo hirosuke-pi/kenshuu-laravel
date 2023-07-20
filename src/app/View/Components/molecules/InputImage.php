@@ -14,25 +14,19 @@ class InputImage extends Component
     public readonly string $imageId;
     public readonly string $buttonId;
     public readonly string $inputId;
+    public readonly string $inputName;
 
     /**
      * Create a new component instance.
      */
-    public function __construct(?Image $image = null, string $defaultPrefix = '')
+    public function __construct(?Image $image = null, string $defaultPrefix = '', ?string $group = null)
     {
-        if ($image === null) {
-            $this->imageUrl = News::getDefaultImageUrl();
-            $this->imageId = $defaultPrefix;
-            $this->buttonId = 'button-' . $defaultPrefix;
-            $this->inputId = 'input-' . $defaultPrefix;
-            return;
-        }
-        else {
-            $this->imageUrl = $image->getUrl();
-            $this->imageId = $image->getId();
-            $this->buttonId = 'button-' . $image->getId();
-            $this->inputId = 'input-' . $image->getId();
-        }
+        $prefix = is_null($image) ? $defaultPrefix : $image->getId();
+        $this->imageUrl = is_null($image) ? News::getDefaultImageUrl(): $image->getId();
+        $this->imageId = $prefix;
+        $this->buttonId = 'button-' . $prefix;
+        $this->inputId = 'id-' . $prefix;
+        $this->inputName = $group ?? 'input-' . $prefix;
     }
 
     /**
