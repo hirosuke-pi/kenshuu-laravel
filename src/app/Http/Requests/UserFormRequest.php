@@ -6,6 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class UserFormRequest extends FormRequest
 {
+    protected $redirectRoute = 'view.register';
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -34,7 +35,8 @@ class UserFormRequest extends FormRequest
         return [
             'username' => 'ユーザー名',
             'email' => 'メールアドレス',
-            'password' => 'パスワード'
+            'password' => 'パスワード',
+            'input-user-thumbnail' => 'サムネイル画像',
         ];
     }
 

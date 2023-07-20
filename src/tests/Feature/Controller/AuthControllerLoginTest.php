@@ -9,7 +9,7 @@ use Packages\Infrastructure\Factories\UserTestFactory;
 use Packages\Infrastructure\Repositories\EloquentUserRepository;
 use Tests\TestCase;
 
-class AuthControllerTest extends TestCase
+class AuthControllerLoginTest extends TestCase
 {
     use RefreshDatabase;
 
