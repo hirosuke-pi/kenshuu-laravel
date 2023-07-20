@@ -1,6 +1,6 @@
 <?php
 
-namespace App\View\Components\Organisms;
+namespace App\View\Components\organisms;
 
 use Closure;
 use Illuminate\Contracts\View\View;
