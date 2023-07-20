@@ -48,13 +48,37 @@ class UserController extends Controller
         ]);
     }
 
-    public function loginView(Request $request) {
+    /**
+     * ログイン画面を表示する
+     *
+     * @param Request $request リクエスト
+     * @return Factory | View | RedirectResponse
+     */
+    public function loginView(Request $request): Factory | View | RedirectResponse {
+        $loginUser = $request->input('loginUser')['entity'];
+        if (!is_null($loginUser)) {
+            status('error', 'ログインしているため、ログイン画面には遷移できません。');
+            return redirect()->route('home');
+        }
+
         return view('components.pages.login', [
             'loginUser' => null,
         ]);
     }
 
-    public function registerView(Request $request) {
+    /**
+     * ユーザー登録画面を表示する
+     *
+     * @param Request $request リクエスト
+     * @return Factory | View | RedirectResponse
+     */
+    public function registerView(Request $request): Factory | View | RedirectResponse {
+        $loginUser = $request->input('loginUser')['entity'];
+        if (!is_null($loginUser)) {
+            status('error', 'ログインしているため、新規登録画面には遷移できません。');
+            return redirect()->route('home');
+        }
+
         return view('components.pages.register', [
             'loginUser' => null,
         ]);

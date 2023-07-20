@@ -3,7 +3,6 @@
 namespace Packages\Domains\Entities;
 
 final class User {
-    private const BASE_USER_IMAGE_URL = '/img/user/';
     private const NEWS_DEFAULT_IMAGE_URL = 'img/assets/thumbnail.jpg';
 
     /**
@@ -148,7 +147,7 @@ final class User {
     public function getProfileImageUrl(): ?string
     {
         if ($this->hasUserProfileImage()) {
-            return asset(self::BASE_USER_IMAGE_URL . $this->id . '.' . $this->profileImagePath);
+            return asset($this->profileImagePath);
         }
         return self::getBaseUserImageUrl();
     }
