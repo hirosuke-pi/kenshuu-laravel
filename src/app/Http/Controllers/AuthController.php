@@ -48,7 +48,7 @@ class AuthController extends Controller
      * @param UserCreateHandler $handler ユーザーを作成するハンドラ
      * @return RedirectResponse リダイレクトレスポンス
      */
-    public function register(UserFormRequest $request, UserCreateHandler $handler): RedirectResponse {
+    public function registerAndLogin(UserFormRequest $request, UserCreateHandler $handler): RedirectResponse {
         $userForm = $request->validated();
         if (isset($userForm['input-user-thumbnail'])) {
             $userForm['user-thumbnail'] = $request->file('input-user-thumbnail')->store('images/user-thumbnail');
