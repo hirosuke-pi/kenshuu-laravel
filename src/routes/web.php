@@ -32,10 +32,10 @@ Route::group(['middleware' => ['login.user']], function() {
         Route::get('/news/create', [NewsController::class, 'create'])->name('news.create');
     });
 
-    Route::get('/login', [UserController::class, 'loginView'])->name('view.login');
-    Route::get('/register', [UserController::class, 'registerView'])->name('view.register');
+    Route::get('/login', [UserController::class, 'login'])->name('view.login');
+    Route::get('/register', [UserController::class, 'register'])->name('view.register');
 });
 
 Route::post('/login', [AuthController::class, 'login'])->name('auth.login');
 Route::get('/logout', [AuthController::class, 'logout'])->name('auth.logout');
-Route::post('/register', [AuthController::class, 'register'])->name('auth.register');
+Route::post('/register', [AuthController::class, 'registerAndLogin'])->name('auth.register');

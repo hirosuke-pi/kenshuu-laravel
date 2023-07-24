@@ -21,7 +21,7 @@ class UserSeeder extends Seeder
         $user->handle(
             name: config('test.user1.name'),
             email: config('test.user1.email'),
-            password: $userRepository->hashPassword(config('test.user1.password')),
+            password: config('test.user1.password'),
             profileImagePath: null,
         );
     }

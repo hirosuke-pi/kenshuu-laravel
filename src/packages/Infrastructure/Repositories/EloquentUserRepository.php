@@ -2,6 +2,7 @@
 
 namespace Packages\Infrastructure\Repositories;
 
+use Illuminate\Support\Facades\Hash;
 use Packages\Domains\Interfaces\Repositories\UserRepositoryInterface;
 use Packages\Domains\Entities\User;
 use App\Models\User as UserModel;
@@ -28,7 +29,7 @@ final class EloquentUserRepository implements UserRepositoryInterface
             name: $user->username,
             email: $user->email,
             password: $user->password,
-            profileImagePath: $user->profile_image_path,
+            profileImagePath: $user->profile_img_path,
             createdAt: $user->created_at,
             postsCount: \App\Models\Post::where('user_id', $user->id)->whereNull('deleted_at')->count(),
         );
@@ -51,7 +52,7 @@ final class EloquentUserRepository implements UserRepositoryInterface
             name: $user->username,
             email: $user->email,
             password: $user->password,
-            profileImagePath: $user->profile_image_path,
+            profileImagePath: $user->profile_img_path,
             createdAt: $user->created_at,
             postsCount: \App\Models\Post::where('user_id', $user->id)->whereNull('deleted_at')->count(),
         );
@@ -97,6 +98,6 @@ final class EloquentUserRepository implements UserRepositoryInterface
      */
     public function hashPassword(string $password): string
     {
-        return password_hash($password, PASSWORD_DEFAULT);
+        return Hash::make($password);
     }
 }

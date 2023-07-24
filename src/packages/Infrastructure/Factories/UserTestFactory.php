@@ -28,14 +28,14 @@ final class UserTestFactory
      */
     public function create(): User {
         $faker = fake();
-        $this->password = fake()->password();
+        $this->password = fake()->password(10);
 
         $user = new User(
             id: $this->userRepository->generateId(),
             name: $faker->name(),
             email: $faker->email(),
             password: $this->userRepository->hashPassword($this->password),
-            profileImagePath: $faker->imageUrl(),
+            profileImagePath: 'test.' . $faker->randomElement(['png', 'jpg', 'gif']),
             createdAt: $faker->dateTime()->format(DateTimeInterface::ATOM),
             postsCount: 0,
             rawPassword: $this->password,
