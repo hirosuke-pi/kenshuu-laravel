@@ -146,7 +146,7 @@ final class News
      * @return array 画像Entityの配列
      */
     public function getImages(): array {
-        return $this->images;
+        return array_filter($this->images, fn($image) => !$image->isThumbnail());
     }
 
     /**
