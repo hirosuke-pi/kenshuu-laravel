@@ -30,7 +30,7 @@ class AuthControllerLoginTest extends TestCase
     public function test_ログインできるか(): void
     {
         foreach($this->distUsers as $user) {
-            $response = $this->post('/auth/login', [
+            $response = $this->post('/login', [
                 'email' => $user->getEmail(),
                 'password' => $user->getRawPassword(),
             ]);
@@ -42,7 +42,7 @@ class AuthControllerLoginTest extends TestCase
     public function test_不正なメールアドレスの場合、ログインできないか(): void
     {
         foreach($this->distUsers as $user) {
-            $response = $this->post('/auth/login', [
+            $response = $this->post('/login', [
                 'email' => $user->getEmail() .'dummy',
                 'password' => $user->getRawPassword(),
             ]);
@@ -50,21 +50,21 @@ class AuthControllerLoginTest extends TestCase
             $response->assertRedirect('/login');
         }
 
-        $response = $this->post('/auth/login', [
+        $response = $this->post('/login', [
             'email' => 'a',
             'password' => $user->getRawPassword(),
         ]);
         $response->assertStatus(302);
         $response->assertRedirect('/login');
 
-        $response = $this->post('/auth/login', [
+        $response = $this->post('/login', [
             'email' => 'a@d.',
             'password' => $user->getRawPassword(),
         ]);
         $response->assertStatus(302);
         $response->assertRedirect('/login');
 
-        $response = $this->post('/auth/login', [
+        $response = $this->post('/login', [
             'password' => $user->getRawPassword(),
         ]);
         $response->assertStatus(302);
@@ -74,14 +74,14 @@ class AuthControllerLoginTest extends TestCase
     public function test_不正なパスワードの場合、ログインできないか(): void
     {
         foreach($this->distUsers as $user) {
-            $response = $this->post('/auth/login', [
+            $response = $this->post('/login', [
                 'email' => $user->getEmail(),
                 'password' => $user->getRawPassword() .'dummy',
             ]);
             $response->assertStatus(302);
             $response->assertRedirect('/login');
 
-            $response = $this->post('/auth/login', [
+            $response = $this->post('/login', [
                 'email' => $user->getEmail(),
             ]);
             $response->assertStatus(302);
