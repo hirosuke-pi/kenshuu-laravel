@@ -16,7 +16,7 @@ use Packages\Infrastructure\Repositories\EloquentTagRepository;
 use Packages\Infrastructure\Repositories\EloquentUserRepository;
 use Tests\TestCase;
 
-class NewsRepositoryTest extends TestCase
+class NewsSaveRepositoryTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -52,55 +52,36 @@ class NewsRepositoryTest extends TestCase
         }
     }
 
-    /**
-     * @depends test_ニュースを保存できるか
-     */
-    public function test_ニュースを全件取得できるか(): void
+    public function test_保存したニュースを編集する事ができるか(): void
     {
         foreach($this->distNews as $news) {
-            $this->newsRepository->save($news);
+            $this->assertTrue($this->newsRepository->save($news));
+            $this->assertDatabaseHas('posts', [
+                'id' => $news->getId(),
+                'user_id' => $news->getAuthor()->getId(),
+                'title' => $news->getTitle(),
+                'body' => $news->getBody(),
+            ]);
         }
 
-        $findAllEntities = $this->newsRepository->findAll();
-        $this->assertIsArray($findAllEntities);
-        foreach($findAllEntities as $entity) {
-            $this->assertInstanceOf(News::class, $entity);
-            $newsId = $entity->getId();
-
-            if (isset($this->distNews[$newsId])) {
-                $this->assertSame($newsId, $this->distNews[$newsId]->getId());
-            }
-        }
-    }
-
-    /**
-     * @depends test_ニュースを保存できるか
-     */
-    public function test_IDを指定してニュースを取得できるか(): void
-    {
         foreach($this->distNews as $news) {
-            $this->newsRepository->save($news);
-            $newsGet = $this->newsRepository->find($news->getId());
-
-            $this->assertInstanceOf(News::class, $newsGet);
-            $this->assertSame($news->getId(), $newsGet->getId());
-        }
-    }
-
-    /**
-     * @depends test_ニュースを保存できるか
-     */
-    public function test_Userを指定してニュースを取得できるか(): void
-    {
-        foreach($this->distNews as $news) {
-            $this->newsRepository->save($news);
-        }
-
-        $newsGet = $this->newsRepository->findByUser($news->getAuthor());
-        $this->assertIsArray($newsGet);
-        foreach($newsGet as $entity) {
-            $this->assertInstanceOf(News::class, $entity);
-            $this->assertSame($news->getAuthor()->getId(), $entity->getAuthor()->getId());
+            $newNews = new News(
+                id: $news->getId(),
+                author: $news->getAuthor(),
+                title: $news->getTitle() . '編集後A',
+                body: $news->getBody() . '編集後B',
+                createdAt: $news->getCreatedAt(),
+                updatedAt: $news->getUpdatedAt(),
+                tags: $news->getTags(),
+                images: $news->getImages(),
+            );
+            $this->assertTrue($this->newsRepository->save($newNews));
+            $this->assertDatabaseHas('posts', [
+                'id' => $news->getId(),
+                'user_id' => $news->getAuthor()->getId(),
+                'title' => $news->getTitle() . '編集後A',
+                'body' => $news->getBody() . '編集後B',
+            ]);
         }
     }
 }
