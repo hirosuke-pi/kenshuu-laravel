@@ -43,6 +43,14 @@ class NewsDeleteRepositoryTest extends TestCase
     {
         foreach($this->distNews as $news) {
             $this->assertTrue($this->newsRepository->remove($news->getId()));
+            $this->assertNull($this->newsRepository->find($news->getId()));
+        }
+    }
+
+    public function test_存在しないニュースを削除できないか(): void
+    {
+        foreach($this->distNews as $news) {
+            $this->assertFalse($this->newsRepository->remove($news->getId() . 'aaaa'));
         }
     }
 }
