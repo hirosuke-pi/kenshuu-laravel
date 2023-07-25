@@ -30,24 +30,33 @@ class NewsFormController extends Controller
     public function post(
         NewsPostRequest $request,
         ImageRepositoryInterface $imageRepository,
-        NewsCreateHandler $newsCreatehandler,
+        NewsCreateHandler $newsCreateHandler,
         TagGetByIdsHandler $tagGetByIdsHandler
     ): RedirectResponse {
         try {
+            $newsForm = $request->validated();
+
             $newsImages = [];
-            foreach($request->file() as $key => $image) {
+            if (isset($newsForm['input-new-thumbnail'])) {
                 $newsImages[] = new Image(
                     id: $imageRepository->generateId(),
-                    isThumbnail: $key === 'input-new-thumbnail',
+                    isThumbnail: true,
+                    filePath: $newsForm['input-new-thumbnail']->store('images/news'),
+                );
+            }
+            foreach($request->file('news-images', []) as $image) {
+                $newsImages[] = new Image(
+                    id: $imageRepository->generateId(),
+                    isThumbnail: false,
                     filePath: $image->store('images/news'),
                 );
             }
 
-            $news = $newsCreatehandler->handle(
-                title: $request->input('title'),
-                body: $request->input('body'),
+            $news = $newsCreateHandler->handle(
+                title: $newsForm['title'],
+                body: $newsForm['body'],
                 author: $request->input('loginUser')['entity'],
-                tags: $tagGetByIdsHandler->handle($request->input('tags', [])),
+                tags: $tagGetByIdsHandler->handle($newsForm['tags'] ?? []),
                 images: $newsImages
             );
 

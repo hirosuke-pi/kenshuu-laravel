@@ -22,7 +22,7 @@ class InputImage extends Component
     public function __construct(?Image $image = null, string $defaultPrefix = '', ?string $group = null)
     {
         $prefix = is_null($image) ? $defaultPrefix : $image->getId();
-        $this->imageUrl = is_null($image) ? News::getDefaultImageUrl(): $image->getId();
+        $this->imageUrl = is_null($image) ? News::getDefaultImageUrl(): $image->getUrl();
         $this->imageId = $prefix;
         $this->buttonId = 'button-' . $prefix;
         $this->inputId = 'id-' . $prefix;

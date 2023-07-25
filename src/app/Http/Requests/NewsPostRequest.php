@@ -23,7 +23,9 @@ class NewsPostRequest extends FormRequest
         return [
             'title' => ['required', 'min:5', 'max:50'],
             'body' => ['required'],
-            'images.*' => ['nullable', 'file', 'image', 'mimes:jpeg,png,jpg,gif'],
+            'input-new-thumbnail' => ['nullable', 'file', 'image'],
+            'news-images.*' => ['nullable', 'file', 'image'],
+            'tags.*' => ['nullable', 'int'],
         ];
     }
 
@@ -32,7 +34,9 @@ class NewsPostRequest extends FormRequest
         return [
             'title' => 'タイトル',
             'body' => '投稿内容',
-            'images' => 'サムネイル画像',
+            'input-new-thumbnail' => 'サムネイル画像',
+            'news-images.*' => '画像',
+            'tags.*' => 'タグ',
         ];
     }
 
@@ -43,9 +47,10 @@ class NewsPostRequest extends FormRequest
             'title.min' => ':attributeは5文字以上で入力してください。',
             'title.max' => ':attributeは50文字以内で入力してください。',
             'body.required' => ':attributeを入力してください。',
-            'images.file' => ':attributeを選択してください。',
-            'images.image' => ':attributeは画像ファイルを選択してください。',
-            'images.mimes' => ':attributeはjpeg,png,jpg,gif形式の画像ファイルを選択してください。',
+            'input-new-thumbnail.file' => ':attributeを選択してください。',
+            'input-new-thumbnail.image' => ':attributeは画像ファイルを選択してください。',
+            'news-images.*.file' => ':attributeを選択してください。',
+            'news-images.*.image' => ':attributeは画像ファイルを選択してください。',
         ];
     }
 }
