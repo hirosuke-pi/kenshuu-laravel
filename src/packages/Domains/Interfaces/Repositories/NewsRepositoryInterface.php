@@ -15,6 +15,14 @@ interface NewsRepositoryInterface
     public function findAll(): ?array;
 
     /**
+     * ニュースを削除する
+     *
+     * @param string $id ニュースID
+     * @return bool 削除結果
+     */
+    public function remove(string $id): bool;
+
+    /**
      * ニュースIDからニュースを取得する
      *
      * @param string $id ニュースID

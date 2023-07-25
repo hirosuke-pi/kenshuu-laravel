@@ -13,6 +13,7 @@ use Packages\Infrastructure\Repositories\EloquentUserRepository;
 use Packages\Handlers\News\NewsGetAllHandler;
 use Packages\Handlers\News\NewsGetHandler;
 use Packages\Handlers\News\NewsCreateHandler;
+use Packages\Handlers\News\NewsDeleteHandler;
 use Packages\Handlers\News\NewsEditHandler;
 
 class NewsHandlerProvider extends ServiceProvider
@@ -56,6 +57,10 @@ class NewsHandlerProvider extends ServiceProvider
         $this->app->bind(
             NewsEditHandler::class,
             fn () => new NewsEditHandler($eloquentNewsRepository)
+        );
+        $this->app->bind(
+            NewsDeleteHandler::class,
+            fn () => new NewsDeleteHandler($eloquentNewsRepository)
         );
     }
 

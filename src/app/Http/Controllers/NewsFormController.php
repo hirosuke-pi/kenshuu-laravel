@@ -10,6 +10,7 @@ use Packages\Domains\Entities\Image;
 use Packages\Domains\Entities\News;
 use Packages\Domains\Interfaces\Repositories\ImageRepositoryInterface;
 use Packages\Handlers\News\NewsCreateHandler;
+use Packages\Handlers\News\NewsDeleteHandler;
 use Packages\Handlers\News\NewsEditHandler;
 use Packages\Handlers\News\NewsGetHandler;
 use Packages\Handlers\Tag\TagGetByIdsHandler;
@@ -99,7 +100,27 @@ class NewsFormController extends Controller
         }
     }
 
-    public function delete(Request $request) {
-        dd($request);
+    /**
+     * ニュースを削除する
+     *
+     * @param string $newsId ニュースID
+     * @param NewsDeleteHandler $newsDeleteHandler ニュースを削除するハンドラ
+     * @return RedirectResponse リダイレクトレスポンス
+     */
+    public function delete(
+        string $newsId,
+        NewsDeleteHandler $newsDeleteHandler
+    ): RedirectResponse {
+        try {
+            if (!$newsDeleteHandler->handle($newsId)) {
+                throw new Exception('ニュースの削除に失敗しました。');
+            }
+
+            status('success', 'ニュースを削除しました。: '. $newsId);
+            return redirect()->route('home');
+        } catch (Exception $e) {
+            status('error', $e->getMessage());
+            return redirect()->route('home');
+        }
     }
 }
