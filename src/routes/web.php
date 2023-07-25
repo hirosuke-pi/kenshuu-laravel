@@ -37,7 +37,6 @@ Route::group(['middleware' => ['login.user']], function() {
     });
     Route::group(['middleware' => ['require.author']], function() {
         Route::get('/news/edit/{newsId}', [NewsController::class, 'edit'])->name('news.edit');
-
         Route::post('/news/edit/{newsId}', [NewsFormController::class, 'edit']);
         Route::post('/news/delete/{newsId}', [NewsFormController::class, 'delete'])->name('news.delete');
     });
