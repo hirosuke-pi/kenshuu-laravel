@@ -7,9 +7,13 @@ use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Packages\Domains\Entities\Image;
+use Packages\Domains\Entities\News;
 use Packages\Domains\Interfaces\Repositories\ImageRepositoryInterface;
 use Packages\Handlers\News\NewsCreateHandler;
+use Packages\Handlers\News\NewsEditHandler;
+use Packages\Handlers\News\NewsGetHandler;
 use Packages\Handlers\Tag\TagGetByIdsHandler;
+use Packages\Infrastructure\Factories\RepositoryNewsFactory;
 
 class NewsFormController extends Controller
 {
@@ -54,8 +58,45 @@ class NewsFormController extends Controller
         }
     }
 
-    public function edit(NewsPostRequest $request) {
-        dd($request);
+    /**
+     * ニュースを編集する
+     *
+     * @param string $newsId ニュースID
+     * @param NewsPostRequest $request リクエスト
+     * @param NewsGetHandler $newsGetHandler ニュースを取得するハンドラ
+     * @param NewsEditHandler $newsEditHandler ニュースを更新するハンドラ
+     * @return RedirectResponse リダイレクトレスポンス
+     */
+    public function edit(
+        string $newsId,
+        NewsPostRequest $request,
+        NewsGetHandler $newsGetHandler,
+        NewsEditHandler $newsEditHandler,
+    ): RedirectResponse {
+        try {
+            $newsForm = $request->validated();
+            $oldNewsEntity = $newsGetHandler->handle($newsId);
+            $news = new News(
+                id: $oldNewsEntity->getId(),
+                author: $oldNewsEntity->getAuthor(),
+                title: $newsForm['title'],
+                body: $newsForm['body'],
+                createdAt: $oldNewsEntity->getCreatedAt(),
+                updatedAt: $oldNewsEntity->getUpdatedAt(),
+                tags: $oldNewsEntity->getTags(),
+                images: $oldNewsEntity->getImages(),
+            );
+
+            if (!$newsEditHandler->handle($news)) {
+                throw new Exception('ニュースの更新に失敗しました。');
+            }
+
+            status('success', 'ニュースを更新しました。: '. $news->getId());
+            return redirect()->route('home');
+        } catch (Exception $e) {
+            status('error', $e->getMessage());
+            return redirect()->route('home');
+        }
     }
 
     public function delete(Request $request) {
