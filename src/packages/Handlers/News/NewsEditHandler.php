@@ -2,6 +2,7 @@
 
 namespace Packages\Handlers\News;
 
+use Illuminate\Support\Facades\DB;
 use Packages\Domains\Entities\News;
 use Packages\Domains\Interfaces\Repositories\NewsRepositoryInterface;
 
@@ -24,6 +25,8 @@ final class NewsEditHandler
      */
     public function handle(News $news): bool
     {
-        return $this->repository->save($news);
+        return DB::transaction(function () use ($news) {
+            return $this->repository->save($news);
+        });
     }
 }
