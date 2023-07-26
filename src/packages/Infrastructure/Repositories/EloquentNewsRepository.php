@@ -74,8 +74,6 @@ final class EloquentNewsRepository implements NewsRepositoryInterface
         if(is_null($post)) return false;
 
         $post->delete();
-        if ($post->save()) return false;
-
         Image::where('post_id', $id)->forceDelete();
         PostsTag::where('post_id', $id)->forceDelete();
         return true;
