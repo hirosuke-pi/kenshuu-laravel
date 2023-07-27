@@ -4,6 +4,7 @@ namespace Packages\Handlers\News;
 
 use DateTime;
 use DateTimeInterface;
+use Illuminate\Support\Facades\DB;
 use Packages\Domains\Entities\News;
 use Packages\Domains\Entities\User;
 use Packages\Domains\Interfaces\Repositories\NewsRepositoryInterface;
@@ -48,7 +49,9 @@ final class NewsCreateHandler
             updatedAt: null,
         );
 
-        $this->repository->save($news);
+        DB::transaction(function () use($news) {
+            $this->repository->save($news);
+        });
 
         return $news;
     }

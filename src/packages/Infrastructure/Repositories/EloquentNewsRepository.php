@@ -2,6 +2,7 @@
 
 namespace Packages\Infrastructure\Repositories;
 
+use App\Models\Image;
 use Packages\Domains\Entities\User;
 use Packages\Domains\Interfaces\Repositories\ImageRepositoryInterface;
 use Packages\Domains\Interfaces\Repositories\NewsRepositoryInterface;
@@ -9,6 +10,7 @@ use Packages\Domains\Entities\News;
 use Packages\Domains\Interfaces\Repositories\TagRepositoryInterface;
 
 use App\Models\Post as PostModel;
+use App\Models\PostsTag;
 use Packages\Domains\Interfaces\Repositories\UserRepositoryInterface;
 use Packages\Infrastructure\Factories\RepositoryNewsFactory;
 
@@ -58,6 +60,23 @@ final class EloquentNewsRepository implements NewsRepositoryInterface
         }
 
         return $newsEntities;
+    }
+
+    /**
+     * ニュースを削除する
+     *
+     * @param string $id ニュースID
+     * @return bool 削除結果
+     */
+    public function remove(string $id): bool
+    {
+        $post = PostModel::find($id);
+        if(is_null($post)) return false;
+
+        $post->delete();
+        Image::where('post_id', $id)->forceDelete();
+        PostsTag::where('post_id', $id)->forceDelete();
+        return true;
     }
 
     /**
@@ -131,7 +150,7 @@ final class EloquentNewsRepository implements NewsRepositoryInterface
             $result[$tag->getId()] = $this->tagRepository->saveWithPostId($tag, $news->getId());
         }
 
-        foreach($news->getImages() as $image) {
+        foreach($news->getAllImages() as $image) {
             $result[$image->getId()] = $this->imageRepository->save($image, $news->getId());
         }
 

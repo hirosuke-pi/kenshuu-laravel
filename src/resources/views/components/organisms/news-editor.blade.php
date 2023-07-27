@@ -1,4 +1,5 @@
-<form id="newsForm" action="#" method="POST" enctype="multipart/form-data">
+<form id="newsForm" action="{{ $formLink }}" method="POST" enctype="multipart/form-data">
+    @csrf
     <div class="rounded-lg border border-gray-300 m-3 overflow-hidden">
         <x-molecules.input-image :image="$thumbnailImage" defaultPrefix="new-thumbnail" />
         <article class="p-5">
@@ -17,9 +18,9 @@
     <div class="p-3">
         <button class="w-full bg-blue-400 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded ">
             @if($isNewNews)
-                <i class="fa-solid fa-rotate-right"></i> ニュースを更新
-            @else
                 <i class="fa-solid fa-plus"></i> ニュースを作成
+            @else
+                <i class="fa-solid fa-rotate-right"></i> ニュースを更新
             @endif
         </button>
     </div>

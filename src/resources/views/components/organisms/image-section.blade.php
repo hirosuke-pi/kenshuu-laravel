@@ -6,7 +6,7 @@
         @if ($isEdit)
             @foreach($images as $key => $image)
                 <div class="overflow-hidden rounded mt-2">
-                    <x-molecules.input-image :image="$image" :defaultPrefix="$key" />
+                    <x-molecules.input-image :image="$image" :defaultPrefix="$key" :group="'news-images[]'" />
                 </div>
             @endforeach
         @else

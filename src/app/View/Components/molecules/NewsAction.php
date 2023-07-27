@@ -10,6 +10,7 @@ use Packages\Domains\Entities\News;
 class NewsAction extends Component
 {
     public readonly string $newsEditUrl;
+    public readonly string $newsDeleteUrl;
 
     /**
      * Create a new component instance.
@@ -17,6 +18,7 @@ class NewsAction extends Component
     public function __construct(News $news)
     {
         $this->newsEditUrl = route('news.edit', ['newsId' => $news->getId()]);
+        $this->newsDeleteUrl = route('news.delete', ['newsId' => $news->getId()]);
     }
 
     /**

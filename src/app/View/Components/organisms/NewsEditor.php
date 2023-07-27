@@ -15,6 +15,7 @@ class NewsEditor extends Component
     public readonly string $title;
     public readonly string $body;
     public readonly bool $isNewNews;
+    public readonly string $formLink;
 
     /**
      * ニュースエディタを表示するコンポーネント
@@ -29,6 +30,7 @@ class NewsEditor extends Component
             $this->title = '';
             $this->body = '';
             $this->isNewNews = true;
+            $this->formLink = route('news.create');
         }
         else {
             $this->news = $news;
@@ -36,6 +38,7 @@ class NewsEditor extends Component
             $this->title = $news->getTitle();
             $this->body = $news->getBody();
             $this->isNewNews = false;
+            $this->formLink = route('news.edit', ['newsId' => $news->getId()]);
         }
     }
 

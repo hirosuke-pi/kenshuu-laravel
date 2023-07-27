@@ -6,7 +6,8 @@
         <a href="{{ $newsEditUrl }}" class="bg-blue-400 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded mr-3">
             <i class="fa-solid fa-pen-to-square"></i> ページを編集
         </a>
-        <form action="#" method="POST" onSubmit="return confirm('この操作は取り消せません。本当に削除しますか?') ">
+        <form action="{{ $newsDeleteUrl }}" method="POST" onSubmit="return confirm('この操作は取り消せません。本当に削除しますか?') ">
+            @csrf
             <button  class="bg-red-400 hover:bg-red-500 text-white font-bold py-2 px-4 rounded ">
                 <i class="fa-solid fa-trash"></i> ページを削除
             </button>

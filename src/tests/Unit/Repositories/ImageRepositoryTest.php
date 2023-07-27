@@ -42,7 +42,7 @@ class ImageRepositoryTest extends TestCase
     public function test_画像IDから画像を取得できるか(): void
     {
         foreach($this->distNews as $news) {
-            foreach ($news->getImages() as $image) {
+            foreach ($news->getAllImages() as $image) {
                 $imageEntity = $this->imageRepository->find($image->getId());
                 $this->assertNotNull($imageEntity);
                 $this->assertSame($image->getId(), $imageEntity->getId());

@@ -170,7 +170,8 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\UserHandlerProvider::class,
         App\Providers\NewsHandlerProvider::class,
-        App\Providers\TagHandlerProvider::class
+        App\Providers\TagHandlerProvider::class,
+        App\Providers\ImageHandlerProvider::class,
     ])->toArray(),
 
     /*
