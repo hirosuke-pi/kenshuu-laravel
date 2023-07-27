@@ -33,12 +33,12 @@ Route::group(['middleware' => ['login.user']], function() {
 
     Route::group(['middleware' => ['require.login']], function() {
         Route::get('/news/create', [NewsController::class, 'create'])->name('news.create');
-        Route::post('/news/create', [NewsFormController::class, 'post']);
+        Route::post('/news/create', [NewsController::class, 'post']);
     });
     Route::group(['middleware' => ['require.author']], function() {
         Route::get('/news/edit/{newsId}', [NewsController::class, 'edit'])->name('news.edit');
-        Route::post('/news/edit/{newsId}', [NewsFormController::class, 'edit']);
-        Route::post('/news/delete/{newsId}', [NewsFormController::class, 'delete'])->name('news.delete');
+        Route::post('/news/edit/{newsId}', [NewsController::class, 'put']);
+        Route::post('/news/delete/{newsId}', [NewsController::class, 'delete'])->name('news.delete');
     });
 });
 

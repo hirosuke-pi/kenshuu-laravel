@@ -3,6 +3,7 @@
 namespace Packages\Handlers\User;
 
 use DateTime;
+use Illuminate\Support\Facades\DB;
 use Packages\Domains\Entities\User;
 use Packages\Domains\Interfaces\Repositories\UserRepositoryInterface;
 
@@ -41,7 +42,10 @@ final class UserCreateHandler
             profileImagePath: $profileImagePath,
             createdAt: (new DateTime())->format(DateTime::ATOM),
         );
-        $this->repository->save($user);
+
+        DB::transaction(function () use ($user) {
+            $this->repository->save($user);
+        });
 
         return $user;
     }

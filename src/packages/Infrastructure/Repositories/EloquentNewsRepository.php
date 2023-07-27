@@ -2,6 +2,7 @@
 
 namespace Packages\Infrastructure\Repositories;
 
+use App\Models\Image;
 use Packages\Domains\Entities\User;
 use Packages\Domains\Interfaces\Repositories\ImageRepositoryInterface;
 use Packages\Domains\Interfaces\Repositories\NewsRepositoryInterface;
@@ -9,6 +10,7 @@ use Packages\Domains\Entities\News;
 use Packages\Domains\Interfaces\Repositories\TagRepositoryInterface;
 
 use App\Models\Post as PostModel;
+use App\Models\PostsTag;
 use Packages\Domains\Interfaces\Repositories\UserRepositoryInterface;
 use Packages\Infrastructure\Factories\RepositoryNewsFactory;
 
@@ -72,7 +74,9 @@ final class EloquentNewsRepository implements NewsRepositoryInterface
         if(is_null($post)) return false;
 
         $post->delete();
-        return $post->save();
+        Image::where('post_id', $id)->forceDelete();
+        PostsTag::where('post_id', $id)->forceDelete();
+        return true;
     }
 
     /**
