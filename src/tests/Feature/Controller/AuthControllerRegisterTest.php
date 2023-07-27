@@ -1,5 +1,7 @@
 <?php
 
+/** @noinspection NonAsciiCharacters */
+
 namespace Tests\Feature\Controller;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -33,7 +35,7 @@ class AuthControllerRegisterTest extends TestCase
     public function test_ユーザー登録できるか(): void
     {
         foreach($this->distUsers as $user) {
-            $response = $this->post('/auth/register', [
+            $response = $this->post('/register', [
                 'username' => $user->getName(),
                 'email' => $user->getEmail(),
                 'password' => $user->getRawPassword(),
@@ -47,7 +49,7 @@ class AuthControllerRegisterTest extends TestCase
     public function test_サムネイル付きでユーザー登録できるか(): void
     {
         foreach($this->distUsers as $user) {
-            $response = $this->post('/auth/register', [
+            $response = $this->post('/register', [
                 'username' => $user->getName(),
                 'email' => $user->getEmail(),
                 'password' => $user->getRawPassword(),
@@ -62,7 +64,7 @@ class AuthControllerRegisterTest extends TestCase
     public function test_不正なサムネイル画像はユーザー登録できないか(): void
     {
         foreach($this->distUsers as $user) {
-            $response = $this->post('/auth/register', [
+            $response = $this->post('/register', [
                 'username' => $user->getName(),
                 'email' => $user->getEmail(),
                 'password' => $user->getRawPassword(),
@@ -77,7 +79,7 @@ class AuthControllerRegisterTest extends TestCase
     public function test_不正なユーザー名の場合、ユーザー登録できないか(): void
     {
         foreach($this->distUsers as $user) {
-            $response = $this->post('/auth/register', [
+            $response = $this->post('/register', [
                 'username' => $user->getName() . fake()->text(),
                 'email' => $user->getEmail(),
                 'password' => $user->getRawPassword(),
@@ -92,7 +94,7 @@ class AuthControllerRegisterTest extends TestCase
     public function test_不正なメールアドレスの場合、ユーザー登録できないか(): void
     {
         foreach($this->distUsers as $user) {
-            $response = $this->post('/auth/register', [
+            $response = $this->post('/register', [
                 'username' => $user->getName(),
                 'email' => fake()->text(),
                 'password' => $user->getRawPassword(),
@@ -107,7 +109,7 @@ class AuthControllerRegisterTest extends TestCase
     public function test_不正なパスワードの場合、ユーザー登録できないか(): void
     {
         $user = $this->distUser;
-        $response = $this->post('/auth/register', [
+        $response = $this->post('/register', [
             'username' => $user->getName(),
             'email' => fake()->text(),
             'password' => 'a',
@@ -117,7 +119,7 @@ class AuthControllerRegisterTest extends TestCase
         $response->assertStatus(302);
         $response->assertRedirect('/register');
 
-        $response = $this->post('/auth/register', [
+        $response = $this->post('/register', [
             'username' => $user->getName(),
             'email' => fake()->text(),
             'password' => 'a',
